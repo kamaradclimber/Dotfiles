@@ -1,0 +1,8 @@
+
+
+bindkey "^[Od" prev  # change window with ctrl-left
+bindkey "^[Oc" next  # change window with ctrl-right
+
+
+startup_message off # get rid of the welcome message
+
