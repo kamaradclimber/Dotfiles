@@ -45,32 +45,6 @@ myBorderWidth   = 1
 --
 myModMask       = mod1Mask
  
--- NOTE: from 0.9.1 on numlock mask is set automatically. The 
---numlockMask
--- setting should be removed from configs.
---
--- You can safely remove this even on earlier xmonad versions unless you
--- need to set it to something other than the default mod2Mask, (e.g. 
---OSX).
---
--- The mask for the numlock key. Numlock status is "masked" from the
--- current modifier status, so the keybindings will work with numlock on 
---or
--- off. You may need to change this on some systems.
---
--- You can find the numlock modifier by running "xmodmap" and looking 
---for a
--- modifier with Num_Lock bound to it:
---
--- > $ xmodmap | grep Num
--- > mod2        Num_Lock (0x4d)
---
--- Set numlockMask = 0 if you don't have a numlock key, or want to treat
--- numlock status separately.
---
--- myNumlockMask   = mod2Mask -- deprecated in xmonad-0.9.1
-------------------------------------------------------------
- 
  
 -- The default number of workspaces (virtual screens) and their names.
 -- By default we use numeric strings, but any string may be used as a
@@ -86,7 +60,7 @@ myWorkspaces    = ["1:web","2","3","4","5","6","7","8","9"]
 -- Border colors for unfocused and focused windows, respectively.
 --
 myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myFocusedBorderColor = "#ff8080" --pink
  
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -112,14 +86,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Resize viewed windows to the correct size
     , ((modm,               xK_n     ), refresh)
  
-    -- Move focus to the next window
+    -- Move focus to the next window tab-style
     , ((modm,               xK_Tab   ), windows W.focusDown)
- 
-    -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
- 
-    -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
+
+    -- Move focus to the previous window tab-style
+    , ((modm .|. shiftMask, xK_Tab   ), windows W.focusDown)
  
     -- Move focus to the master window
     , ((modm,               xK_m     ), windows W.focusMaster  )
