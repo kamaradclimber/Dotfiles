@@ -199,6 +199,9 @@ alias volume='alsamixer -c 0'
 alias wtf='dmesg'
 alias rtfm='man'
 
+#archlinux some package needed
+alias pacman='pacman -color'
+
 if [ $UID -ne 0 ]; then
     alias reboot='sudo reboot'
     alias halt='sudo halt'
@@ -248,15 +251,3 @@ set always_to_end
 # }}}
 
 
-##Coloring man pages
-man() {
-	env \
-		LESS_TERMCAP_mb=$(printf "\e[1;37m") \
-		LESS_TERMCAP_md=$(printf "\e[1;37m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;47;30m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[0;36m") \
-			man "$@"
-}

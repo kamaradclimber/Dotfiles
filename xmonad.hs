@@ -223,8 +223,8 @@ myLayout = tiled ||| Mirror tiled ||| Full
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ --className =? "MPlayer"        --> doFloat
-	 className =? "vlc"			--> doFloat
+    [ className =? "MPlayer"        --> doFloat
+	, className =? "vlc"			--> doFloat
     , className =? "Gimp"           --> doFloat
     , className =? "chromium"           --> doShift "1:web"
     , resource  =? "desktop_window" --> doIgnore
@@ -273,13 +273,27 @@ myLogHook = return ()
 -- hook by combining it with ewmhDesktopsStartup.
 --
 myStartupHook = return ()
- 
+------------------------------------------------------------------------
+--Dzen Config
+-- 
+
+-- Default configuration for dzen, defined on
+-- http://xmonad.org/xmonad-docs/xmonad-contrib/src/XMonad-Hooks-DynamicLog.html#dzen
+myStatusBar = dzen 
+
+--myStatusBar :: LayoutClass l Window => XConfig l -> IO (XConfig (ModifiedLayout AvoidStruts l))
+--myStatusBar conf = statusBar ("dzen2" ++ flags) dzenPP toggleStrutsKey conf
+--where
+--	fg		= "'#a8a3f7'" -- n.b quoting
+--	bg		= "'#3f3c6d'"
+--	flags	= "-e 'onstart=lower' -w 400 -ta l -fg " ++ fg ++ " -bg " ++ bg
+
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
  
 -- Run xmonad with the settings you specify. No need to modify this.
 --
-main = xmonad =<< dzen gregosConfig
+main = xmonad =<< myStatusBar gregosConfig
  
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
