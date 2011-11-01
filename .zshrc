@@ -225,9 +225,10 @@ esac
 		alias volume='alsamixer -c 0'
 		alias wtf='dmesg'
 		alias rtfm='man'
+		alias e='vim'
 
 #archlinux some package needed
-		alias pacman='pacman -color'
+		alias pacman='sudo pacman -color'
 
 		if [ $UID -ne 0 ]; then
 			alias reboot='sudo reboot'
@@ -238,6 +239,8 @@ esac
 				alias -s tex=vim
 				alias -s pdf=epdfview
 
+		alias gobepo='setxkbmap fr bepo'
+		alias gofr='setxkbmap fr'
 
 # Options {{{
 	setopt auto_cd  
@@ -269,7 +272,6 @@ esac
 
 
 
-		unalias run-help
 		autoload run-help
 
 
@@ -277,4 +279,5 @@ esac
 		set always_to_end
 # }}}
 
-
+#At END of the file : source the zsh-highlighting file
+source ~/code/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

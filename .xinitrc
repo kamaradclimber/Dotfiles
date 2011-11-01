@@ -17,6 +17,5 @@ fi
 # ...or the Window Manager of your choice
 
 xsetroot -cursor_name left_ptr
-setxkbmap -layout fr
 exec xmonad
 

@@ -226,7 +226,7 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
 	, className =? "vlc"			--> doFloat
     , className =? "Gimp"           --> doFloat
-    , className =? "chromium"           --> doShift "1:web"
+    , title =? "New Tab - Chromium"           --> doShift "1:web"
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
  
