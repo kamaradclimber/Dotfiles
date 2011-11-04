@@ -1,3 +1,11 @@
+
+#default conf
+Host *
+User git
+IdentityFile ~/.ssh/gregoire@familleseux.com
+
+
+
 Host github.com
 HostName github.com
 User git

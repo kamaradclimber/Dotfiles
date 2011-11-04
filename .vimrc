@@ -1,284 +1,115 @@
-scriptencoding utf-8
-"=============================================================================
-"
-" Fichier de configuration VIM personnalisé (meilleur pour la programmation,
-" raccourcis clavier utiles, etc. pour mieux profiter de cet excellent
-" éditeur).
-"
-" Auteur : Asher256
-" Email  : contact@asher256.com
-"
-" Licence : GPL
-"
-" Site: http://blog.asher256.com/
-"
-"=============================================================================
 
-" Options {{{1
+" Less vi-compatible, has a lot of side-effects so should be at the beginning
+set nocompatible
 
-" Options Internes {{{2
 
-" Mode non compatible avec Vi
-set nocompatible 
+" :W ask for sudo password to save the file
+command W w !sudo tee % > /dev/null
 
-" Le backspace
-set backspace=indent,eol,start
 
-" Activer la sauvegarde
-set backup
-
-" un historique raisonnable
-set history=100
-
-" undo, pour revenir en arrière
-set undolevels=150
-
-" Suffixes à cacher
-set suffixes=.jpg,.png,.jpeg,.gif,.bak,~,.swp,.swo,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.pyc,.pyo
-
-" Backup dans ~/.vim/backup
-if filewritable(expand("~/.vim/backup")) == 2
-    " comme le répertoire est accessible en écriture,
-    " on va l'utiliser.
-	set backupdir=$HOME/.vim/backup
-else
-	if has("unix") || has("win32unix")
-        " C'est c'est un système compatible UNIX, on
-        " va créer le répertoire et l'utiliser.
-		call system("mkdir $HOME/.vim/backup -p")
-		set backupdir=$HOME/.vim/backup
-	endif
-endif
-
-" Activation de la syntaxe
-if has("syntax")
-    syntax on
-endif
-
-" Quand un fichier est changé en dehors de Vim, il est relu automatiquement
-set autoread
-
-" Aucun son ou affichage lors des erreurs
-set errorbells
-set novisualbell
-set t_vb=
-
-" Quand une fermeture de parenthèse est entrée par l'utilisateur,
-" l'éditeur saute rapidement vers l'ouverture pour montrer où se
-" trouve l'autre parenthèse. Cette fonction active aussi un petit
-" beep quand une erreur se trouve dans la syntaxe.
-set showmatch
-set matchtime=2
-
-" Afficher la barre d'état
-set laststatus=2
-
-" }}}2
-
-" Options de recherche {{{2 
-
-" Tout ce qui concerne la recherche. Incrémentale
-" avec un highlight. Elle prend en compte la
-" différence entre majuscule/minuscule.
+" Search as you type
 set incsearch
-set noignorecase
-set infercase
 
-" Quand la rechercher atteint la fin du fichier, pas
-" la peine de la refaire depuis le début du fichier
+" Highlight search results
 set hlsearch
 
-" }}}2
+" Ignore case when searching if all min letters. If one letter is uppercase,
+" then don't ignore the case
+set smartcase
 
-" Options d'affichage texte {{{2
+" Set magic mode. $,.,$ are interpreted. \(,\) need to be used for group. For
+" complete explaination :h magic
+set magic
 
 
-" Afficher les commandes incomplètes
-set showcmd
+" Basic syntax coloration
+syntax on
 
-" Afficher la position du curseur
-set ruler
 
-" Désactiver le wrapping
-set nowrap
+" Auto detection of filetype
+filetype on 
 
-" Options folding
-set foldmethod=marker
+" Load the default behavior for some filetypes such as mail, commit message,
+" changelog,...
+filetype plugin on
 
-" Format the statusline
-set statusline=%<\ %n:%f\ %m%r%y%=%-35.(line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)%)
+" Load indentation depending on the filetype
+filetype indent on
 
-" }}}2
+" Reload files that have changed
+set autoread
 
-" Options d'affichage GUI {{{2
 
-" Configuration de la souris en mode console
-" ="" pas de souris par défaut
-"set mouse=a
+" Completion : List all the matches and complete to longest common prefix
+set wildmode="list:longest"
 
-" Améliore l'affichage en disant à vim que nous utilisons un terminal rapide
-set ttyfast
 
-" Lazy redraw permet de ne pas mettre à jour l'écran
-" quand un script vim est entrain de faire une opération
-set lazyredraw
+" Show matching bracklet
+set showmatch
 
-if has("gui_running")
-	map <S-Insert> <MiddleMouse>
-	map <S-Insert> <MiddleMouse>
 
-	set mousehide " On cache la souris en mode gui
-	set ch=2 " ligne de commande dans deux ligne
-endif
+" Display 7 lines below the cursor
+set scrolloff=7
 
-" }}}2
 
-" Noms des fichiers {{{2
+" Display line numbers
+":set number "replaced temporarly by relativenumber
 
-" faire en sorte que le raccourci CTRL-X-F
-" marche même quand le fichier est après
-" le caractère égal. Comme :
-" variable=/etc/<C-XF>
-set isfname-==
+" Display line numbers relatively to the current line
+set relativenumber
 
-" }}}2
-
-" }}}1
-
-" Autocmd {{{1
-
-set cindent
-set autoindent
+" Automatic indentation of code, type :help smartindent to have more information. Maybe some plugins do very clever indentation (language dependant)
 set smartindent
 
-if has("autocmd")
-	" Détection auto du format
-	" + activer indent
-	filetype plugin indent on
+" Expands tabs to spaces
+set expandtab
 
-    augroup divers " {{{2
-        au!
-		" Ne pas faire de wrap pour fichier text
-		autocmd FileType text set nowrap textwidth=0
+" Indentation is 4 spaces
+set shiftwidth=4
 
-        "tests ocaml
-        autocmd BufNewFile,BufRead *.ml set nowrap textwidth=0
-
-        " La valeur des tabs par défaut
-        autocmd BufNewFile,BufRead * call ChangeTabSize(4, 0)
-
-		" Ne pas faire de wrap dans les fichiers ChangeLog
-		autocmd BufNewFile,BufRead ChangeLog set nowrap textwidth=0
-		autocmd BufNewFile,BufRead ChangeLog call ChangeTabSize(8, 0)
-
-        " PKGBUILD
-		autocmd BufNewFile,BufRead PKGBUILD set syntax=sh
-    augroup END " }}}2
-
-    augroup pdf " {{{2
-        au!
-		autocmd BufReadPre *.pdf set ro
-		autocmd BufReadPost *.pdf %!pdftotext -nopgbrk "%" - | fmt -csw78
-    augroup END " }}}2
-endif
-
-" }}}1
-
-" Fonctions {{{1
-
-" Fonctions utilisée par vimrc {{{2
-
-function! ChangeTabSize(tab_size, expandtab)
-    execute("set tabstop=".a:tab_size." softtabstop=".a:tab_size." shiftwidth=".a:tab_size)
-
-    if a:expandtab != 0
-        execute("set expandtab")
-    else
-        execute("set noexpandtab")
-    endif
-endfunction
-
-" }}}2
-
-" Les fonctions utiles pour l'utilisateur {{{2
-
-" Aller dans le répertoire du fichier édité.
-function! ChangeToFileDirectory()
-	if bufname("") !~ "^ftp://" " C'est impératif d'avoir un fichier local !
-		lcd %:p:h
-	endif
-endfunction
-
-map ,fd :call ChangeToFileDirectory()<CR>
-
-" Entrer la commande ":e" dans le répertiore du fichier édité
-if has("unix")
-    map ,e :e <C-R>=expand("%:p:h") . "/" <CR>
-else
-    map ,e :e <C-R>=expand("%:p:h") . "" <CR>
-endif
-
-" }}}2
-
-" }}}1
-
-" Raccourcis clavier {{{1
-
-" Vim 7 spell checker
-if has("spell")
-    setlocal spell spelllang=
-    " Language : FR
-    map ,lf :setlocal spell spelllang=fr<cr>
-    " Language : EN
-    map ,le :setlocal spell spelllang=en<cr>
-    " Language : Aucun
-    map ,ln :setlocal spell spelllang=<cr>
-endif
-
-set spellsuggest=5
-autocmd BufEnter *.txt set spell
-autocmd BufEnter *.txt set spelllang=fr
-
-" Tabs
-map ,t :tabnew<cr>
-map ,w :tabclose<cr>
-imap <C-t> <Esc><C-t>
-imap <C-w> <Esc><C-w>
-map <tab> gt 
-
-" Cacher le menu
-map ,m :set guioptions=+M<cr>
-
-" Mode normal
-map ,mn :set guifont=<cr>
-
-" Mode programmation
-map ,mp :set guifont=Monospace 9<cr>
-
-" Sélectionner tout
-map <C-a> ggVG
-
-" Copier (le gv c'est pour remettre le sélection)
-map <C-c> "+ygv
-
-" Couper
-map <C-x> "+x
-
-" Coller
-map <C-p> "+gP
-
-" Désactiver le highlight (lors d'une recherche par exemple)
-map <F2> :let @/=""<cr>
+" Use of <tab> in front of a line will insert shifwidth spaces, evrywhere
+" else it will insert tabstop (by default 8 spaces)
+set smarttab
 
 
 
-" }}}1
 
-" Les plugins Vim et leurs options {{{1
+" Allow to toggle paste mode with the F3 command. Useful if you don't want to have the paste txt auto (ill) idented
+set pastetoggle=<F3> " does not seem to work TODO
 
-" Gérer les fichiers man
-runtime ftplugin/man.vim 
 
-" }}}1
+" Mouse handling
+set mouse="a"
+set mousefocus "the mouse focus when using splitted buffers
+set mousemodel=extend "not too bad use of the mouse
 
-" vim:ai:et:sw=4:ts=4:sts=4:tw=78:fenc=utf-8:foldmethod=marker
+
+" Ruler
+set ruler
+set laststatus=2 " Always display the status bar
+
+" Set all the language shortcuts used by Vim to speal to the user. Thou shall read the doc about this !
+set shortmess=aT " alls abbreviations and truncat the middle of long messages
+
+set background="dark"
+
+
+" Git branch
+function! GitBranch()
+	let branch = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* //'")
+	if branch != ''
+	return '   Git Branch: ' . substitute(branch, '\n', '', 'g')
+	en
+	return ''
+	endfunction
+
+
+function! HasPaste()
+	if &paste
+	return 'PASTE MODE  '
+	en
+	return ''
+	endfunction
+
+	" Format the statusline
+	set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l/%L%{GitBranch()}

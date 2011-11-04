@@ -16,6 +16,9 @@ fi
 # exec startxfce4
 # ...or the Window Manager of your choice
 
+feh --bg-scale ~./config/wallpapers/A_Dark_Starry_Night_Wallpaper_by_s3vendays.jpg
+
+
 xsetroot -cursor_name left_ptr
 exec xmonad
 
