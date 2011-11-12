@@ -28,7 +28,7 @@ import qualified Data.Map        as M
 --by
 -- certain contrib modules.
 --
-myTerminal      = "gnome-terminal"
+myTerminal      = "urxvt"
  
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -224,8 +224,6 @@ myLayout = tiled ||| Mirror tiled ||| Full
 --
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
-	, className =? "vlc"			--> doFloat
-    , className =? "Gimp"           --> doFloat
     , title =? "New Tab - Chromium"           --> doShift "1:web"
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
