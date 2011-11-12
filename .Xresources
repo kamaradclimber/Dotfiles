@@ -1,0 +1,14 @@
+URxvt*transparent: true
+! scrollbar style - rxvt (default), plain (most compact), next, or xterm
+ URxvt*scrollstyle:rxvt
+
+ URxvt.font:  xft:inconsolata:size=10
+
+ URxvt.reverseVideo: True
+
+
+! !yankable urls
+ URxvt.perl-ext:      default,url-select
+ URxvt.keysym.M-u:    perl:url-select:select_next
+ URxvt.urlLauncher:   chromium
+ URxvt.underlineURLs: true
