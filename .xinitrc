@@ -16,7 +16,7 @@ fi
 # exec startxfce4
 # ...or the Window Manager of your choice
 
-feh --bg-scale /home/grego/.config/wallpapers/A_Dark_Starry_Night_Wallpaper_by_s3vendays.jpg
+feh --bg-scale /home/grego/.config/wallpapers/zombies.jpg
 xrdb -merge ~/.Xresources
 
 xsetroot -cursor_name left_ptr

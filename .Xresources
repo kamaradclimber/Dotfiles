@@ -1,9 +1,14 @@
+! config for urwvt. To apply any change, use xrdb -merge $HOME/.Xresources
+
+
+
 URxvt*transparent: true
 ! scrollbar style - rxvt (default), plain (most compact), next, or xterm
- URxvt*scrollstyle:rxvt
+ URxvt*scrollstyle:plain 
 
  URxvt.font:  xft:inconsolata:size=10
 
+! use inverse colors for dark backgrounds
  URxvt.reverseVideo: True
 
 
@@ -12,3 +17,7 @@ URxvt*transparent: true
  URxvt.keysym.M-u:    perl:url-select:select_next
  URxvt.urlLauncher:   chromium
  URxvt.underlineURLs: true
+
+
+! selection  is more clever : first one word and then extend 
+URxvt.selection.pattern-0: ([[:word:]]+)
