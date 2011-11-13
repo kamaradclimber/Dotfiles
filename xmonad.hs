@@ -31,6 +31,7 @@ import XMonad.Util.Run
 import System.IO
 import XMonad.Layout.LayoutModifier
 import XMonad.Hooks.ManageDocks
+import XMonad.Layout.NoBorders 
  
 -- The preferred terminal program, which is used in a binding below and 
 --by
@@ -201,7 +202,9 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = tiled ||| Mirror tiled ||| Full
+-- We also import the module layout no borders to remove the windows border when it is not necessary (when there is a single windows for instance)
+
+myLayout = smartBorders $ (tiled ||| Mirror tiled ||| Full )
   where
     -- default tiling algorithm partitions the screen into two panes
     tiled   = Tall nmaster delta ratio
@@ -293,17 +296,12 @@ myStartupHook = return ()
 
 -- Default configuration for dzen, defined on
 -- http://xmonad.org/xmonad-docs/xmonad-contrib/src/XMonad-Hooks-DynamicLog.html#dzen
---myStatusBar = dzen 
-
-myStatusBar :: LayoutClass l Window => XConfig l -> IO (XConfig (ModifiedLayout AvoidStruts l))
-myStatusBar conf = statusBar ("dzen2" ++ flags) dzenPP toggleStrutsKey conf
-    where
-    fg		= "'#a8a3f7'" -- n.b quoting
-    bg		= "'#3f3c6d'"
-    flags	= "-e 'onstart=lower' -w 400 -ta l -fg " ++ fg ++ " -bg " ++ bg
-    toggleStrutsKey (XConfig {modMask = modm}) = (modm,xK_b)
 
 
+dzenPipe = spawnPipe dzenCommandLine where
+dzenCommandLine = "dzen2 -e 'onstart=lower' -w 400 -ta l -fg "++fg  ++" -bg "++bg
+fg ="'#a8a3f7'"
+bg ="'#3f3c6d'"
 
 
     ------------------------------------------------------------------------
@@ -318,8 +316,7 @@ myLogHook h = dynamicLogWithPP $ defaultPP {ppOutput = hPutStrLn h}
 
 
 main = do 
-    h <- spawnPipe "dzen2 -e 'onstart=lower' -w 400 -ta l -fg '#a8a3f7' -bg '#3f3c6d'"
-    --h <- spawnPipe 
+    h <- dzenPipe
     xmonad $ gregosConfig {
         logHook = myLogHook h
         } 
