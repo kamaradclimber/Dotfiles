@@ -1,3 +1,6 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleContexts#-}
+
 --
 -- xmonad example config file for xmonad-0.9
 --
@@ -23,6 +26,11 @@ import XMonad.Config.Azerty
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+import XMonad.Util.Run
+import System.IO
+import XMonad.Layout.LayoutModifier
+import XMonad.Hooks.ManageDocks
  
 -- The preferred terminal program, which is used in a binding below and 
 --by
@@ -206,6 +214,9 @@ myLayout = tiled ||| Mirror tiled ||| Full
  
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
+
+myLayoutHook = avoidStruts $ myLayout
+
  
 ------------------------------------------------------------------------
 -- Window rules:
@@ -222,12 +233,15 @@ myLayout = tiled ||| Mirror tiled ||| Full
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
-myManageHook = composeAll
+windowsRules = composeAll
     [ className =? "MPlayer"        --> doFloat
     , title =? "New Tab - Chromium"           --> doShift "1:web"
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
  
+
+myManageHook = manageDocks <+> windowsRules
+
 ------------------------------------------------------------------------
 -- Event handling
  
@@ -254,7 +268,9 @@ myEventHook = mempty
 -- It will add EWMH logHook actions to your custom log hook by
 -- combining it with ewmhDesktopsLogHook.
 --
-myLogHook = return ()
+
+-- myLogHook should be defined herer
+
  
 ------------------------------------------------------------------------
 -- Startup hook
@@ -277,21 +293,36 @@ myStartupHook = return ()
 
 -- Default configuration for dzen, defined on
 -- http://xmonad.org/xmonad-docs/xmonad-contrib/src/XMonad-Hooks-DynamicLog.html#dzen
-myStatusBar = dzen 
+--myStatusBar = dzen 
 
---myStatusBar :: LayoutClass l Window => XConfig l -> IO (XConfig (ModifiedLayout AvoidStruts l))
---myStatusBar conf = statusBar ("dzen2" ++ flags) dzenPP toggleStrutsKey conf
---where
---	fg		= "'#a8a3f7'" -- n.b quoting
---	bg		= "'#3f3c6d'"
---	flags	= "-e 'onstart=lower' -w 400 -ta l -fg " ++ fg ++ " -bg " ++ bg
+myStatusBar :: LayoutClass l Window => XConfig l -> IO (XConfig (ModifiedLayout AvoidStruts l))
+myStatusBar conf = statusBar ("dzen2" ++ flags) dzenPP toggleStrutsKey conf
+    where
+    fg		= "'#a8a3f7'" -- n.b quoting
+    bg		= "'#3f3c6d'"
+    flags	= "-e 'onstart=lower' -w 400 -ta l -fg " ++ fg ++ " -bg " ++ bg
+    toggleStrutsKey (XConfig {modMask = modm}) = (modm,xK_b)
 
-------------------------------------------------------------------------
--- Now run xmonad with all the defaults we set up.
- 
+
+
+
+    ------------------------------------------------------------------------
+    -- Now run xmonad with all the defaults we set up.
+
 -- Run xmonad with the settings you specify. No need to modify this.
 --
-main = xmonad =<< myStatusBar gregosConfig
+--
+
+--tmp section  >> TODO move all lines to the part they belong
+myLogHook h = dynamicLogWithPP $ defaultPP {ppOutput = hPutStrLn h}
+
+
+main = do 
+    h <- spawnPipe "dzen2 -e 'onstart=lower' -w 400 -ta l -fg '#a8a3f7' -bg '#3f3c6d'"
+    --h <- spawnPipe 
+    xmonad $ gregosConfig {
+        logHook = myLogHook h
+        } 
  
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -299,9 +330,9 @@ main = xmonad =<< myStatusBar gregosConfig
 --
 -- No need to modify this.
 --
-gregosConfig = defaults { keys = \c -> azertyKeys c `M.union` keys defaults c }
+gregosConfig  = defaults  { keys = \c -> azertyKeys c `M.union` keys defaults c }
 
-defaults = defaultConfig {
+defaults  = defaultConfig {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -318,9 +349,8 @@ defaults = defaultConfig {
         mouseBindings      = myMouseBindings,
  
       -- hooks, layouts
-        layoutHook         = myLayout,
+        layoutHook         = myLayoutHook,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
-        logHook            = myLogHook,
         startupHook        = myStartupHook
 }

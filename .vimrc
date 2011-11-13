@@ -94,6 +94,11 @@ set shortmess=aT " alls abbreviations and truncat the middle of long messages
 set background="dark"
 
 
+" Set comments color to more visible
+highlight Comment ctermbg=DarkGray
+
+
+
 " Git branch
 function! GitBranch()
 	let branch = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* //'")
