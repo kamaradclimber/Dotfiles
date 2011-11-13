@@ -272,7 +272,8 @@ myEventHook = mempty
 -- combining it with ewmhDesktopsLogHook.
 --
 
--- myLogHook should be defined herer
+myLogHook h = dynamicLogWithPP $ defaultPP {ppOutput = hPutStrLn h}
+
 
  
 ------------------------------------------------------------------------
@@ -312,8 +313,6 @@ bg ="'#3f3c6d'"
 --
 
 --tmp section  >> TODO move all lines to the part they belong
-myLogHook h = dynamicLogWithPP $ defaultPP {ppOutput = hPutStrLn h}
-
 
 main = do 
     h <- dzenPipe
