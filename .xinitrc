@@ -16,8 +16,18 @@ fi
 # exec startxfce4
 # ...or the Window Manager of your choice
 
+xset +fp /usr/share/fonts/local
+xset fp rehash
+
+
 feh --bg-scale /home/grego/.config/wallpapers/zombies.jpg
 xrdb -merge ~/.Xresources
+
+#no beep ever!
+set b off
+
+~/code/scripts/dzen.sh &
+
 
 xsetroot -cursor_name left_ptr
 exec xmonad

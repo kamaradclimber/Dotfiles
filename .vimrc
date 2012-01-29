@@ -53,10 +53,10 @@ set scrolloff=7
 
 
 " Display line numbers
-":set number "replaced temporarly by relativenumber
+:set number "replaced temporarly by relativenumber
 
 " Display line numbers relatively to the current line
-set relativenumber
+"set relativenumber
 
 " Automatic indentation of code, type :help smartindent to have more information. Maybe some plugins do very clever indentation (language dependant)
 set smartindent
