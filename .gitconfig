@@ -6,6 +6,8 @@
     safecrlf = false
     #from the man page : this can sped up operations like git diff and status on NFS with weak cahcing semantics...
     preloadindex = true
+    hideDotFiles = dotGitOnly
+    logallrefupdates = true
     #@todo : use the alias option which can provide alias. See man for more informations
 
 [color]
