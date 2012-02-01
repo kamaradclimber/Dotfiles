@@ -1,76 +1,61 @@
 
-" Less vi-compatible, has a lot of side-effects so should be at the beginning
-set nocompatible
+set nocompatible " Less vi-compatible, has a lot of side-effects so should be at the beginning
 
 
-" :W ask for sudo password to save the file
-command W w !sudo tee % > /dev/null
+":W ask for sudo password to save the file
+command W w !sudo tee % > /dev/null  
 
 
-" Search as you type
-set incsearch
+set incsearch " Search as you type
 
-" Highlight search results
-set hlsearch
+set hlsearch " Highlight search results
 
-" Ignore case when searching if all min letters. If one letter is uppercase,
-" then don't ignore the case
-set smartcase
+set smartcase " Ignore case when searching if all min letters. If one letter is uppercase, then don't ignore the case
 
 " Set magic mode. $,.,$ are interpreted. \(,\) need to be used for group. For
 " complete explaination :h magic
 set magic
 
 
-" Basic syntax coloration
-syntax on
+syntax on " Basic syntax coloration
 
 
-" Auto detection of filetype
-filetype on 
+filetype on  " Auto detection of filetype
 
 " Load the default behavior for some filetypes such as mail, commit message,
 " changelog,...
 filetype plugin on
 
-" Load indentation depending on the filetype
-filetype indent on
+filetype indent on " Load indentation depending on the filetype
 
-" Reload files that have changed
-set autoread
+set autoread " Reload files that have changed
 
 
-" Completion : List all the matches and complete to longest common prefix
-set wildmode="list:longest"
+set wildmode="list:longest" " Completion : List all the matches and complete to longest common prefix
 
 
-" Show matching bracklet
-set showmatch
+set showmatch " Show matching bracklet
 
 
-" Display 7 lines below the cursor
-set scrolloff=7
+set scrolloff=7 " Display 7 lines below the cursor
 
 
-" Display line numbers
-:set number "replaced temporarly by relativenumber
+:set number " Display line numbers
 
-" Display line numbers relatively to the current line
-"set relativenumber
+"set relativenumber " Display line numbers relatively to the current line
 
-" Automatic indentation of code, type :help smartindent to have more information. Maybe some plugins do very clever indentation (language dependant)
-set smartindent
+set smartindent " Automatic indentation of code, type :help smartindent to have more information. Maybe some plugins do very clever indentation (language dependant)
 
-" Expands tabs to spaces
-set expandtab
+set expandtab " Expands tabs to spaces
 
-" Indentation is 4 spaces
-set shiftwidth=4
+set shiftwidth=4 " Indentation is 4 spaces
 
 " Use of <tab> in front of a line will insert shifwidth spaces, evrywhere
 " else it will insert tabstop (by default 8 spaces)
 set smarttab
 
+
+set showcmd "displays the number of lines selected in visual mode and the key pressed in cmd mode.
 
 
 
@@ -78,21 +63,20 @@ set smarttab
 set pastetoggle=<F3> " does not seem to work TODO
 
 
-" Mouse handling
-set mouse="a"
+set mouse="a" " Mouse handling
 set mousefocus "the mouse focus when using splitted buffers
 set mousemodel=extend "not too bad use of the mouse
 
 
-" Ruler
-set ruler
+set ruler " Show the position of cursor
 set laststatus=2 " Always display the status bar
 
 " Set all the language shortcuts used by Vim to speal to the user. Thou shall read the doc about this !
 set shortmess=aT " alls abbreviations and truncat the middle of long messages
 
-set background="dark"
 
+"set background="dark"
+set background&  "adapt background automatically.
 
 " Set comments color to more visible
 highlight Comment ctermbg=DarkGray
