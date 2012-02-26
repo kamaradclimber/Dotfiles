@@ -61,6 +61,7 @@ alias pacm="makepkg -fci"  # '[m]ake'           - make package from PKGBUILD fil
 complete -cf sudo
 complete -cf pacman
 complete -cf man
+complete -W "`awk '{ print $2 }' /etc/hosts`" ssh
 
 #if present, use bash completion specifics. TODO  : quid of bash_completion.d/ dir ? 
 if [ -f /etc/bash_completion ]; then
