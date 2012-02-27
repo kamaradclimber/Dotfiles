@@ -9,6 +9,16 @@
 "\e[B": history-search-forward
 "\e[A": history-search-backward
 
+
+set show-all-if-ambiguous on
+set page-completions off
+set match-hidden-files off
+set completion-ignore-case on
+set visible-stats on #when using completion, puts / after directories and * after executables
+
+export IGNOREEOF=1
+
+
 $if Bash
   # F10 toggles mc on and off
   # Note Ctrl-o toggles panes on and off in mc
