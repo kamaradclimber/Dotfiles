@@ -81,7 +81,7 @@ logtail()
 
 
 #history management
-export HISTIGNORE="&:ls:[bf]g:exit:[ \t]*" # ignore bg,fg,exit, ls without arguments and remove duplicates + does not remember of commands starting with spaces
+#export HISTIGNORE="&:ls:[bf]g:exit:[ \t]*" # ignore bg,fg,exit, ls without arguments and remove duplicates + does not remember of commands starting with spaces
 
 
 shopt -s checkwinsize #allegedly : support of redimensionnable terminals like xterm and screen
