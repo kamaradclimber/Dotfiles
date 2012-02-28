@@ -26,6 +26,10 @@ set delete                                              # don't ask, just do
 unset confirmappend                                     # don't ask, just do!
 set quit                                                # don't ask, just do!!
 unset mark_old                                          # read/new is good enough for me
+unset beep                                              # remove beeeeeeeps
+set mailcap_path       = ~/.mailcap
+auto_view text/html #see all messsage as html with lynx
+alternative_order text/plain text/html
 
 # index options
 set sort                = threads                       # like gmail 
@@ -47,16 +51,17 @@ unset mime_forward                                      # forward attachments as
 set forward_format      = "Fwd: %s"                     # format for subject when forwarding
 set include                                             # include message in replies
 set forward_quote                                       # include message in forwards
-set header                                              # Include headers in the mail composing buffer
+set edit_headers         =yes                            # Include headers in the mail composing buffer
 
 # headers to show
 ignore *                                                # ignore all headers
-unignore from: to: cc: cci: date: subject:                   # show only these
-hdr_order from: to: cc: cci: date: subject:                  # and in this order
+unignore from: to: cc: cci: Message-ID: In-Reply-To: date: subject:                    # show only these
+hdr_order from: to: cc: cci: Message-ID: In-Reply-To: date: subject:                  # and in this order
 
 
 # Colours
 color attachment white black
+color body yellow black [_a-z\.\$A-Z0-9-]+@[a-zA-Z0-9\./\-]+
 color body  white black .*
 color bold  brightwhite black
 color error red black
@@ -74,3 +79,9 @@ color status black white
 color tilde  white black
 color tree  white black
 color underline  white black
+
+
+# Contacts : use goobooks
+set query_command="goobook query '%s'"
+macro index,pager a "<pipe-message>goobook add<return>" "add the send address to google contacts"
+bind editor <Tab> complete-query
