@@ -1,0 +1,4 @@
+#Mail cap is a file describing how to handle file in a given mime type
+text/html; lynx -dump %s; nametemplate=%s.html; copiousoutput
+#text/html; chromium %s; nametemplate=%s.html; copiousoutput
+
