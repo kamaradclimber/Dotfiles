@@ -8,7 +8,7 @@ unset record
 set sendmail = /usr/bin/msmtp
 
 # mailboxes
-mailboxes +inbox +bak.archive +bak.sent +bak.drafts +bak.spam +bak.trash +bak.all_mail
+mailboxes +inbox +bak.archive +bak.sent +bak.drafts +bak.spam +bak.trash +bak.all_mail +rss
 
 # bindings
 macro index D "<save-message>+trash<enter>"   "move message to the trash"
