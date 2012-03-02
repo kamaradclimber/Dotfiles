@@ -1,0 +1,87 @@
+set mbox_type=Maildir
+set folder=$HOME/Mail/Gmail
+set spoolfile="+inbox"
+set mbox = "+archive"
+set postponed ="+drafts"
+unset record
+
+set sendmail = /usr/bin/msmtp
+
+# mailboxes
+mailboxes +inbox +bak.archive +bak.sent +bak.drafts +bak.spam +bak.trash +bak.all_mail +rss
+
+# bindings
+macro index D "<save-message>+trash<enter>"   "move message to the trash"
+macro index S "<save-message>+spam<enter>"    "mark message as spam"
+folder-hook .* macro index,pager y "<save-message>=bak.all_mail<enter>" "Archive"
+
+
+# main options
+set realname            = "Gregoire Seux"                   # who am i?
+set from                = "kamaradclimber@gmail.com"              # who am i?
+set envelope_from                                       # which from?
+set mail_check          = 0                             # check for mail always
+unset move                                              # gmail does that
+set delete                                              # don't ask, just do
+unset confirmappend                                     # don't ask, just do!
+set quit                                                # don't ask, just do!!
+unset mark_old                                          # read/new is good enough for me
+unset beep                                              # remove beeeeeeeps
+set mailcap_path       = ~/.mailcap
+auto_view text/html #see all messsage as html with lynx
+alternative_order text/plain text/html
+
+# index options
+set sort                = threads                       # like gmail 
+set sort_aux            = reverse-last-date-received    # like gmail
+set sort_re                                             # thread based on reply_regexp
+
+# pager
+set pager_index_lines   = 8                             # show 8 messages when in pager
+set pager_context       = 5                             # show five lines when skipping in pager
+set pager_stop                                          # don't go to next message automatically
+set menu_scroll                                         # scroll in menus 
+set smart_wrap                                          # don't split words
+set tilde                                               # show tildes like in vim
+unset markers                                           # no ugly plus signs
+
+# composing mail
+set fcc_attach                                          # save attachments with the body
+unset mime_forward                                      # forward attachments as part of body
+set forward_format      = "Fwd: %s"                     # format for subject when forwarding
+set include                                             # include message in replies
+set forward_quote                                       # include message in forwards
+set edit_headers         =yes                            # Include headers in the mail composing buffer
+
+# headers to show
+ignore *                                                # ignore all headers
+unignore from: to: cc: cci: Message-ID: In-Reply-To: date: subject:                    # show only these
+hdr_order from: to: cc: cci: Message-ID: In-Reply-To: date: subject:                  # and in this order
+
+
+# Colours
+color attachment white black
+color body yellow black [_a-z\.\$A-Z0-9-]+@[a-zA-Z0-9\./\-]+
+color body  white black .*
+color bold  brightwhite black
+color error red black
+color header  white black .*
+color hdrdefault  white black
+color index  white black .*
+color indicator  black red
+color markers  white black
+color message  white black
+color normal white black
+color quoted1 white blue
+color search  black yellow
+color signature cyan black
+color status black white
+color tilde  white black
+color tree  white black
+color underline  white black
+
+
+# Contacts : use goobooks
+set query_command="goobook query '%s'"
+macro index,pager a "<pipe-message>goobook add<return>" "add the send address to google contacts"
+bind editor <Tab> complete-query
