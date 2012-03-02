@@ -18,6 +18,7 @@ alias df='df -h'
 alias du='du -c -h'
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
+alias top='htop'
 
 
 # privileged access
