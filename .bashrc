@@ -19,6 +19,7 @@ alias du='du -c -h'
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
 alias top='htop'
+alias gti='git'                     # alias because of frequent typo
 
 
 # privileged access
