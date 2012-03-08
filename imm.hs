@@ -3,17 +3,22 @@ module Main where
 -- {{{ Imports
 import Imm.Core
 import Imm.Types
+import Imm.Config
+import System.FilePath
 -- }}}
 
 main :: IO ()
-main = imm myParameters
+main = imm myFeeds myParameters
 
 myParameters :: Parameters
-myParameters = defaultParameters {
-  mFeedURIs = myFeeds,
-  mMailDirectory  = "/home/grego/Mail/Gmail/rss"
-}
+myParameters = defaultGlobalSettings 
 
-myFeeds :: [String]
-myFeeds = [
-    "http://www.archlinux.org/feeds/news/"]
+
+myFeeds :: [FeedGroup]
+myFeeds = [ (fiveStars , [
+    "http://www.archlinux.org/feeds/news/",
+    "http://www.cyrille-borne.com/index.php?feed/atom"])  ]
+
+fiveStars :: FeedSettings
+fiveStars = FeedSettings {
+    mMailDirectory = \refDirs -> (mHome refDirs) </> "Mail/Gmail/rss"}

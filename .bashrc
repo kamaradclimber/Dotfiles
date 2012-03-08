@@ -20,7 +20,7 @@ alias mkdir='mkdir -p -v'
 alias ..='cd ..'
 alias top='htop'
 alias gti='git'                     # alias because of frequent typo
-
+alias m='mutt'
 
 # privileged access
 if [ $UID -ne 0 ]; then
