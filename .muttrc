@@ -17,6 +17,7 @@ folder-hook . macro index,pager y "<save-message>=bak.all_mail<enter>" "Archive"
 folder-hook rss macro index,pager y "<save-message>=rss.bak<enter>" "Archive" #In case of rss, don't save itin All mail
 macro index,pager <f2> "<change-folder>=inbox<enter>" "Go to inbox"
 macro index,pager <f3> "<change-folder>=rss<enter>" "Go to RSS folder"
+macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 
 
 # main options
