@@ -22,3 +22,8 @@ URxvt*transparent: true
 
 ! selection  is more clever : first one word and then extend 
 URxvt.selection.pattern-0: ([[:word:]]+)
+
+
+URxvt.colorIT:      #87af5f
+URxvt.colorBD:      #d7d7d7
+URxvt.colorUL:      #87afd7
