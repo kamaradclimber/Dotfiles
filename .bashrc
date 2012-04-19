@@ -21,6 +21,11 @@ alias ..='cd ..'
 alias top='htop'
 alias gti='git'                     # alias because of frequent typo
 alias m='mutt'
+alias ssh="TERM=linux ssh"
+
+#git shortcuts
+alias conflicts="git ls-files --unmerged | cut -f2 | uniq"
+
 
 # privileged access
 if [ $UID -ne 0 ]; then
@@ -44,6 +49,7 @@ alias lm='la | more'
 
 #As a reminder of common commands for pacman, let this aliases here even if unused
 # pacman aliases (if applicable, replace 'pacman' with 'yaourt'/'pacaur'/whatever)
+alias pacman='pacmatic'
 alias pac="pacman -S"      # default action     - install one or more packages
 alias pacu="pacman -Syu"   # '[u]pdate'         - upgrade all packages to their newest version
 alias pacs="pacman -Ss"    # '[s]earch'         - search for a package using one or more keywords
@@ -80,6 +86,19 @@ logview()
 logtail() 
 {
     tail -f $1 | ccze
+}
+
+
+man() {
+    env \
+        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+        LESS_TERMCAP_md=$(printf "\e[1;31m") \
+        LESS_TERMCAP_me=$(printf "\e[0m") \
+        LESS_TERMCAP_se=$(printf "\e[0m") \
+        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+        LESS_TERMCAP_ue=$(printf "\e[0m") \
+        LESS_TERMCAP_us=$(printf "\e[1;32m") \
+            man "$@"
 }
 
 
