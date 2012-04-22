@@ -20,6 +20,7 @@
 
 [diff]
     renames = true
+    mnemonicprefix = true
 
 [help]
     autocorrect = 3 #wait 0.3 seconds before excuting probable correction in case of mispell of commands
