@@ -27,6 +27,7 @@ xrdb -merge ~/.Xresources
 set b off
 
 ~/code/scripts/dzen.sh &
+~/.dotfiles/set_dualscreen_on.sh &
 
 
 xsetroot -cursor_name left_ptr
