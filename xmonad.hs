@@ -38,7 +38,7 @@ import System.IO
 
 myTerminal           = "urxvt"
 myBrowser            = "chromium"
-myWorkspaces         = ["web"] ++ map show [2..8]
+myWorkspaces         = map show [1..9]
 
 myBorderWidth        = 1
 myNormalBorderColor  = "#dddddd"
@@ -70,6 +70,7 @@ myModMask = mod4Mask
 -- {{{ Key bindings
 myKeys = \c -> azertyKeys c `M.union` generalKeys c 
 
+
 generalKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $ [
     -- Spawn programs
     ((modm,                 xK_Return),     spawn $ XMonad.terminal conf),
@@ -98,6 +99,8 @@ generalKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $ [
     -- Resize
     ((modm,                 xK_Left),       sendMessage Shrink),
     ((modm,                 xK_Right),         sendMessage Expand),
+    -- Push window back into tiling
+    ((modm .|. shiftMask,   xK_t),          withFocused $ windows . W.sink),
 
 
     -- Toggle the status bar gap
@@ -109,7 +112,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $ [
 
     ((modm .|. shiftMask,   xK_q),          io (exitWith ExitSuccess)),
     ((modm              ,   xK_F5),         spawn "xmonad --recompile; xmonad --restart")
-    ]
+    ] 
     -- }}}
 
 -- {{{ Mouse bindings

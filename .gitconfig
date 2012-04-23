@@ -4,10 +4,8 @@
 [core]
     autocrlf = false
     safecrlf = false
-    #from the man page : this can sped up operations like git diff and status on NFS with weak cahcing semantics...
-    preloadindex = true
+    preloadindex = true #should be faster on NFSi (because of weak caching semantics
     hideDotFiles = dotGitOnly
-    logallrefupdates = true
     #@todo : use the alias option which can provide alias. See man for more informations
 
 [color]
@@ -19,7 +17,8 @@
     status = auto
 
 [diff]
-    renames = true
+    renames = true #detect rename of files
+    mnemonicprefix = true #don't use a,b as prefix in diff output but i (index) and w (working directory) instead
 
 [help]
     autocorrect = 3 #wait 0.3 seconds before excuting probable correction in case of mispell of commands
