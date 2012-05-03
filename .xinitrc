@@ -24,7 +24,7 @@ feh --bg-scale /home/grego/.config/wallpapers/zombies.jpg
 xrdb -merge ~/.Xresources
 
 #no beep ever!
-set b off
+xset -b
 
 ~/code/scripts/dzen.sh &
 ~/.dotfiles/set_dualscreen_on.sh &
