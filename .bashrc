@@ -104,8 +104,9 @@ man() {
 
 
 #history management
-export HISTIGNORE="&:ls:[bf]g:exit:[ \t]*" # ignore bg,fg,exit, ls without arguments and remove duplicates + does not remember of commands starting with spaces
-export HISTCONTROL=erasedups
+export HISTIGNORE="&:ls:[bf]g:exit:*halt:*reboot" # ignore bg,fg,exit, ls without arguments  + does not remember of commands starting with spaces
+export HISTCONTROL=ingorespace:erasedups
+
 
 
 shopt -s checkwinsize #allegedly : support of redimensionnable terminals like xterm and screen
