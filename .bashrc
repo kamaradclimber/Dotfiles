@@ -22,6 +22,7 @@ alias top='htop'
 alias gti='git'                     # alias because of frequent typo
 alias m='mutt'
 alias ssh="TERM=linux ssh"
+alias cp="vcp -I -R"
 
 #git shortcuts
 alias conflicts="git ls-files --unmerged | cut -f2 | uniq"
@@ -104,6 +105,7 @@ man() {
 
 #history management
 export HISTIGNORE="&:ls:[bf]g:exit:[ \t]*" # ignore bg,fg,exit, ls without arguments and remove duplicates + does not remember of commands starting with spaces
+export HISTCONTROL=erasedups
 
 
 shopt -s checkwinsize #allegedly : support of redimensionnable terminals like xterm and screen
