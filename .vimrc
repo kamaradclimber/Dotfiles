@@ -40,7 +40,7 @@ set showmatch " Show matching bracklet
 set scrolloff=7 " Display 7 lines below the cursor
 
 
-:set number " Display line numbers
+"set number " Display line numbers
 
 "set relativenumber " Display line numbers relatively to the current line
 
@@ -102,3 +102,8 @@ function! HasPaste()
 
 	" Format the statusline
 	set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l/%L%{GitBranch()}
+
+au BufEnter *.hs compiler ghc
+let g:haddock_docdir = "/usr/share/doc/ghc/html/"
+let g:haddock_browser = "/usr/bin/chromium"
+let g:ghc = "/usr/bin/ghc"
