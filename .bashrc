@@ -111,31 +111,6 @@ export HISTCONTROL=ingorespace:erasedups
 
 shopt -s checkwinsize #allegedly : support of redimensionnable terminals like xterm and screen
 
-__vcs_dir() {
-    local vcs base_dir sub_dir ref
-    sub_dir() {
-        local sub_dir
-        sub_dir=$(readlink -f "${PWD}")
-        sub_dir=${sub_dir#$1}
-        echo ${sub_dir#/}
-    }
-    # git
-    git_dir() {
-        base_dir=$(git rev-parse --show-cdup 2>/dev/null) || return 1
-        if [ -n "$base_dir" ]; then
-            base_dir=`cd $base_dir; pwd`
-        else
-            base_dir=$PWD
-        fi
-        sub_dir=$(git rev-parse --show-prefix)
-        sub_dir="/${sub_dir%/}"
-        ref=$(git symbolic-ref -q HEAD || git name-rev --name-only HEAD 2>/dev/null)
-        ref=${ref#refs/heads/}
-        vcs="git"
-    }
-    git_dir || base_dir="$PWD"
-    echo "${vcs:+($vcs)}${base_dir/$HOME/~}${vcs:+[$ref]${sub_dir}${_normal}$extra}"
-}
 
 BLACK="\[\e[01;30m\]"
 RED="\[\e[01;31m\]"
@@ -148,6 +123,7 @@ BOLD="\[\e[01;39m\]"
 NORM="\[\e[00m\]"
 
 export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
+<<<<<<< HEAD
 #export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}${__vcs_dir}${NORM} >"
 
 cp_p()
@@ -168,3 +144,5 @@ cp_p()
          }
          END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
 }
+=======
+>>>>>>> f1aa1e278b1b326129dde6fd94800c0d9a5e4ecf
