@@ -1,6 +1,6 @@
 set mbox_type=Maildir
 set folder=$HOME/Mail/Gmail
-set spoolfile="+inbox"
+set spoolfile="+INBOX"
 set mbox = "+archive"
 set postponed ="+drafts"
 unset record
@@ -8,14 +8,14 @@ unset record
 set sendmail = /usr/bin/msmtp
 
 # mailboxes
-mailboxes +inbox +bak.archive +bak.sent +bak.drafts +bak.spam +bak.trash +bak.all_mail +rss
+mailboxes +INBOX  +[Gmail].Sent_Mail +[Gmail].Drafts  +[Gmail].All_Mail +rss
 
 # bindings
 macro index D "<save-message>+trash<enter>"   "move message to the trash"
 macro index S "<save-message>+spam<enter>"    "mark message as spam"
-folder-hook . macro index,pager y "<save-message>=bak.all_mail<enter>" "Archive"
+folder-hook . macro index,pager y "<save-message>=[Gmail].All_Mail<enter>" "Archive"
 folder-hook rss macro index,pager y "<save-message>=rss.bak<enter>" "Archive" #In case of rss, don't save itin All mail
-macro index,pager <f2> "<change-folder>=inbox<enter>" "Go to inbox"
+macro index,pager <f2> "<change-folder>=INBOX<enter>" "Go to inbox"
 macro index,pager <f3> "<change-folder>=rss<enter>" "Go to RSS folder"
 macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 
@@ -89,3 +89,12 @@ color underline  white black
 set query_command="goobook query '%s'"
 macro index,pager a "<pipe-message>goobook add<return>" "add the send address to google contacts"
 bind editor <Tab> complete-query
+macro index <F8> \
+      "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt --prompt search<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>" \
+      "notmuch: search mail"
+macro index <F9> \
+      "<enter-command>unset wait_key<enter><pipe-message>notmuch-mutt thread<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter><enter-command>set wait_key<enter>" \
+      "notmuch: reconstruct thread"
+macro index <F6> \
+      "<enter-command>unset wait_key<enter><pipe-message>notmuch-mutt tag -inbox<enter>" \
+      "notmuch: remove message from inbox"
