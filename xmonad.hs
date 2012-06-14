@@ -136,8 +136,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $ [
 -- If you change layout bindings be sure to use 'mod-shift-space' after
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
-webLayout     = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled |||              Full 
-defaultLayout = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled |||              Full 
+webLayout     = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full 
+defaultLayout = webLayout 
 
 myLayout = onWorkspace "web" webLayout defaultLayout
   
