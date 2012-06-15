@@ -123,8 +123,6 @@ BOLD="\[\e[01;39m\]"
 NORM="\[\e[00m\]"
 
 export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
-<<<<<<< HEAD
-#export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}${__vcs_dir}${NORM} >"
 
 cp_p()
 {
@@ -144,5 +142,3 @@ cp_p()
          }
          END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
 }
-=======
->>>>>>> f1aa1e278b1b326129dde6fd94800c0d9a5e4ecf
