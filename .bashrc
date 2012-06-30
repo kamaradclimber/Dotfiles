@@ -111,7 +111,7 @@ export HISTCONTROL=ingorespace:erasedups
 
 shopt -s checkwinsize #allegedly : support of redimensionnable terminals like xterm and screen
 shopt -s autocd # allow to cd without typing cd :-)
-shopt -s cdspll # minor mistake for cd are corrected
+shopt -s cdspell # minor mistake for cd are corrected
 shopt -s no_empty_cmd_completion #no tab mistake
 shopt -s histverify #history expansion is displayed before execution
 
