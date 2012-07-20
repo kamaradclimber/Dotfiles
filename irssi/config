@@ -7,7 +7,7 @@ settings = {
   "fe-text" = { actlist_sort = "refnum"; };
   "fe-common/core" = {
     bell_beeps = "yes";
-    beep_msg_level = "MSGS NOTICES DCC DCCMSGS HILIGHT";
+    beep_msg_level = "MSGS DCC DCCMSGS HILIGHT";
   };
 };
 keyboard = (
@@ -33,5 +33,18 @@ keyboard = (
   { key = "F8"; id = "command"; data = "window 8"; },
   { key = "F9"; id = "command"; data = "window 9"; },
   { key = "F10"; id = "command"; data = "window 10"; },
-  { key = "F11"; id = "command"; data = "window 11"; }
+  { key = "F11"; id = "command"; data = "window 11"; },
+  { key = "meta-c"; id = "command"; data = "window close"; }
+);
+ignores = (
+  { 
+    level = "ACTIONS";
+    pattern = "is (away|gone|back)";
+    regexp = "yes";
+  },
+  {
+    level = "ACTIONS";
+    pattern = "]: is (Away|Gone|Back|Available)";
+    regexp = "yes";
+  }
 );

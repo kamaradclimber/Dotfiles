@@ -20,6 +20,7 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.StackTile
 import XMonad.Layout.Tabbed
+import XMonad.Layout.ThreeColumns
 import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
 --import XMonad.Prompt.RunOrRaise
@@ -73,7 +74,6 @@ myModMask = mod4Mask
 
 -- {{{ Key bindings
 myKeys = \c -> bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c 
-
 bepoKeys conf@(XConfig {modMask = modm}) = M.fromList $
     [((modm, xK_semicolon), sendMessage (IncMasterN (-1)))]
         ++
@@ -146,7 +146,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $ [
 -- If you change layout bindings be sure to use 'mod-shift-space' after
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
-defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout
+threeColumn = ThreeCol 1 (3/100) (1/2)
+defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout ||| threeColumn ||| Mirror threeColumn
 imLayout       = avoidStruts . smartBorders . windowNavigation $ kingTiled ||| Mirror tiled ||| Grid |||     Full 
 
 
@@ -268,7 +269,7 @@ instance UrgencyHook MyUrgencyHook where
                   dzenWithArgs (show name ++ " (go to " ++ index++")") a d
 myDzenUrgencyHook = MyUrgencyHook {dur = seconds 5, argss = ["-bg", "cyan","-fg","red", "-xs", "1", "-x", "100", "-w", "300"] }
 
-myUrgencyConfig = urgencyConfig { suppressWhen = Visible, remindWhen = Repeatedly 120 60}
+myUrgencyConfig = urgencyConfig { suppressWhen = Visible, remindWhen = Every 20}
 myUrgencyHook = withUrgencyHookC myDzenUrgencyHook myUrgencyConfig
 --myUrgencyHook = withUrgencyHook NoUrgencyHook 
 
