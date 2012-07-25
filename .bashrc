@@ -8,6 +8,7 @@
 
 #standard editor variable
 export EDITOR=vim
+export BROWSER=chromium
 
 
 # modified commands

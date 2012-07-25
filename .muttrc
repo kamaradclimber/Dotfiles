@@ -18,7 +18,7 @@ folder-hook rss macro index,pager y "<save-message>=rss.bak<enter>" "Archive" #I
 #folder-hook rss macro index M "T~N<enter>;W;N" "Mark All as Read" 
 macro index,pager <f2> "<change-folder>=INBOX<enter>" "Go to inbox"
 macro index,pager <f3> "<change-folder>=rss<enter>" "Go to RSS folder"
-macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
+macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlview'
 
 
 # main options
