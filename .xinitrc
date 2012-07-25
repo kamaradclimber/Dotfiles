@@ -26,7 +26,7 @@ xrdb -merge ~/.Xresources
 #no beep ever!
 xset -b
 
-~/code/scripts/dzen.sh &
+~/.dotfiles/dzen.sh &
 ~/.dotfiles/set_dualscreen_on.sh &
 
 
