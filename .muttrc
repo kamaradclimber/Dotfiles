@@ -36,6 +36,7 @@ set mailcap_path       = ~/.mailcap
 set strict_threads
 auto_view text/html
 alternative_order text/plain text/html
+set sleep_time = 0 #no wait between folders
 
 # index options
 set sort                = threads                       # like gmail 
@@ -157,7 +158,7 @@ color quoted7 green black
 #color hdrdefault white green                                                                                                                                             
 color signature cyan black
 color indicator black cyan
-color attachment black green
+#color attachment black green
 color error red black
 color message white black
 color search brightwhite magenta
