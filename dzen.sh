@@ -60,8 +60,9 @@ fmail() {
 READER_PERIOD=240
 READER_COUNTER=0
 freader() {
-    READER=`canto -a`
-    PREADER="RSS ^fg(green)$READER^fg()"
+    READER2=`canto -a`
+    READER=`find ~/Mail/ -type f -wholename '*/rss/new/*' | wc -l`
+    PREADER="RSS ^fg(green)$READER ($READER2)^fg()"
 }
 
 
@@ -83,11 +84,6 @@ while true; do
    if [ $DATE_COUNTER -ge $DATE_PERIOD ]; then
      fdate
      DATE_COUNTER=0
-   fi
-
-   if [ $CPU_COUNTER -ge $CPU_PERIOD ]; then
-     fcpu
-     CPU_COUNTER=0
    fi
 
    if [ $PKG_COUNTER -ge $PKG_PERIOD ]; then
