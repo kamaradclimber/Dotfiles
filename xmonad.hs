@@ -71,9 +71,10 @@ myModMask = mod4Mask
 myKeys = \c -> azertyKeys c `M.union` generalKeys c 
 
 
-generalKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $ [
+generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
     -- Spawn programs
     ((modm,                 xK_Return),     spawn $ XMonad.terminal conf),
+    ((modm,                 xK_a),     scratchpadSpawnActionTerminal $ XMonad.terminal conf),
     ((modm,                 xK_c),          spawn myBrowser),
     ((modm,                 xK_F4),         kill),
 
