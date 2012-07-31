@@ -129,6 +129,7 @@ NORM="\[\e[00m\]"
 
 export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
 
+export PATH=~/.gem/ruby/1.9.1/bin:$PATH
 cp_p()
 {
    strace -q -ewrite cp -- "${1}" "${2}" 2>&1 \
