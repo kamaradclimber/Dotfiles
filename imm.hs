@@ -98,8 +98,6 @@ myFeedGroups = [
   "http://linuxfr.org/news.atom",
   "http://linuxmanua.blogspot.com/feeds/posts/default",
   "http://marie-issy-munich.blogspot.com/feeds/posts/default?alt=rss",
-  "http://martin.ankerl.com/category/coding/feed/",
-  "http://martin.ankerl.com/category/programming/feed/",
   "http://mauvaisgout.net/feed",
   "http://medspx.homelinux.org/blog/index.rss20",
   "http://michel-eudes.net/blog/rss.php", --Cannot decode byte '\x6c': Data.Text.Encoding.decodeUtf8: Invalid UTF-8 stream
