@@ -191,7 +191,7 @@ manageScratchPad :: ManageHook
 manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
   where
     h = 0.4         -- terminal height
-    w = 0.95        -- terminal width
+    w = 0.60        -- terminal width
     t = 1 - h       -- distance from top edge
     l = (1 - w)/2   -- distance from left edge
 

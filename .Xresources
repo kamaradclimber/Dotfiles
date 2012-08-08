@@ -2,6 +2,7 @@
 
 
 
+URxvt*termName:rxvt-unicode
 URxvt*transparent: true
 ! scrollbar style - rxvt (default), plain (most compact), next, or xterm
  URxvt*scrollstyle:plain 
