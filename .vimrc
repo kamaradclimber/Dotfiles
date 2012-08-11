@@ -54,11 +54,4 @@ set ruler " Show the position of cursor
 set background&  "adapt background automatically.
 
 " Set comments color to more visible
-highlight Comment ctermbg=DarkGray
-
-
-
-au BufEnter *.hs compiler ghc
-let g:haddock_docdir = "/usr/share/doc/ghc/html/"
-let g:haddock_browser = "/usr/bin/chromium"
-let g:ghc = "/usr/bin/ghc"
+"highlight Comment ctermbg=DarkGray
