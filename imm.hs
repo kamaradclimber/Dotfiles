@@ -4,25 +4,26 @@ module Main where
 import Imm.Boot
 import Imm.Config
 import Imm.Types
+import Imm.Util 
 
-import System.FilePath
+import System.Directory
+import System.Environment.XDG.BaseDir
 -- }}}
 
 main :: IO ()
-main = imm mySettings
+main = imm myConf
 
-mySettings :: Settings
-mySettings = defaultSettings {
-    mFeedGroups = myFeedGroups }
+mySettings :: CustomSettings
+mySettings s = s {
+    mMaildir = getHomeDirectory >/> "Mail" >/> "Gmail" >/> "rss"
+}
 
-exampleFeeds :: FeedSettings
-exampleFeeds = FeedSettings {
-    mMaildir = \refDirs -> (mHome refDirs) </> "Mail" </> "Gmail" </> "rss"}
+myConf :: FeedList
+myConf = zip (repeat mySettings) feeds
 
-myFeedGroups :: [FeedGroup]
-myFeedGroups = [
-  (exampleFeeds, ["http://planet.haskell.org/rss20.xml",
 
+ 
+feeds =  ["http://planet.haskell.org/rss20.xml",
  "http://www.roc14.org/component/ninjarsssyndicator/?feed_id=2",
   "http://about-gnulinux.info/dotclear/index.php?feed/atom",
   "http://abstrusegoose.com/feed",
@@ -82,7 +83,6 @@ myFeedGroups = [
   "http://google-opensource.blogspot.com/feeds/posts/default?alt=rss",
   "http://googledocs.blogspot.com/feeds/posts/default?alt=rss",
   "http://images.math.cnrs.fr/spip.php?page=backend",
-  "http://imil.net/wp/feed/", --Cannot decode byte '\x8b': Data.Text.Encoding.decodeUtf8: Invalid UTF-8 stream
   "http://internetactu.blog.lemonde.fr/feed/",
   "http://interstices.info/feed/Rss2.jsp?id=c_13634",
   "http://julien.danjou.info/blog/index.xml",
@@ -107,6 +107,7 @@ myFeedGroups = [
   "http://notch.tumblr.com/rss",
   "http://nuts-and-bolts-of-cakephp.com/feed/",
   "http://ocaml.janestreet.com/?q=rss.xml",
+  "http://obfuscurity.com/rss2.xml",
   "http://owni.fr/categorie/une/feed/",
   "http://passeurdesciences.blog.lemonde.fr/feed/",
   "http://philippe.scoffoni.net/feed/", --Cannot decode byte '\x8b': Data.Text.Encoding.decodeUtf8: Invalid UTF-8 stream
@@ -116,7 +117,6 @@ myFeedGroups = [
   "http://playtime.blog.lemonde.fr/feed/",
   "http://rats-bleus.blogspot.com/feeds/posts/default?alt=rss",
   "http://reyt.net/feed/", -- 404?
-  "http://rss.futura-sciences.com/fs/dossiers", --Cannot decode byte '\x63': Data.Text.Encoding.decodeUtf8: Invalid UTF-8 stream
   "http://rss.wikio.fr/search/Dominique+Seux.rss", --user error (openTCPConnection: host lookup failure for "rss.wikio.fr")
   "http://sebsauvage.net/rhaa/rss_fulltext.php",
   "http://securiteoff.blogspot.com/feeds/posts/default?alt=rss",
@@ -130,12 +130,10 @@ myFeedGroups = [
   "http://techblog.netflix.com/feeds/posts/default?alt=rss",
   "http://theclimber.fritalk.com/feed/atom",
   "http://timbroder.com/feed", --404?
-  "http://tuxicoman.jesuislibre.net/feed",
   "http://ubunteros.tuxfamily.org/spip.php?page=backend",
   "http://univers-libre.net/index.php/feed/", --hangs, should timeout
   "http://vidberg.blog.lemonde.fr/feed/",
   "http://www.42experiment.org/feed/",
-   "http://www.actumaths.com/actumaths.xml", --Cannot decode byte '\x20': Data.Text.Encoding.decodeUtf8: Invalid UTF-8 stream
   "http://www.antoinebenkemoun.fr/feed/", --404?
   "http://www.archlinux.org/feeds/news/",
   "http://www.arkandis.com/feed/", --404?
@@ -152,7 +150,6 @@ myFeedGroups = [
   "http://www.generation-libre.com/feed/",
   "http://www.generation-linux.fr/index.php?feed/rss2",
   "http://www.goopilation.com/feed", --404?
-  "http://www.jesuislibre.org/backend_xml.php3",
   "http://www.labo-microsoft.com/tips/rss/",
   "http://www.larsen-b.com/feed",
   "http://www.laviemoderne.net/clapotis/feed/rss.html",
@@ -175,7 +172,7 @@ myFeedGroups = [
   "http://www.royans.net/arch/feed/", --404?
   "http://www.rue89.com/category/typepublication/pause-cafe/feed",
   "http://www.sanctuaire.fr.eu.org/rss.php",
-   "http://www.simple-it.fr/blog/index.php?feed/atom", --404?
+  "http://www.simple-it.fr/blog/index.php?feed/atom", --404?
   "http://www.smbc-comics.com/rss.php",
   "http://www.sparkleshare.org/news.xml", --404?
   "http://www.synergeek.fr/feed/",
@@ -188,4 +185,4 @@ myFeedGroups = [
   "http://xkcd.com/rss.xml",
   "http://yeknan.free.fr/dc2/index.php?feed/category/Ubuntu/atom",
   "http://zythom.blogspot.com/feeds/posts/default"
-  ])]
+  ]
