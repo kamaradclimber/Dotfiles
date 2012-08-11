@@ -9,7 +9,7 @@ BG='#000033'
 FG='#BA4DE2'
 X=160
 Y=0
-FN='-*-terminus-*-*-*-*-12-*-*-*-*-*-iso8859'
+FN='-*-Inconsolata-*-*-*-*-16-*-*-*-*-*-iso8859'
 SEP='^p(5;-2)^ro(2)^p()'
 
 # Gauges theme

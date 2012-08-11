@@ -25,6 +25,7 @@ import XMonad.Prompt
 --import XMonad.Prompt.RunOrRaise
 --import XMonad.Prompt.Shell
 import qualified XMonad.StackSet as W
+import XMonad.Util.Loggers
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Scratchpad
 import XMonad.Util.EZConfig(additionalKeys)
@@ -107,7 +108,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
     -- Toggle the status bar gap
     ((modm,                 xK_b),          sendMessage ToggleStruts),
 
-    ((modm,                 xK_z),          withFocused toggleBorder),
+    ((modm,                 xK_z),          withFocused toggleBorder ),
     ((modm,                 xK_F11),        withFocused (sendMessage . maximizeRestore)),
 
 
@@ -211,12 +212,18 @@ onNewWindow =
 -- Defines a custom handler function for X Events. The function should
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
-myEventHook = mempty
+myEventHook = docksEventHook
 
 -- {{{ Status bars and logging
 myLogHook pipe = do
     dynamicLogWithPP $ statusInfo pipe
     fadeInactiveLogHook 0.7
+
+-- myINBOX = "/home/grego/Mail/Gmail/INBOX"
+--tagL l = onLogger $ wrap (l++ ": ") ""
+--myEmails = [tagL "U" $  maildirUnread myINBOX, tagL "N"$ maildirNew myINBOX ]
+
+--myExtras = [date "%R", padL loadAvg] ++ myEmails 
 
 statusInfo pipe = defaultPP {
     ppCurrent           = dzenColor "lightblue" "#0000aa",
@@ -229,8 +236,10 @@ statusInfo pipe = defaultPP {
     ppSep               = " | ",
     ppWsSep             = " ",
     ppTitle             = dzenColor "#7777ff" "" . shorten 30,
-    ppOrder             = \(ws:_:_:_) -> [ws],
-    ppOutput            = hPutStrLn pipe }
+    ppOrder             =  \(ws:_:_:rest) -> [ws]++rest,
+    ppOutput            = hPutStrLn pipe
+--  ,  ppExtras            = myExtras
+    }
 -- }}}
 
 ------------------------------------------------------------------------
