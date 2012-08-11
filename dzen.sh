@@ -57,12 +57,11 @@ fmail() {
 }
 # }}}
 
-READER_PERIOD=240
+READER_PERIOD=20
 READER_COUNTER=0
 freader() {
-    READER2=`canto -a`
     READER=`find ~/Mail/ -type f -wholename '*/rss/new/*' | wc -l`
-    PREADER="RSS ^fg(green)$READER ($READER2)^fg()"
+    PREADER="RSS ^fg(green)$READER^fg()"
 }
 
 
