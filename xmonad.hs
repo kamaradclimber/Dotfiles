@@ -254,7 +254,8 @@ myUrgencyHook = withUrgencyHook dzenUrgencyHook { args = ["-bg", "darkgreen", "-
 
 -- {{{ Entry point
 main = do
-    dzenPipe <- spawnPipe "dzen2 -fg \"#7777aa\" -bg \"#000033\" -fn \"Inconsolata:pixelsize=16\" -ta \"l\" -expand \"r\""
+    spawn "conky -c ~/.conkyrc | dzen2 -x 500 -p -fg \"#7777aa\" -bg \"#000033\" -fn \"Inconsolata:pixelsize=16\" -ta r -expand \"r\""
+    dzenPipe <- spawnPipe "dzen2 -fg \"#7777aa\" -bg \"#000033\" -fn \"Inconsolata:pixelsize=16\" -ta \"l\" -w 480 "
     _ <- spawn myTerminal
     xmonad $ myUrgencyHook $ defaults dzenPipe
 

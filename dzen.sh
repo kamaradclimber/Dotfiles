@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Intervals in seconds
-INTERVAL=1
+INTERVAL=10
 
 # dzen2 theme
 BG='#000033'
@@ -35,7 +35,7 @@ fdate() {
 
 
 # {{{ Package upgrades
-PKG_PERIOD=3600
+PKG_PERIOD=360
 PKG_COUNTER=$PKG_PERIOD
 
 fpkg() {
@@ -46,7 +46,7 @@ fpkg() {
 # }}}
 
 # {{{ Mails
-MAIL_PERIOD=20
+MAIL_PERIOD=2
 MAIL_COUNTER=0
 
 fmail() {
@@ -57,7 +57,7 @@ fmail() {
 }
 # }}}
 
-READER_PERIOD=20
+READER_PERIOD=2
 READER_COUNTER=0
 freader() {
     READER=`find ~/Mail/ -type f -wholename '*/rss/new/*' | wc -l`
@@ -66,7 +66,7 @@ freader() {
 
 
 # {{{ Hard disk
-HDISK_PERIOD=60
+HDISK_PERIOD=6
 HDISK_COUNTER=$HDISK_PERIOD
 
 fhdisk() {
