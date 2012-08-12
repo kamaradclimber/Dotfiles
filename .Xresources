@@ -28,3 +28,9 @@ URxvt.selection.pattern-0: ([[:word:]]+)
 URxvt.colorIT:      #87af5f
 URxvt.colorBD:      #d7d7d7
 URxvt.colorUL:      #87afd7
+
+
+!dzen configuration
+dzen2.font:       Inconsolata:pixelsize=16 
+dzen2.foreground: #7777aa
+dzen2.background: #000033
