@@ -140,11 +140,18 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $ [
 -- If you change layout bindings be sure to use 'mod-shift-space' after
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
-webLayout     = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full 
-defaultLayout = webLayout 
+defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full 
+imLayout       = avoidStruts . smartBorders . windowNavigation $ kingTiled ||| Mirror tiled ||| Grid |||     Full 
 
-myLayout = onWorkspace "web" webLayout defaultLayout
+myLayout = onWorkspace "IM" imLayout defaultLayout
+
+
   
+kingTiled = Tall nmaster delta ratio
+  where
+    nmaster = 1        -- Windows in the master pane
+    ratio   = 6/8      -- Proportion of screen occupied by master pane
+    delta   = 3/100    -- Percent of screen to increment by when resizing panes
 tiled    = Tall nmaster delta ratio
   where
     nmaster = 1        -- Windows in the master pane
