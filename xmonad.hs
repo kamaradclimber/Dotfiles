@@ -250,7 +250,11 @@ statusInfo pipe = defaultPP {
 -- per-workspace layout choices.
 myStartupHook = return ()
 
-myUrgencyHook = withUrgencyHook dzenUrgencyHook { args = ["-bg", "darkgreen", "-xs", "1"] }
+myUrgencyConfig = urgencyConfig { suppressWhen = Visible, remindWhen = Repeatedly 120 60}
+myUrgencyHook = withUrgencyHookC dzenUrgencyHook { args = ["-bg", "cyan","-fg","red", "-xs", "1"] } myUrgencyConfig
+--myUrgencyHook = withUrgencyHook NoUrgencyHook 
+
+
 
 -- {{{ Entry point
 main = do
