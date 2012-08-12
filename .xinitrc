@@ -20,7 +20,7 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 
 
-feh --bg-scale /home/grego/.config/wallpapers/zombies.jpg
+feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
 xrdb -merge ~/.Xresources
 
 #no beep ever!
