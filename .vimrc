@@ -1,4 +1,4 @@
-
+colorscheme 256-jungle
 set nocompatible " Less vi-compatible, has a lot of side-effects so should be at the beginning
 
 
