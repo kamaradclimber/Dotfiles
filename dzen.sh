@@ -4,21 +4,7 @@
 INTERVAL=10
 
 # dzen2 theme
-BG='#000033'
-#FG='#3333ff'
-FG='#BA4DE2'
-X=160
-Y=0
-FN='-*-Inconsolata-*-*-*-*-16-*-*-*-*-*-iso8859'
 SEP='^p(5;-2)^ro(2)^p()'
-
-# Gauges theme
-GW=50
-GFG='#669'
-GH=8
-GBG='#333'
-
-
 
 # {{{ Date
 DATE_PERIOD=30
