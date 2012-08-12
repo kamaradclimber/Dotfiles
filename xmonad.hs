@@ -11,7 +11,7 @@ import XMonad.Config.Azerty
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.UrgencyHook hiding (DzenUrgencyHook)
 import XMonad.Layout.Accordion
 import XMonad.Layout.Decoration
 import XMonad.Layout.Grid
@@ -25,7 +25,9 @@ import XMonad.Prompt
 --import XMonad.Prompt.RunOrRaise
 --import XMonad.Prompt.Shell
 import qualified XMonad.StackSet as W
+import XMonad.Util.Dzen (dzenWithArgs, seconds)
 import XMonad.Util.Loggers
+import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Scratchpad
 import XMonad.Util.EZConfig(additionalKeys)
@@ -249,9 +251,23 @@ statusInfo pipe = defaultPP {
 -- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
 myStartupHook = return ()
+data MyUrgencyHook = MyUrgencyHook {
+                         dur :: Int, -- ^ number of microseconds to display the dzen
+                                          --   (hence, you'll probably want to use 'seconds')
+                         argss :: [String] -- ^ list of extra args (as 'String's) to pass to dzen
+                       }
+    deriving (Read, Show)
+instance UrgencyHook MyUrgencyHook where
+    urgencyHook MyUrgencyHook { dur = d, argss = a } w = do
+        name <- getName w
+        ws <- gets windowset
+        whenJust (W.findTag w ws) (flash name)
+      where flash name index =
+                  dzenWithArgs (show name ++ " (go to " ++ index++")") a d
+myDzenUrgencyHook = MyUrgencyHook {dur = seconds 5, argss = ["-bg", "cyan","-fg","red", "-xs", "1", "-x", "100", "-w", "300"] }
 
 myUrgencyConfig = urgencyConfig { suppressWhen = Visible, remindWhen = Repeatedly 120 60}
-myUrgencyHook = withUrgencyHookC dzenUrgencyHook { args = ["-bg", "cyan","-fg","red", "-xs", "1"] } myUrgencyConfig
+myUrgencyHook = withUrgencyHookC myDzenUrgencyHook myUrgencyConfig
 --myUrgencyHook = withUrgencyHook NoUrgencyHook 
 
 
