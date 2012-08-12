@@ -133,6 +133,7 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://ubunteros.tuxfamily.org/spip.php?page=backend",
   "http://univers-libre.net/index.php/feed/", --hangs, should timeout
   "http://vidberg.blog.lemonde.fr/feed/",
+  "http://what-if.xkcd.com/feed.atom",
   "http://www.42experiment.org/feed/",
   "http://www.antoinebenkemoun.fr/feed/", --404?
   "http://www.archlinux.org/feeds/news/",
