@@ -30,10 +30,6 @@ fdate() {
 }
 # }}}
 
-
-
-
-
 # {{{ Package upgrades
 PKG_PERIOD=360
 PKG_COUNTER=$PKG_PERIOD
@@ -51,8 +47,6 @@ MAIL_COUNTER=0
 
 fmail() {
     MAILS=`find ~/Mail/ -type f -wholename '*/INBOX/new/*' | wc -l`
-    #MAIL2=`find ~/Mail/ -type f -regex '*/.*/cur/.*2,[^S]*$' | wc -l`
-
     PMAIL="MAIL ^fg(green)$MAILS^fg()"
 }
 # }}}
@@ -77,6 +71,15 @@ fhdisk() {
 }
 # }}}
 
+TODOS_PERIOD=12
+TODOS_COUNTER=11
+todos() {
+    if [ -f ~/todo ]
+    then
+        td=`grep  -c ^- ~/todo`
+        TODOS="todos :^fg(green)$td^fg()"
+    fi
+}
 
 
 while true; do
@@ -104,8 +107,13 @@ while true; do
      HDISK_COUNTER=0
    fi
 
+   if [ $TODOS_COUNTER -ge $TODOS_PERIOD ]; then
+     todos
+     TODOS_COUNTER=0
+   fi
+
    
-   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} "
+   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} $SEP ${TODOS}"
    
    DATE_COUNTER=$((DATE_COUNTER+1))
    CPU_COUNTER=$((CPU_COUNTER+1))
@@ -114,6 +122,7 @@ while true; do
    READER_COUNTER=$((READER_COUNTER+1))
    HDISK_COUNTER=$((HDISK_COUNTER+1))
    TEMP_COUNTER=$((TEMP_COUNTER+1))
+   TODOS_COUNTER=$((TODOS_COUNTER+1))
    
    sleep $INTERVAL
-done | dzen2 -ta l -e r -y $Y -x $X -fg $FG -bg $BG -fn $FN 
+done 
