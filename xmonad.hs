@@ -41,7 +41,7 @@ import System.IO
 
 myTerminal           = "urxvt"
 myBrowser            = "chromium"
-myWorkspaces         = map show [1..9]
+myWorkspaces         = map show [1..8] ++ ["IM"]
 
 myBorderWidth        = 1
 myNormalBorderColor  = "#dddddd"
@@ -151,21 +151,6 @@ tiled    = Tall nmaster delta ratio
     ratio   = 1/2      -- Proportion of screen occupied by master pane
     delta   = 3/100    -- Percent of screen to increment by when resizing panes
 stack    = StackTile 1 (3/100) (1/2)
-
-tabTheme = Theme {
-    activeColor         = "#000077",
-    inactiveColor       = "#000000",
-    urgentColor         = "#770000",
-    activeBorderColor   = "#000077",
-    inactiveBorderColor = "#111111",
-    urgentBorderColor   = "#777700",
-    activeTextColor     = "#ffffff",
-    inactiveTextColor   = "#aaaaaa",
-    urgentTextColor     = "#ffff00",
-    fontName            = "xft:Inconsolata:pixelsize=14",
-    decoWidth           = 200,
-    decoHeight          = 20
-    }
 -- }}}
 
 -- {{{ Window rules
@@ -188,7 +173,8 @@ ignoredWindows = composeAll [
     resource  =? "kdesktop"       --> doIgnore ]
 
 moveToWorkspace = composeAll [
-    resource =?  "Chromium"  --> doF (W.shift "web") ]
+    resource =?  "Pidgin"  --> doF (W.shift "IM")
+     ]
 
 manageScratchPad :: ManageHook
 manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
