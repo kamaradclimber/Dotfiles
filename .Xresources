@@ -34,3 +34,7 @@ URxvt.colorUL:      #87afd7
 dzen2.font:       Inconsolata:pixelsize=16 
 dzen2.foreground: #7777aa
 dzen2.background: #000033
+
+
+! urxvt set urgent when there is a bell
+URxvt.urgentOnBell : true
