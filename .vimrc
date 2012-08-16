@@ -1,3 +1,5 @@
+colorscheme 256-jungle
+
 set history=300
 set nocompatible
 
