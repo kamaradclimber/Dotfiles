@@ -20,7 +20,6 @@ augroup filetypedetect
     autocmd FileType java,sh set sw=2 sts=2
 augroup END 
 
-" set mouse=a
 set autoread
 
 " Allow backspacing anytime
@@ -80,7 +79,6 @@ function! CurDir()
     let curdir = substitute(getcwd(), "/home/grego", "~/", "g")
     return curdir
 endfunction
-
 
 if !empty(system("setxkbmap -print|grep bepo"))
     " movement keys
