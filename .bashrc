@@ -76,7 +76,7 @@ complete -cf man
 
 __ssh_known_hosts() {
     if [[ -f ~/.ssh/known_hosts ]]; then
-        cut -d " " -f1 ~/.ssh/known_hosts | cut -d "," -f1
+      cut -d " " -f1 ~/.ssh/known_hosts | cut -d "," -f1 |sed 's/\[\|\]\|\(:[0-9]*\)//g'
     fi
 }
 
