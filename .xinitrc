@@ -20,7 +20,6 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 
 
-feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
 xrdb -merge ~/.Xresources
 
 #no beep ever!
@@ -29,6 +28,7 @@ xset -b
 #~/.dotfiles/dzen.sh &
 ~/.dotfiles/set_dualscreen_on.sh &
 
+feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
 
 xsetroot -cursor_name left_ptr
 exec xmonad
