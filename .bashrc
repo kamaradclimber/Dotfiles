@@ -31,10 +31,16 @@ alias conflicts="git ls-files --unmerged | cut -f2 | uniq"
 
 # privileged access
 if [ $UID -ne 0 ]; then
-    alias sudo='sudo '
-    alias suvim='sudo vim'
+  alias sudo='sudo '
+  alias suvim='sudo vim'
+  if [ -n "$SSH_CLIENT" ]; then
+    alias halt='echo "No you do not want to do that. Other wise please use /usr/bin/halt'
+    alias reboot='echo "No you do not want to do that. Other wise please use /usr/bin/reboot'
+    alias shutdown='echo "No you do not want to do that. Other wise please use /usr/bin/shutdown'
+  else
     alias reboot='sudo reboot'
     alias halt='sudo halt'
+  fi
 fi
 
 # ls

@@ -21,12 +21,9 @@ set visible-stats on
 
 
 $if Bash
-  # F10 toggles mc on and off
-  # Note Ctrl-o toggles panes on and off in mc
-  "\e[21~": "mc\C-M"
-
   #do history expansion when space entered
   Space: magic-space
+  #set editing-mode vi
 $endif
 
 # Include system wide settings which are ignored

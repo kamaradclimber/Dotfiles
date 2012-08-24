@@ -20,7 +20,7 @@ augroup filetypedetect
     autocmd FileType java,sh set sw=2 sts=2
 augroup END 
 
-set mouse=a
+" set mouse=a
 set autoread
 
 " Allow backspacing anytime
