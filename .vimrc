@@ -1,4 +1,4 @@
-colorscheme 256-jungle
+silent! colorscheme 256-jungle
 
 set history=300
 set nocompatible
