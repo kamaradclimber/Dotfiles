@@ -3,4 +3,5 @@
 video/*;        vlc %s > /dev/null
 image/*;        feh %s > /dev/null
 text/html; elinks -dump -dump-color-mode 1 -dump-charset utf-8 -default-mime-type text/html %s; copiousoutput;
+pdf/*; zathura %s > /dev/null
 

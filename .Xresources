@@ -20,7 +20,6 @@ URxvt*transparent: true
  URxvt.underlineURLs: true
 
 
-
 ! selection  is more clever : first one word and then extend 
 URxvt.selection.pattern-0: ([[:word:]]+)
 
