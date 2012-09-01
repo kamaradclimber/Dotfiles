@@ -14,11 +14,10 @@ URxvt*transparent: true
 
 
 ! !yankable urls
- URxvt.perl-ext:      default,url-select
- URxvt.keysym.M-u:    perl:url-select:select_next
- URxvt.urlLauncher:   chromium
- URxvt.underlineURLs: true
-
+URxvt.perl-ext-common:      default,url-select
+URxvt.url-select.launcher:  /usr/bin/chromium
+URxvt.url-select.underline: true
+URxvt.keysym.M-u:           perl:url-select:select_next
 
 ! selection  is more clever : first one word and then extend 
 URxvt.selection.pattern-0: ([[:word:]]+)
