@@ -7,7 +7,7 @@ INTERVAL=10
 SEP='^p(5;-2)^ro(2)^p()'
 
 # {{{ Date
-DATE_PERIOD=30
+DATE_PERIOD=3
 DATE_COUNTER=$DATE_PERIOD;
 
 fdate() {
