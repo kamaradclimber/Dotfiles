@@ -57,6 +57,10 @@ alias lz='ll -rS'                   # sort by size
 alias lt='ll -rt'                   # sort by date
 alias lm='la | more'
 
+#use colors
+if [ -f ~/.dircolors ]; then
+  eval `dircolors ~/.dircolors`
+fi
 
 #As a reminder of common commands for pacman, let this aliases here even if unused
 # pacman aliases (if applicable, replace 'pacman' with 'yaourt'/'pacaur'/whatever)
