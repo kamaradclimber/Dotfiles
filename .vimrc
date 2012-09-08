@@ -80,3 +80,21 @@ function! CurDir()
     let curdir = substitute(getcwd(), "/home/grego", "~/", "g")
     return curdir
 endfunction
+
+
+if !empty(system("setxkbmap -print|grep bepo"))
+    " movement keys
+    noremap c h
+    noremap r l
+    noremap t j
+    noremap s k
+    noremap C H
+    noremap R L
+    noremap T J
+    noremap S K
+    " easier page up/down 
+    noremap <BS> <PageUp>
+    noremap <Space> <PageDown>
+    " enter to center cursor
+    noremap <Return> zz
+endif
