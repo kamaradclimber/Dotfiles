@@ -39,6 +39,7 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://blog.lefigaro.fr/flux.php?blog=19", --404?
   "http://blog.lefigaro.fr/flux.php?blog=32",--404?
   "http://blog.nicolargo.com/feed", --404?
+  "http://blog.notdot.net/feeds/atom.xml",
   "http://blog.opensyd.fr/feed/", -- user error (openTCPConnection: host lookup failure for "blog.opensyd.fr")
   "http://blog.theclimber.be/?feed/category/Alpinisme-et-escalade/atom",
   "http://blog.theclimber.be/?feed/category/Informatique/atom",
@@ -100,6 +101,7 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://linuxfr.org/journaux.atom",
   "http://linuxfr.org/news.atom",
   "http://linuxmanua.blogspot.com/feeds/posts/default",
+  "http://makeapowerfulpoint.com/feed/",
   "http://marie-issy-munich.blogspot.com/feeds/posts/default?alt=rss",
   "http://mauvaisgout.net/feed",
   "http://medspx.homelinux.org/blog/index.rss20",
