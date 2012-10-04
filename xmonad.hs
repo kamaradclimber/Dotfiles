@@ -31,6 +31,7 @@ import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Scratchpad
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.Themes
 
 import qualified Data.Map as M
 import Data.Monoid
@@ -145,11 +146,14 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $ [
 -- If you change layout bindings be sure to use 'mod-shift-space' after
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
-defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full 
+defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout
 imLayout       = avoidStruts . smartBorders . windowNavigation $ kingTiled ||| Mirror tiled ||| Grid |||     Full 
+
 
 myLayout = onWorkspace "IM" imLayout defaultLayout
 
+myTabConfig = theme kavonForestTheme 
+myTabLayout = tabbed shrinkText myTabConfig
 
   
 kingTiled = Tall nmaster delta ratio
