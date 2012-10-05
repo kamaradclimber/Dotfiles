@@ -153,6 +153,7 @@ NORM="\[\e[00m\]"
 
 if [ -n "$SSH_CLIENT" ]; then
     export PS1="[\t] ${RED}\u${NORM}${CYAN}\h${NORM}:${YELLOW}\w${NORM} >"
+    export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
   else
     export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
 fi
