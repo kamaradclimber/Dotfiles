@@ -12,6 +12,7 @@ Video :
 
 
 Toobox:
+- aura :  a package manager written in haskell 
 - explore : https://github.com/trapd00r/utils for usable tools
 - http://www.aichler.net/fileutils/ progress bar in cp, rm, mv...
 - http://sup.rubyforge.org/ un remplacant pour mutt
