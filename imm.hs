@@ -40,7 +40,6 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://blog.lefigaro.fr/flux.php?blog=32",--404?
   "http://blog.nicolargo.com/feed", --404?
   "http://blog.notdot.net/feeds/atom.xml",
-  "http://blog.opensyd.fr/feed/", -- user error (openTCPConnection: host lookup failure for "blog.opensyd.fr")
   "http://blog.theclimber.be/?feed/category/Informatique/atom",
   "http://blogs.valvesoftware.com/feed/?cat=7",
   "http://blog.xkcd.com/feed/",
@@ -90,7 +89,6 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://kevin-simon.fr/shaarli/?do=dailyrss",
   "http://kindlewallpapers.tumblr.com/rss",
   "http://lemire.me/blog/feed/",
-  "http://libre-ouvert.toile-libre.org/feed.php?rss",
   "http://linux-attitude.fr/feed",
   "http://linux-attitude.fr/feed/atom",
   "http://linux.leunen.com/?feed=rss2&cat=15",
@@ -101,7 +99,6 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://makeapowerfulpoint.com/feed/",
   "http://marie-issy-munich.blogspot.com/feeds/posts/default?alt=rss",
   "http://mauvaisgout.net/feed",
-  "http://medspx.homelinux.org/blog/index.rss20",
   "http://michel-eudes.net/blog/rss.php", --Cannot decode byte '\x6c': Data.Text.Encoding.decodeUtf8: Invalid UTF-8 stream
   "http://montmartre-altitude.blogspot.com/feeds/posts/default?alt=rss",
   "http://mrpouit.free.fr/?feed=rss2", -- 404?
@@ -119,7 +116,6 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://preshing.com/feed",
   "http://rats-bleus.blogspot.com/feeds/posts/default?alt=rss",
   "http://reyt.net/feed/", -- 404?
-  "http://rss.wikio.fr/search/Dominique+Seux.rss", --user error (openTCPConnection: host lookup failure for "rss.wikio.fr")
   "http://sebsauvage.net/rhaa/rss_fulltext.php",
   "http://securiteoff.blogspot.com/feeds/posts/default?alt=rss",
   "http://spikedmath.com/atom.xml",
@@ -135,12 +131,10 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://ubunteros.tuxfamily.org/spip.php?page=backend",
   "http://vidberg.blog.lemonde.fr/feed/",
   "http://what-if.xkcd.com/feed.atom",
-  "http://www.42experiment.org/feed/",
   "http://www.antoinebenkemoun.fr/feed/", --404?
   "http://www.archlinux.org/feeds/news/",
   "http://www.arkandis.com/feed/", --404?
   "http://www.christian-faure.net/feed/", --404?
-  "http://www.clapico.com/feed/",
   "http://www.croc-informatique.fr/feed/",
   "http://www.cyrille-borne.com/index.php?feed/atom",
   "http://www.diaryofaninja.com/rss/main",
@@ -152,8 +146,6 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://www.goopilation.com/feed", --404?
   "http://www.labo-microsoft.com/tips/rss/",
   "http://www.larsen-b.com/feed",
-  "http://www.laviemoderne.net/clapotis/feed/rss.html",
-  "http://www.laviemoderne.net/lames-de-fond/feed/rss.html",
   "http://www.linux-mag.com/feed/",
   "http://www.linuxjournal.com/node/feed", --404?
   "http://www.mangetamain.fr/feed",
