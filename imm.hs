@@ -24,7 +24,8 @@ myConf = zip (repeat mySettings) feeds
 
  
 feeds =  ["http://planet.haskell.org/rss20.xml",
- "http://www.roc14.org/component/ninjarsssyndicator/?feed_id=2",
+  "http://familleseux.net/public/static/example.rss",
+  "http://www.roc14.org/component/ninjarsssyndicator/?feed_id=2",
   "http://about-gnulinux.info/dotclear/index.php?feed/atom",
   "http://abstrusegoose.com/feed",
   "http://alan.petitepomme.net/cwn/cwn.rss", -- cannot parse date
@@ -112,6 +113,7 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://planet-fr.debian.net/rss20.xml",
   "http://planet.archlinux.org/atom.xml",
   "http://planet.auto-hebergement.fr/feed.php?type=rss",
+  "http://planet.mongodb.org/recent.atom",
   "http://playtime.blog.lemonde.fr/feed/",
   "http://preshing.com/feed",
   "http://rats-bleus.blogspot.com/feeds/posts/default?alt=rss",
@@ -168,7 +170,6 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://www.think-underground.com/feed/atom",
   "http://www.unpeud.info/component/content/frontpage/frontpage?format=feed&type=rss",
   "http://www.webmonkey.com/feed/",
-  "http://xaviergorce.com/?feed=rss2", --404?
   "http://xkcd.com/rss.xml",
   "http://yeknan.free.fr/dc2/index.php?feed/category/Ubuntu/atom",
   "http://zythom.blogspot.com/feeds/posts/default"

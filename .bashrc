@@ -158,7 +158,7 @@ if [ -n "$SSH_CLIENT" ]; then
     export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
 fi
 
-export PATH=~/.gem/ruby/1.9.1/bin:$PATH
+export PATH=~/.cabal/bin:~/.gem/ruby/1.9.1/bin:$PATH
 
 
 ###
