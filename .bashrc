@@ -30,6 +30,7 @@ alias conflicts="git ls-files --unmerged | cut -f2 | uniq"
 
 #probably most used command ever :-)
 alias kk='ps aux |grep '
+alias pg='kk'
 
 # privileged access
 if [ $UID -ne 0 ]; then

@@ -10,3 +10,8 @@ Host github.com
 HostName github.com
 User git
 IdentityFile ~/.ssh/gregoire@familleseux.com
+
+Host bidounet
+HostName bidounet
+User grego
+
