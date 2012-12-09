@@ -72,7 +72,7 @@ myModMask = mod4Mask
 
 
 -- {{{ Key bindings
-myKeys = \c -> bepoKeys c `M.union` generalKeys c 
+myKeys = \c -> bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c 
 
 bepoKeys conf@(XConfig {modMask = modm}) = M.fromList $
     [((modm, xK_semicolon), sendMessage (IncMasterN (-1)))]

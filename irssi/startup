@@ -1,0 +1,2 @@
+load xmpp
+xmppconnect -host talk.criteo.com -ssl g.seux@criteo.com/croco
