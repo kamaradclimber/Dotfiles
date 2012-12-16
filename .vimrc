@@ -96,3 +96,5 @@ if !empty(system("setxkbmap -print|grep bepo"))
     " enter to center cursor
     noremap <Return> zz
 endif
+
+autocmd BufRead /tmp/mutt*  :source ~/.mail.vim

@@ -5,7 +5,12 @@ set mbox = "+archive"
 set postponed ="+drafts"
 unset record
 
+# Smtp configuration
 set sendmail = /usr/bin/msmtp
+set use_from=yes
+set realname ="Gregoire Seux"
+set envelope_from=yes
+#see man msmtp for more information 
 
 # mailboxes
 mailboxes +INBOX  +[Gmail].Sent_Mail +[Gmail].Drafts  +[Gmail].All_Mail +rss
@@ -22,9 +27,7 @@ macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlview'
 
 
 # main options
-set realname            = "Gregoire Seux"                   # who am i?
 set from                = "kamaradclimber@gmail.com"              # who am i?
-set envelope_from                                       # which from?
 set mail_check          = 0                             # check for mail always
 unset move                                              # gmail does that
 set delete                                              # don't ask, just do
