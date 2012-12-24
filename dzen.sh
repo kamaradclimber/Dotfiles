@@ -63,7 +63,8 @@ todos() {
     if [ -f ~/todo ]
     then
         td=`grep  -c ^- ~/todo`
-        TODOS="todos :^fg(green)$td^fg()"
+        exToDo=`grep ^- ~/todo | shuf -n 1 | cut -c -50 |sed 's/^-\b?//'`
+        TODOS="todos :^fg(green)$td^fg() $exToDo"
     fi
 }
 
