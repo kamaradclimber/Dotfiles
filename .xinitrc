@@ -25,11 +25,18 @@ xrdb -merge ~/.Xresources
 #no beep ever!
 xset -b
 
-feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
-~/.dotfiles/dzen.sh &
+#~/.dotfiles/dzen.sh &
 #~/.dotfiles/set_dualscreen_on.sh &
 
-VBoxClient-all &
+if [ $(uname -n) == "crocodile" ]; then
+  VBoxClient-all &
+fi
+
+if [ -f /usr/bin/numlockx ]; then
+   numlockx &
+fi
+
+feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
 
 xsetroot -cursor_name left_ptr
 exec xmonad
