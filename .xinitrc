@@ -26,7 +26,11 @@ xrdb -merge ~/.Xresources
 xset -b
 
 #~/.dotfiles/dzen.sh &
-~/.dotfiles/set_dualscreen_on.sh &
+#~/.dotfiles/set_dualscreen_on.sh &
+
+if [ -f /usr/bin/numlockx ]; then
+  numlockx &
+fi
 
 feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
 
