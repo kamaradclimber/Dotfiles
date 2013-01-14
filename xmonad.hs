@@ -86,6 +86,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
     ((modm,                 xK_Return),     spawn $ XMonad.terminal conf),
     ((modm,                 xK_a),     scratchpadSpawnActionTerminal $ XMonad.terminal conf),
     ((modm,                 xK_c),          spawn myBrowser),
+    ((modm,                 xK_l),          spawn "xlock"),
     ((modm,                 xK_F4),         kill),
 
     -- Layouts
