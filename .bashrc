@@ -12,14 +12,15 @@ export BROWSER=chromium
 
 
 # modified commands
-alias diff='colordiff'              # requires colordiff package
+command -v colordiff >/dev/null 2>&1 && alias diff='colordiff'              # requires colordiff package
 alias grep='grep --color=auto'
 alias more='less'
 alias df='df -h'
 alias du='du -c -h'
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
-alias top='htop'
+command -v htop >/dev/null 2>&1 && alias top='htop'
+
 alias gti='git'                     # alias because of frequent typo
 alias m='mutt'
 alias ssh="TERM=xterm ssh"
