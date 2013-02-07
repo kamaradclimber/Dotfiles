@@ -43,7 +43,7 @@ import System.IO
 
 myTerminal           = "urxvt"
 myBrowser            = "chromium"
-myWorkspaces         = map show [1..8] ++ ["IM"]
+myWorkspaces         = map show [1..7] ++ ["MAIL", "IM"]
 
 myBorderWidth        = 1
 myNormalBorderColor  = "#dddddd"
@@ -187,11 +187,13 @@ floatingWindows = composeAll [
     className =? "Gimp"           --> doFloat]
     
 ignoredWindows = composeAll [
-    resource  =? "desktop_window" --> doIgnore,
-    resource  =? "kdesktop"       --> doIgnore ]
+--    resource  =? "desktop_window" --> doIgnore
+    ]
 
 moveToWorkspace = composeAll [
-    resource =?  "Pidgin"  --> doF (W.shift "IM")
+    resource =?  "Pidgin"  --> doF (W.shift "IM"),
+    --className =? "rdesktop" --> doF (W.shift "8")
+    className =? "Thunderbird" --> doF (W.shift "MAIL")
      ]
 
 manageScratchPad :: ManageHook
@@ -278,8 +280,8 @@ myUrgencyHook = withUrgencyHookC myDzenUrgencyHook myUrgencyConfig
 
 -- {{{ Entry point
 main = do
-    spawn "~/.dotfiles/dzen.sh | dzen2 -x 500 -p  -ta r -expand \"r\""
-    dzenPipe <- spawnPipe "dzen2 -ta \"l\" -w 480 "
+    spawn "~/.dotfiles/dzen.sh | dzen2 -xs 1 -x 500 -p  -ta r -expand \"r\""
+    dzenPipe <- spawnPipe "dzen2 -xs 1 -ta \"l\" -w 480 "
     _ <- spawn myTerminal
     xmonad $ myUrgencyHook $ defaults dzenPipe
 
