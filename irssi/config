@@ -8,6 +8,7 @@ settings = {
   "fe-common/core" = {
     bell_beeps = "yes";
     beep_msg_level = "MSGS DCC DCCMSGS HILIGHT";
+    autolog = "yes";
   };
 };
 keyboard = (
