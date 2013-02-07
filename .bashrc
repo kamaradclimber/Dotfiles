@@ -132,6 +132,7 @@ man() {
 #history management
 export HISTIGNORE="&:ls:[bf]g:exit:*halt:*reboot" # ignore bg,fg,exit, ls without arguments  + does not remember of commands starting with spaces
 export HISTCONTROL=ingorespace:erasedups
+alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
 
 

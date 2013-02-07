@@ -17,8 +17,7 @@ set completion-ignore-case on
 set visible-stats on 
 #when using completion, puts / after directories and * after executables
 
-
-
+set menu-complete-display-prefix on
 
 $if Bash
   #do history expansion when space entered
