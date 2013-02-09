@@ -113,6 +113,8 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
     ((modm,                 xK_Right),         sendMessage Expand),
     -- Push window back into tiling
     ((modm .|. shiftMask,   xK_t),          withFocused $ windows . W.sink),
+--    ((modm,                 xK_Up),         nextWS),
+--    ((modm,                 xK_Down),       prevWS),
 
 
     -- Toggle the status bar gap
