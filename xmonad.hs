@@ -81,50 +81,51 @@ bepoKeys conf@(XConfig {modMask = modm}) = M.fromList $
                     | (i, k) <- zip (workspaces conf) [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a],
                               (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
 
+--Don't forget to describe each command
 generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
     -- Spawn programs
-    ((modm,                 xK_Return),     spawn $ XMonad.terminal conf),
-    ((modm,                 xK_a),     scratchpadSpawnActionTerminal $ XMonad.terminal conf),
-    ((modm,                 xK_c),          spawn myBrowser),
-    ((modm,                 xK_l),          spawn "xlock"),
-    ((modm,                 xK_F4),         kill),
+    ((modm,                 xK_F1),  spawn "~/.dotfiles/keybinding_recall.sh"), --the famous help
+    ((modm,                 xK_Return),     spawn $ XMonad.terminal conf), --new terminal
+    ((modm,                 xK_a),     scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
+    ((modm,                 xK_c),          spawn myBrowser), --browser
+    ((modm,                 xK_l),          spawn "xlock"), --lock screen
+    ((modm,                 xK_F4),         kill), --kill current window
 
     -- Layouts
-    ((modm,                 xK_space),      sendMessage NextLayout),
-    ((modm .|. shiftMask,   xK_space),      setLayout $ XMonad.layoutHook conf),
-    ((modm,                 xK_n),          refresh),
+    ((modm,                 xK_space),      sendMessage NextLayout), --next Layout
+    ((modm .|. shiftMask,   xK_space),      setLayout $ XMonad.layoutHook conf), --reset layout
+    --((modm,                 xK_n),          refresh), 
 
 
     -- Focus
-    ((modm,                 xK_Tab),        windows W.focusDown),
-    ((modm,                 xK_Page_Down),  windows W.focusDown),
-    ((modm,                 xK_Page_Up),    windows W.focusUp),
+    ((modm,                 xK_Tab),        windows W.focusDown), --the famous alt-tab equivalent
+    --((modm,                 xK_Page_Down),  windows W.focusDown), -- unfocus windows
+    --((modm,                 xK_Page_Up),    windows W.focusUp), --refocus windows
     --((modm,                 xK_m),          windows W.focusMaster),
-    ((modm              ,   xK_u),          focusUrgent),
+    ((modm              ,   xK_u),          focusUrgent), --go to the (last?) urgent windows
 
     -- Swap focused window
     --((modm,                 xK_Return),     windows W.swapMaster),
     --((modm .|. shiftMask,   xK_j     ),     windows W.swapDown  ),
     --((modm .|. shiftMask,   xK_k     ),     windows W.swapUp    ),
-    ((modm .|. shiftMask,     xK_Return), dwmpromote),
+    ((modm .|. shiftMask,     xK_Return), dwmpromote), --move windows to master area
 
     -- Resize
-    ((modm,                 xK_Left),       sendMessage Shrink),
-    ((modm,                 xK_Right),         sendMessage Expand),
-    -- Push window back into tiling
-    ((modm .|. shiftMask,   xK_t),          withFocused $ windows . W.sink),
+    ((modm,                 xK_Left),       sendMessage Shrink), --shrink master area
+    ((modm,                 xK_Right),         sendMessage Expand), --expand master area
+    ((modm .|. shiftMask,   xK_t),          withFocused $ windows . W.sink), --push window back into tiling
 --    ((modm,                 xK_Up),         nextWS),
 --    ((modm,                 xK_Down),       prevWS),
 
 
     -- Toggle the status bar gap
-    ((modm,                 xK_b),          sendMessage ToggleStruts),
+    ((modm,                 xK_b),          sendMessage ToggleStruts), --toggle status bar gap
 
-    ((modm,                 xK_z),          withFocused toggleBorder ),
-    ((modm,                 xK_F11),        withFocused (sendMessage . maximizeRestore)),
+    ((modm,                 xK_z),          withFocused toggleBorder ), --toggle window border
+    ((modm,                 xK_F11),        withFocused (sendMessage . maximizeRestore)), -- ?
 
-    ((modm .|. shiftMask,   xK_q),          io (exitWith ExitSuccess)),
-    ((modm              ,   xK_F5),         spawn "xmonad --recompile; xmonad --restart")
+    ((modm .|. shiftMask,   xK_q),          io (exitWith ExitSuccess)), --leave xmonad
+    ((modm              ,   xK_F5),         spawn "xmonad --recompile; xmonad --restart") --apply modif
     ] 
     -- }}}
 
