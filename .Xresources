@@ -7,7 +7,7 @@ URxvt*transparent: true
 ! scrollbar style - rxvt (default), plain (most compact), next, or xterm
  URxvt*scrollstyle:plain 
 
- URxvt.font:  xft:inconsolata:size=10
+ URxvt.font:  xft:inconsolata:size=13
 
 ! use inverse colors for dark backgrounds
  URxvt.reverseVideo: True
