@@ -6,7 +6,6 @@ set nocompatible
 ":W ask for sudo password to save the file
 command W w !sudo tee % > /dev/null  
 
-filetype on
 filetype plugin indent on
 
 
