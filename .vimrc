@@ -8,15 +8,13 @@ command W w !sudo tee % > /dev/null
 
 filetype plugin indent on
 
-
 set t_Co=256
 syntax enable
-"set background=dark
 set background&  "adapt background automatically.
 
 augroup filetypedetect 
     autocmd FileType ruby,eruby,yaml set sw=2 sts=2
-    autocmd FileType java,sh set sw=2 sts=2
+    autocmd FileType java,sh,haskell set sw=2 sts=2
 augroup END 
 
 set autoread
@@ -35,7 +33,7 @@ set mat=2       "How many tenths of a second to blink
 
 " No sound on errors
 set noerrorbells
-set novisualbell
+set visualbell
 
 set encoding=utf8
 try
