@@ -150,7 +150,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $ [
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
 threeColumns = ThreeCol 1 (3/100) (1/2)
-defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout ||| threeColumn ||| Mirror threeColumn
+defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout ||| threeColumns ||| Mirror threeColumns
 imLayout       = avoidStruts . smartBorders . windowNavigation $ kingTiled ||| Mirror tiled ||| Grid |||     Full 
 
 
@@ -186,11 +186,17 @@ stack    = StackTile 1 (3/100) (1/2)
 -- 'className' and 'resource' are used below.
 floatingWindows = composeAll [
     --className =? "MPlayer"        --> doFloat,
-    className =? "Gimp"           --> doFloat]
+    --className =? "Gimp"           --> doFloat
+    ]
     
 ignoredWindows = composeAll [
---    resource  =? "desktop_window" --> doIgnore
+--    resource  =? "desktop_window" --> doIgnore    
     ]
+
+noFocusWindows = composeAll [
+     role =? "browser"   --> doF W.focusDown
+    ]
+    where role = stringProperty "WM_WINDOW_ROLE"
 
 moveToWorkspace = composeAll [
     resource =?  "Pidgin"  --> doF (W.shift "IM"),
@@ -211,7 +217,8 @@ onNewWindow =
     floatingWindows <+>
     ignoredWindows <+>
     moveToWorkspace <+>
-    manageScratchPad
+    manageScratchPad <+>
+    noFocusWindows
 -- }}}
 
 ------------------------------------------------------------------------
