@@ -51,8 +51,6 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 
-set linebreak
-set textwidth=80
 
 " Auto-wrap comments and allow "gq" formatting
 " Trailing white space indicates a paragraph continues in the next line. 
@@ -62,7 +60,9 @@ set formatoptions=cqw
 " Autoindent and wrap lines
 set autoindent
 set smartindent
-set wrap
+set wrap "only change text display
+set linebreak "only change text display (line break are smarter)
+"set textwidth=80 "actually breaks line
 
 " Line numbers
 set number
