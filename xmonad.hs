@@ -1,8 +1,6 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 
--- {{{ Imports
 import XMonad
-import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.CycleWS
 import XMonad.Actions.DwmPromote
 import XMonad.Actions.FindEmptyWorkspace
@@ -23,23 +21,21 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
---import XMonad.Prompt.RunOrRaise
---import XMonad.Prompt.Shell
-import qualified XMonad.StackSet as W
 import XMonad.Util.Dzen (dzenWithArgs, seconds)
+import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Loggers
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Scratchpad
-import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Themes
+import qualified XMonad.Actions.ConstrainedResize as Sqr
+import qualified XMonad.StackSet as W
 
 import qualified Data.Map as M
 import Data.Monoid
 
 import System.Exit
 import System.IO
--- }}}
 
 myTerminal           = "urxvt"
 myBrowser            = "chromium"
@@ -72,17 +68,13 @@ myModMask = mod4Mask
 --
 
 
--- {{{ Key bindings
-myKeys = \c -> bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c 
-bepoKeys conf@(XConfig {modMask = modm}) = M.fromList $
-    [((modm, xK_semicolon), sendMessage (IncMasterN (-1)))]
-        ++
-            [((m .|. modm, k), windows $ f i)
-                    | (i, k) <- zip (workspaces conf) [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a],
-                              (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+myKeys c = bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c 
+bepoKeys conf@(XConfig {modMask = modm}) = M.fromList [
+  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a],
+   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
 
 --Don't forget to describe each command
-generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
+generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     -- Spawn programs
     ((modm,                 xK_F1),  spawn "~/.dotfiles/keybinding_recall.sh"), --the famous help
     ((modm,                 xK_Return),     spawn $ XMonad.terminal conf), --new terminal
@@ -99,24 +91,15 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
 
     -- Focus
     ((modm,                 xK_Tab),        windows W.focusDown), --the famous alt-tab equivalent
-    --((modm,                 xK_Page_Down),  windows W.focusDown), -- unfocus windows
-    --((modm,                 xK_Page_Up),    windows W.focusUp), --refocus windows
-    --((modm,                 xK_m),          windows W.focusMaster),
     ((modm              ,   xK_u),          focusUrgent), --go to the (last?) urgent windows
 
     -- Swap focused window
-    --((modm,                 xK_Return),     windows W.swapMaster),
-    --((modm .|. shiftMask,   xK_j     ),     windows W.swapDown  ),
-    --((modm .|. shiftMask,   xK_k     ),     windows W.swapUp    ),
     ((modm .|. shiftMask,     xK_Return), dwmpromote), --move windows to master area
 
     -- Resize
     ((modm,                 xK_Left),       sendMessage Shrink), --shrink master area
     ((modm,                 xK_Right),         sendMessage Expand), --expand master area
     ((modm .|. shiftMask,   xK_t),          withFocused $ windows . W.sink), --push window back into tiling
---    ((modm,                 xK_Up),         nextWS),
---    ((modm,                 xK_Down),       prevWS),
-
 
     -- Toggle the status bar gap
     ((modm,                 xK_b),          sendMessage ToggleStruts), --toggle status bar gap
@@ -124,57 +107,46 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList $ [
     ((modm,                 xK_z),          withFocused toggleBorder ), --toggle window border
     ((modm,                 xK_F11),        withFocused (sendMessage . maximizeRestore)), -- ?
 
-    ((modm .|. shiftMask,   xK_q),          io (exitWith ExitSuccess)), --leave xmonad
+    ((modm .|. shiftMask,   xK_q),          io exitSuccess), --leave xmonad
     ((modm              ,   xK_F5),         spawn "xmonad --recompile; xmonad --restart") --apply modif
     ] 
-    -- }}}
 
--- {{{ Mouse bindings
-myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $ [
+myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList [
     -- mod-button1, Set the window to floating mode and move by dragging
-    ((modm, button1), (\w -> focus w >> mouseMoveWindow w
-                                       >> windows W.shiftMaster)),
+    ((modm, button1), \w -> focus w >> mouseMoveWindow w
+                                       >> windows W.shiftMaster),
     -- mod-button2, Raise the window to the top of the stack
-    ((modm, button2), (\w -> focus w >> windows W.shiftMaster)),
+    ((modm, button2), \w -> focus w >> windows W.shiftMaster),
     -- mod-button3, Set the window to floating mode and resize by dragging
     --, ((modm, button3), (\w -> focus w >> mouseResizeWindow w
     --                                   >> windows W.shiftMaster))
-    ((modm, button3),               (\w -> focus w >> Sqr.mouseResizeWindow w False)),
-    ((modm .|. shiftMask, button3), (\w -> focus w >> Sqr.mouseResizeWindow w True ))
+    ((modm, button3),               \w -> focus w >> Sqr.mouseResizeWindow w False),
+    ((modm .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True)
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
--- }}}
 
--- {{{ Layouts
+----------------------------------------------------------------------
+-- Layouts 
 -- If you change layout bindings be sure to use 'mod-shift-space' after
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
 threeColumns = ThreeCol 1 (3/100) (1/2)
 defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout ||| threeColumns ||| Mirror threeColumns
-imLayout       = avoidStruts . smartBorders . windowNavigation $ kingTiled ||| Mirror tiled ||| Grid |||     Full 
 
 
-myLayout = onWorkspace "IM" imLayout defaultLayout
+myLayout = defaultLayout
 
 myTabConfig = theme kavonForestTheme 
 myTabLayout = tabbed shrinkText myTabConfig
 
-  
-kingTiled = Tall nmaster delta ratio
-  where
-    nmaster = 1        -- Windows in the master pane
-    ratio   = 6/8      -- Proportion of screen occupied by master pane
-    delta   = 3/100    -- Percent of screen to increment by when resizing panes
 tiled    = Tall nmaster delta ratio
   where
     nmaster = 1        -- Windows in the master pane
     ratio   = 1/2      -- Proportion of screen occupied by master pane
     delta   = 3/100    -- Percent of screen to increment by when resizing panes
 stack    = StackTile 1 (3/100) (1/2)
--- }}}
 
--- {{{ Window rules
 -- Execute arbitrary actions and WindowSet manipulations when managing
 -- a new window. You can use this to, for example, always float a
 -- particular program, or have a client always appear on a particular
@@ -220,7 +192,6 @@ onNewWindow =
     moveToWorkspace <+>
     manageScratchPad <+>
     noFocusWindows
--- }}}
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -232,33 +203,24 @@ onNewWindow =
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 myEventHook = docksEventHook
 
--- {{{ Status bars and logging
 myLogHook pipe = do
     dynamicLogWithPP $ statusInfo pipe
     fadeInactiveLogHook 0.7
 
--- myINBOX = "/home/grego/Mail/Gmail/INBOX"
---tagL l = onLogger $ wrap (l++ ": ") ""
---myEmails = [tagL "U" $  maildirUnread myINBOX, tagL "N"$ maildirNew myINBOX ]
-
---myExtras = [date "%R", padL loadAvg] ++ myEmails 
-
 statusInfo pipe = defaultPP {
     ppCurrent           = dzenColor "lightblue" "#0000aa",
     ppVisible           = wrap "(" ")",
-    ppHidden            = (\i -> case i of
+    ppHidden            = \i -> case i of
         "NSP" -> ""
-        _     -> i),
-    ppHiddenNoWindows   = \_ -> "",
+        _     -> i,
+    ppHiddenNoWindows   = const "",
     ppUrgent            = dzenColor "yellow" "red",
     ppSep               = " | ",
     ppWsSep             = " ",
     ppTitle             = dzenColor "#7777ff" "" . shorten 30,
-    ppOrder             =  \(ws:_:_:rest) -> [ws]++rest,
+    ppOrder             =  \(ws:_:_:rest) -> ws : rest,
     ppOutput            = hPutStrLn pipe
---  ,  ppExtras            = myExtras
     }
--- }}}
 
 ------------------------------------------------------------------------
 -- Startup hook
@@ -284,11 +246,9 @@ myDzenUrgencyHook = MyUrgencyHook {dur = seconds 5, argss = ["-bg", "cyan","-fg"
 
 myUrgencyConfig = urgencyConfig { suppressWhen = Visible, remindWhen = Every 20}
 myUrgencyHook = withUrgencyHookC myDzenUrgencyHook myUrgencyConfig
---myUrgencyHook = withUrgencyHook NoUrgencyHook 
 
 
 
--- {{{ Entry point
 main = do
     spawn "~/.dotfiles/dzen.sh | dzen2 -xs 1 -x 500 -p  -ta r -expand \"r\""
     dzenPipe <- spawnPipe "dzen2 -xs 1 -ta \"l\" -w 480 "
@@ -319,4 +279,3 @@ defaults pipe = defaultConfig {
     logHook            = myLogHook pipe,
     startupHook        = myStartupHook
     }
--- }}}
