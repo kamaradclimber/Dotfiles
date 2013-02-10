@@ -193,3 +193,23 @@ macro index <F9> \
 macro index <F6> \
       "<enter-command>unset wait_key<enter><pipe-message>notmuch-mutt tag -inbox<enter>" \
       "notmuch: remove message from inbox"
+
+#Side bar test
+set sidebar_width=20
+set sidebar_visible=no
+set sidebar_delim='|'
+set sidebar_sort=yes
+mailboxes =INBOX =rabbitmq =Social_Updates
+color sidebar_new yellow default
+# ctrl-n, ctrl-p to select next, prev folder
+# ctrl-o to open selected folder
+bind index CP sidebar-prev
+bind index CN sidebar-next
+bind index CO sidebar-open
+bind pager CP sidebar-prev
+bind pager CN sidebar-next
+bind pager CO sidebar-open
+# b toggles sidebar visibility
+macro index b '<enter-command>toggle sidebar_visible<enter>'
+macro pager b '<enter-command>toggle sidebar_visible<enter>'
+bind index B bounce-message
