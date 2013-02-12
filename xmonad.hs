@@ -95,6 +95,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
 
     -- Swap focused window
     ((modm .|. shiftMask,     xK_Return), dwmpromote), --move windows to master area
+    ((modm ,                xK_n), moveTo Next EmptyWS), --find next empty fallback
 
     -- Resize
     ((modm,                 xK_Left),       sendMessage Shrink), --shrink master area
