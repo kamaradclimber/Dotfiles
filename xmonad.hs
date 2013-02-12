@@ -41,7 +41,7 @@ myTerminal           = "urxvt"
 myBrowser            = "chromium"
 myWorkspaces         = map show [1..7] ++ ["MAIL", "IM"]
 
-myBorderWidth        = 0
+myBorderWidth        = 1
 myNormalBorderColor  = "#dddddd"
 myFocusedBorderColor = "#ff0000"
 
