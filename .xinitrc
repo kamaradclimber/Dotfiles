@@ -27,6 +27,9 @@ xset -b
 
 if [ $(uname -n) == "criteo-scalasto" ]; then
   ~/.dotfiles/dual_screen_criteo.sh &
+
+if [ $(uname -n) == "vasco" ]; then
+  ~/.dotfiles/set_dualscreen_on.sh &
 fi
 
 if [ $(uname -n) == "crocodile" ]; then
