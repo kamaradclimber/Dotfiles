@@ -25,8 +25,9 @@ xrdb -merge ~/.Xresources
 #no beep ever!
 xset -b
 
-#~/.dotfiles/dzen.sh &
-#~/.dotfiles/set_dualscreen_on.sh &
+if [ $(uname -n) == "criteo-scalasto" ]; then
+  ~/.dotfiles/dual_screen_criteo.sh &
+fi
 
 if [ $(uname -n) == "crocodile" ]; then
   VBoxClient-all &

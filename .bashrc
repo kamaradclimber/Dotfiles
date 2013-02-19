@@ -163,6 +163,17 @@ fi
 
 export PATH=/usr/bin/vendor_perl:~/.cabal/bin:~/.gem/ruby/1.9.1/bin:$PATH
 
+
+#Work station or persannal desktop?
+if [ $(uname -n) == "criteo-scalasto" ]; then
+  export MAILDIR=$HOME/Mail/Criteo
+  export EMAIL="g.seux@criteo.com"
+else
+  export MAILDIR=$HOME/Mail/Gmail
+  export EMAIL="kamaradclimber@gmail.com"
+fi
+
+
 ###
 ###     Handy Extract Program
 ###     found at http://dotfiles.org/~blackbook/.bashrc

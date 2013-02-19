@@ -1,5 +1,5 @@
 set mbox_type=Maildir
-set folder=$HOME/Mail/Gmail
+set folder=$MAILDIR
 set spoolfile="+INBOX"
 set mbox = "+archive"
 set postponed ="+drafts"
@@ -13,7 +13,7 @@ set envelope_from=yes
 #see man msmtp for more information 
 
 # mailboxes
-mailboxes +INBOX  +[Gmail].Sent_Mail +[Gmail].Drafts  +[Gmail].All_Mail +rss
+mailboxes `cat .mutt/mailboxes |sed 's|criteo_test/||g' | sed 's/mailboxes//'`
 
 # bindings
 macro index D "<save-message>+trash<enter>"   "move message to the trash"
@@ -27,7 +27,7 @@ macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlview'
 
 
 # main options
-set from                = "kamaradclimber@gmail.com"              # who am i?
+set from                = $EMAIL              # who am i?
 set mail_check          = 0                             # check for mail always
 unset move                                              # gmail does that
 set delete                                              # don't ask, just do
@@ -195,20 +195,20 @@ macro index <F6> \
       "notmuch: remove message from inbox"
 
 #Side bar test
-set sidebar_width=20
+set sidebar_width=35
 set sidebar_visible=no
 set sidebar_delim='|'
 set sidebar_sort=yes
-mailboxes =INBOX =rabbitmq =Social_Updates
+set sidebar_format='%B %N'
 color sidebar_new yellow default
 # ctrl-n, ctrl-p to select next, prev folder
 # ctrl-o to open selected folder
-bind index CP sidebar-prev
-bind index CN sidebar-next
-bind index CO sidebar-open
-bind pager CP sidebar-prev
-bind pager CN sidebar-next
-bind pager CO sidebar-open
+bind index P sidebar-prev
+bind index N sidebar-next
+bind index O sidebar-open
+bind pager P sidebar-prev
+bind pager N sidebar-next
+bind pager O sidebar-open
 # b toggles sidebar visibility
 macro index b '<enter-command>toggle sidebar_visible<enter>'
 macro pager b '<enter-command>toggle sidebar_visible<enter>'
