@@ -38,7 +38,7 @@ unset beep                                              # remove beeeeeeeps
 set mailcap_path       = ~/.mailcap
 set strict_threads
 auto_view text/html
-alternative_order text/plain text/html
+alternative_order text/html text/plain
 set sleep_time = 0 #no wait between folders
 
 # index options
