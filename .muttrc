@@ -38,7 +38,7 @@ unset mark_old                                          # read/new is good enoug
 unset beep                                              # remove beeeeeeeps
 set mailcap_path       = ~/.mailcap
 set strict_threads
-auto_view text/html
+auto_view text/html image/*
 alternative_order text/html text/plain
 set fast_reply = yes                                    #skip prompt for recipient and subject when not necessary
 set sleep_time = 0 #no wait between folders

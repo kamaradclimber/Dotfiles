@@ -2,6 +2,7 @@
 #text/html; lynx  -dump %s -dont_wrap_pre -image_links -justify -width=160 |less; nametemplate=%s.html;copiousoutput
 video/*;        vlc %s > /dev/null
 image/*;        feh %s > /dev/null
+image/*;        img2txt %s; copiousoutput
 text/html; elinks -dump -dump-color-mode 1 -dump-charset utf-8 -default-mime-type text/html %s; copiousoutput;
 pdf/*; zathura %s > /dev/null
 application/pdf; zathura %s > /dev/null
