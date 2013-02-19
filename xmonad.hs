@@ -168,7 +168,7 @@ ignoredWindows = composeAll [
     ]
 
 noFocusWindows = composeAll [
-     role =? "browser"   --> doF W.focusDown
+     --role =? "browser"   --> doF W.focusDown --used to avoid focus on browser when opening new tab, fail!
     ]
     where role = stringProperty "WM_WINDOW_ROLE"
 
