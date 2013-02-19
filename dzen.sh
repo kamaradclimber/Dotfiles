@@ -34,7 +34,9 @@ MAIL_COUNTER=0
 fmail() {
     GMAILS=`find ~/Mail/Gmail -type f -wholename '*/INBOX/new/*' | wc -l`
     FAMAILS=`find ~/Mail/Bidounet -type f -wholename '*/INBOX/new/*' |wc -l`
-    PMAIL="MAIL ^fg(green)$GMAILS $FAMAILS^fg()"
+    CMAILS=`find ~/Mail/Criteo -type f -wholename '*/INBOX/new/*' |wc -l`
+    ACMAILS=`find ~/Mail/Criteo -type f -wholename '*/*/new/*' |wc -l`
+    PMAIL="MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
 }
 # }}}
 
