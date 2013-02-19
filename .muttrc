@@ -13,7 +13,7 @@ set envelope_from=yes
 #see man msmtp for more information 
 
 # mailboxes
-mailboxes `cat .mutt/mailboxes |sed 's|criteo_test/||g' | sed 's/mailboxes//'`
+mailboxes `cat ~/.mutt/mailboxes |sed 's|criteo_test/||g' | sed 's/mailboxes//'`
 
 # bindings
 macro index D "<save-message>+trash<enter>"   "move message to the trash"
