@@ -4,8 +4,9 @@
 [core]
     autocrlf = false
     safecrlf = false
-    preloadindex = true #should be faster on NFSi (because of weak caching semantics
+    preloadindex = true #should be faster on NFS (because of weak caching semantics)
     hideDotFiles = dotGitOnly
+    whitespace = trailing-space,space-before-tab
 
 [color]
     branch = auto
