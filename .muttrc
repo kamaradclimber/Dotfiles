@@ -28,6 +28,7 @@ macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlview'
 
 # main options
 set from                = $EMAIL              # who am i?
+alternates "gregoire.seux@gmail.com"
 set mail_check          = 0                             # check for mail always
 unset move                                              # gmail does that
 set delete                                              # don't ask, just do
@@ -39,6 +40,7 @@ set mailcap_path       = ~/.mailcap
 set strict_threads
 auto_view text/html
 alternative_order text/html text/plain
+set fast_reply = yes                                    #skip prompt for recipient and subject when not necessary
 set sleep_time = 0 #no wait between folders
 
 # index options
