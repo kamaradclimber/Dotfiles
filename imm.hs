@@ -6,8 +6,10 @@ import Imm.Config
 import Imm.Types
 import Imm.Util 
 
+import qualified Data.Text.Lazy as T
 import System.Directory
 import System.Environment.XDG.BaseDir
+
 -- }}}
 
 main :: IO ()
@@ -19,11 +21,32 @@ mySettings s = s {
 }
 
 myConf :: FeedList
-myConf = zip (repeat mySettings) feeds
+myConf = (attachmentSettings . mySettings,feed) : (zip (repeat mySettings) feeds)
 
+--Very special conf for legotem
+feed = "http://familleseux.net/public/static/test.xml"
+attachmentSettings settings = settings {
+   mPartsBuilder = \(item, feed) -> [
+     MultiPart {mContentHeaders = mPartHeader settings, mContent = (defaultBodyBuilder item feed)},
+     MultiPart {mContentHeaders = icsHeaders, mContent = invit}
+   ]
+}
 
+icsHeaders = ["Content-Type: text/calendar"]
+
+invit = T.unlines $ map T.pack [
+  "BEGIN:VCALENDAR",
+  "VERSION:2.0",
+  "PRODID:-//hacksw/handcal//NONSGML v1.0//EN",
+  "BEGIN:VEVENT",
+  "DTSTART:20130217T170000Z",
+  "DTEND:20130218T035959Z",
+  "SUMMARY:Bastille Day Party",
+  "END:VEVENT",
+  "END:VCALENDAR"]
  
-feeds =  ["http://planet.haskell.org/rss20.xml",
+feeds =  [
+  "http://planet.haskell.org/rss20.xml",
   "http://familleseux.net/public/static/example.rss",
   "http://www.roc14.org/component/ninjarsssyndicator/?feed_id=2",
   "http://about-gnulinux.info/dotclear/index.php?feed/atom",
@@ -99,7 +122,6 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://obfuscurity.com/rss2.xml",
   "http://owni.fr/categorie/une/feed/",
   "http://passeurdesciences.blog.lemonde.fr/feed/",
-  "http://philippe.scoffoni.net/feed/", --Cannot decode byte '\x8b': Data.Text.Encoding.decodeUtf8: Invalid UTF-8 stream
   "http://planet-fr.debian.net/rss20.xml",
   "http://planet.archlinux.org/atom.xml",
   "http://planet.auto-hebergement.fr/feed.php?type=rss",
@@ -133,7 +155,7 @@ feeds =  ["http://planet.haskell.org/rss20.xml",
   "http://www.diaryofaninja.com/rss/main",
   "http://www.direnepasdire.org/?format=feed&type=rss",
   "http://www.framablog.org/index.php/feed/atom",
-  "http://www.generation-libre.com/feed/",
+  --"http://www.generation-libre.com/feed/",
   "http://www.generation-linux.fr/index.php?feed/rss2",
   "http://www.goopilation.com/feed", --404?
   "http://www.labo-microsoft.com/tips/rss/",
