@@ -3,38 +3,45 @@ module Main where
 -- {{{ Imports
 import Imm.Boot
 import Imm.Config
-import Imm.Types
+import Imm.Core
 import Imm.Util 
 
-import qualified Data.Text.Lazy as T
+
 import System.Directory
+import System.FilePath
 import System.Environment.XDG.BaseDir
 
 -- }}}
 
+type Settings = Config
 main :: IO ()
-main = imm myConf
+main = do
+  homedir <- getHomeDirectory
+  imm $ myConf homedir
+  --tsei
 
-mySettings :: CustomSettings
-mySettings s = s {
-    mMaildir = getHomeDirectory >/> "Mail" >/> "Gmail" >/> "rss"
+mySettings :: FilePath -> Config -> Config
+mySettings homedir s = s {
+    _maildir = homedir </> "Mail" </> "Gmail" </> "rss"
 }
 
-myConf :: FeedList
-myConf = (attachmentSettings . mySettings,feed) : (zip (repeat mySettings) feeds)
+myConf :: FilePath -> [ConfigFeed]
+myConf homedir = (attachmentSettings . mySet,feed) : (zip (repeat mySet) feeds)
+  where mySet = mySettings homedir
+--myConf homedir = zip (repeat $ mySettings homedir) feeds
 
 --Very special conf for legotem
 feed = "http://familleseux.net/public/static/test.xml"
 attachmentSettings settings = settings {
-   mPartsBuilder = \(item, feed) -> [
-     MultiPart {mContentHeaders = mPartHeader settings, mContent = (defaultBodyBuilder item feed)},
-     MultiPart {mContentHeaders = icsHeaders, mContent = invit}
+   _formatParts = \(item, feed) -> [
+     MultiPart {_contentHeaders = _partHeader settings, _content = (defaultBody (item, feed))},
+     MultiPart {_contentHeaders = icsHeaders, _content = invit}
    ]
 }
 
 icsHeaders = ["Content-Type: text/calendar"]
 
-invit = T.unlines $ map T.pack [
+invit = unlines  [
   "BEGIN:VCALENDAR",
   "VERSION:2.0",
   "PRODID:-//hacksw/handcal//NONSGML v1.0//EN",
@@ -47,7 +54,7 @@ invit = T.unlines $ map T.pack [
  
 feeds =  [
   "http://planet.haskell.org/rss20.xml",
-  "http://familleseux.net/public/static/example.rss",
+  --"http://familleseux.net/public/static/example.rss",
   "http://www.roc14.org/component/ninjarsssyndicator/?feed_id=2",
   "http://about-gnulinux.info/dotclear/index.php?feed/atom",
   "http://abstrusegoose.com/feed",
@@ -85,6 +92,7 @@ feeds =  [
   "http://feeds.feedburner.com/bouletcorp",
   "http://feeds.feedburner.com/codinghorror/",
   "http://feeds.feedburner.com/debuggable",
+  "http://feeds.feedburner.com/diaryofaninja",
   "http://feeds.feedburner.com/gtutor",
   "http://feeds.feedburner.com/labandepasdessinee",
   "http://feeds.feedburner.com/mongotips",
@@ -152,7 +160,6 @@ feeds =  [
   "http://www.christian-faure.net/feed/", --404?
   "http://www.croc-informatique.fr/feed/",
   "http://www.cyrille-borne.com/index.php?feed/atom",
-  "http://www.diaryofaninja.com/rss/main",
   "http://www.direnepasdire.org/?format=feed&type=rss",
   "http://www.framablog.org/index.php/feed/atom",
   --"http://www.generation-libre.com/feed/",
