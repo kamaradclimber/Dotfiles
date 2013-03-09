@@ -27,6 +27,7 @@ xset -b
 
 if [ $(uname -n) == "criteo-scalasto" ]; then
   ~/.dotfiles/dual_screen_criteo.sh &
+fi
 
 if [ $(uname -n) == "vasco" ]; then
   ~/.dotfiles/set_dualscreen_on.sh &
@@ -44,4 +45,3 @@ feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
 
 xsetroot -cursor_name left_ptr
 exec xmonad
-
