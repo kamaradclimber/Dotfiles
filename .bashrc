@@ -28,7 +28,9 @@ alias cp="cp -v -R"
 
 
 #probably most used command ever :-)
-alias pg='ps aux | grep '
+function psgrep() { ps aux | grep -v grep | grep "$@" -i --color=auto; }
+alias pg='psgrep'
+
 
 # privileged access
 if [ $UID -ne 0 ]; then
