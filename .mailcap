@@ -3,8 +3,7 @@
 video/*;        vlc %s > /dev/null
 image/*;        feh %s > /dev/null
 image/*;        img2txt %s; copiousoutput
-text/html; elinks -dump -dump-color-mode 1 -dump-charset utf-8 -default-mime-type text/html %s; copiousoutput;
+text/html; elinks -dump  -dump-charset utf-8 -default-mime-type text/html %s; copiousoutput;
 pdf/*; zathura %s > /dev/null
 application/pdf; zathura %s > /dev/null
-applica/pdf; zathura %s > /dev/null
 
