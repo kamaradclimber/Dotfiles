@@ -9,6 +9,7 @@ import XMonad.Config.Azerty
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.UrgencyHook hiding (DzenUrgencyHook)
 import XMonad.Layout.Accordion
 import XMonad.Layout.Decoration
@@ -202,7 +203,7 @@ onNewWindow =
 -- Defines a custom handler function for X Events. The function should
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
-myEventHook = docksEventHook
+myEventHook = fullscreenEventHook  <+> docksEventHook
 
 myLogHook pipe = do
     dynamicLogWithPP $ statusInfo pipe
