@@ -2,8 +2,8 @@ set mbox_type=Maildir
 set folder=$MAILDIR
 set spoolfile="+INBOX"
 set mbox = "+archive"
-set postponed ="+drafts"
-unset record
+set postponed ="+Drafts"
+set record = "+Sent"
 
 # Smtp configuration
 set sendmail = /usr/bin/msmtp
@@ -13,7 +13,10 @@ set envelope_from=yes
 #see man msmtp for more information 
 
 # mailboxes
-mailboxes `cat ~/.mutt/mailboxes |sed 's|criteo_test/||g' | sed 's/mailboxes//'`
+mailboxes `cat ~/.mutt/mailboxes |sed 's|criteo/||g' | sed 's/mailboxes//'`
+subscribe opensource@criteo.com graphite@criteo.com mongo@criteo.com chef@criteo.com rabbitmq-devops@criteo.com
+
+set honor_followup_to=yes
 
 # bindings
 macro index D "<save-message>+trash<enter>"   "move message to the trash"
@@ -39,7 +42,7 @@ unset beep                                              # remove beeeeeeeps
 set mailcap_path       = ~/.mailcap
 set strict_threads
 auto_view text/html image/*
-alternative_order text/html text/plain
+alternative_order text/plain text/plain
 set fast_reply = yes                                    #skip prompt for recipient and subject when not necessary
 set sleep_time = 0 #no wait between folders
 
@@ -59,7 +62,6 @@ unset markers                                           # no ugly plus signs
 
 # composing mail
 set fcc_attach                                          # save attachments with the body
-unset mime_forward                                      # forward attachments as part of body
 set forward_format      = "Fwd: %s"                     # format for subject when forwarding
 set include                                             # include message in replies
 set forward_quote                                       # include message in forwards
@@ -183,9 +185,12 @@ mono indicator reverse
 
 
 # Contacts : use goobooks
-set query_command="goobook query '%s'"
+#set query_command="goobook query '%s'"
+set query_command="~/.mutt-ldap.pl `grep 'machine criteois.lan' -A 2 ~/.netrc | tail -n 1 | sed -e 's/.*password //'` '%s'"
 macro index,pager a "<pipe-message>goobook add<return>" "add the send address to google contacts"
 bind editor <Tab> complete-query
+
+#NotMuch
 macro index <F8> \
       "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt --prompt search<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>" \
       "notmuch: search mail"
