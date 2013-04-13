@@ -1,0 +1,15 @@
+[Unit]
+Description=xmonad
+After=xorg.target
+
+[Service]
+ExecStartPre=/usr/bin/xrdb -merge %h/.Xresources
+ExecStartPre=/usr/bin/xset -b
+ExecStartPre=/usr/bin/xset +fp /usr/share/fonts/local
+ExecStartPre=/usr/bin/xset fp rehash
+ExecStartPre=/usr/bin/xsetroot -cursor_name left_ptr
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/xmonad
+
+[Install]
+WantedBy=xmonad.target

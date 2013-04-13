@@ -1,0 +1,3 @@
+[Unit]
+Description=Xinitr replacement
+Wants=xorg.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Wallpaper setter
+After=xorg.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/feh --no-fehbg --bg-scale %h/.config/wallpapers/*
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=xinit.target
