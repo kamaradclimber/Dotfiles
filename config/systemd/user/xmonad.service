@@ -3,6 +3,8 @@ Description=xmonad
 After=xorg.target
 
 [Service]
+ExecStartPre=/usr/bin/bash %h/.dotfiles/%H/dualscreen.sh
+ExecStartPre=/usr/bin/bash %h/.bashrc
 ExecStartPre=/usr/bin/xrdb -merge %h/.Xresources
 ExecStartPre=/usr/bin/xset -b
 ExecStartPre=/usr/bin/xset +fp /usr/share/fonts/local
