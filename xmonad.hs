@@ -29,7 +29,6 @@ import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Scratchpad
 import XMonad.Util.Themes
-import qualified XMonad.Actions.ConstrainedResize as Sqr
 import qualified XMonad.StackSet as W
 
 import qualified Data.Map as M
@@ -127,8 +126,6 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList [
     -- mod-button3, Set the window to floating mode and resize by dragging
     --, ((modm, button3), (\w -> focus w >> mouseResizeWindow w
     --                                   >> windows W.shiftMaster))
-    ((modm, button3),               \w -> focus w >> Sqr.mouseResizeWindow w False),
-    ((modm .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True)
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
