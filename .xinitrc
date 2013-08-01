@@ -25,9 +25,6 @@ xrdb -merge ~/.Xresources
 #no beep ever!
 xset -b
 
-if [ $(uname -n) == "criteo-scalasto" ]; then
-  ~/.dotfiles/dual_screen_criteo.sh &
-fi
 
 if [ $(uname -n) == "vasco" ]; then
   ~/.dotfiles/set_dualscreen_on.sh &
@@ -35,6 +32,10 @@ fi
 
 if [ $(uname -n) == "crocodile" ]; then
   VBoxClient-all &
+fi
+
+if [ $(uname -n) == "criteo-scalasto" ]; then
+  ~/.dotfiles/dual_screen_criteo.sh &
 fi
 
 if [ -f /usr/bin/numlockx ]; then
