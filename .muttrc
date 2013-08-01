@@ -14,7 +14,7 @@ set envelope_from=yes
 
 # mailboxes
 mailboxes `cat ~/.mutt/mailboxes |sed 's|criteo/||g' | sed 's/mailboxes//'`
-subscribe opensource@criteo.com graphite@criteo.com mongo@criteo.com chef@criteo.com rabbitmq-devops@criteo.com
+#subscribe opensource@criteo.com graphite@criteo.com mongo@criteo.com chef@criteo.com rabbitmq-devops@criteo.com
 
 set honor_followup_to=yes
 
@@ -41,7 +41,7 @@ unset mark_old                                          # read/new is good enoug
 unset beep                                              # remove beeeeeeeps
 set mailcap_path       = ~/.mailcap
 set strict_threads
-auto_view text/html image/*
+auto_view text/html image/* text/calendar
 alternative_order text/plain text/plain
 set fast_reply = yes                                    #skip prompt for recipient and subject when not necessary
 set sleep_time = 0 #no wait between folders
