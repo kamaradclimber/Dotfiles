@@ -36,6 +36,7 @@ fmail() {
     FAMAILS=`find ~/Mail/Bidounet -type f -wholename '*/INBOX/new/*' |wc -l`
     CMAILS=`find ~/Mail/Criteo -type f -wholename '*/INBOX/new/*' |wc -l`
     ACMAILS=`find ~/Mail/Criteo -type f -wholename '*/*/new/*' |wc -l`
+    ACMAILS=$((ACMAILS - CMAILS))
     PMAIL="MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
 }
 # }}}
