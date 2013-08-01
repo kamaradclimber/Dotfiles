@@ -8,7 +8,7 @@
 
 #standard editor variable
 export EDITOR=vim
-export BROWSER=chromium
+export BROWSER=firefox
 
 
 # modified commands
@@ -132,6 +132,7 @@ man() {
 
 #history management
 export HISTIGNORE="&:ls:[bf]g:exit:*halt:*reboot" # ignore bg,fg,exit, ls without arguments  + does not remember of commands starting with spaces
+export HISTFILESIZE=10000
 export HISTCONTROL=ingorespace:erasedups
 alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
@@ -161,7 +162,8 @@ if [ -n "$SSH_CLIENT" ]; then
     export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
 fi
 
-export PATH=/usr/bin/vendor_perl:~/.cabal/bin:~/.gem/ruby/1.9.1/bin:$PATH
+export PATH=/usr/bin/vendor_perl:~/.cabal/bin:~/.gem/ruby/2.0.0/bin:$PATH
+export GEM_HOME=~/.gem/ruby/2.0.0/
 
 
 #Work station or persannal desktop?
