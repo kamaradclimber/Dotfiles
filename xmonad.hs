@@ -39,7 +39,8 @@ import System.Exit
 import System.IO
 
 myTerminal           = "urxvt"
-myBrowser            = "chromium"
+myBrowser            = "firefox"
+mySecondaryBrowser   = "conkeror"
 myWorkspaces         = map show [1..7] ++ ["MAIL", "IM"]
 
 myBorderWidth        = 1
@@ -81,7 +82,8 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,                 xK_Return),     spawn $ XMonad.terminal conf), --new terminal
     ((modm,                 xK_a),     scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
     ((modm,                 xK_c),          spawn myBrowser), --browser
-    ((modm,                 xK_l),          spawn "xlock"), --lock screen
+    ((modm .|. shiftMask,    xK_c),          spawn mySecondaryBrowser),
+    ((modm,                 xK_l),          spawn "echo $DISPLAY |wall"), --lock screen
     ((modm,                 xK_F4),         kill), --kill current window
 
     -- Layouts
@@ -134,7 +136,9 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList [
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
 threeColumns = ThreeCol 1 (3/100) (1/2)
-defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout ||| threeColumns ||| Mirror threeColumns
+
+
+defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout  ||| threeColumns ||| Mirror threeColumns
 
 
 myLayout = defaultLayout
@@ -163,6 +167,10 @@ floatingWindows = composeAll [
     --className =? "MPlayer"        --> doFloat,
     --className =? "Gimp"           --> doFloat
     ]
+nonFloatingWindows = composeAll [
+    className =? "rdesktop"         --> unfloat
+    ]
+    where unfloat = ask >>= doF . W.sink
     
 ignoredWindows = composeAll [
 --    resource  =? "desktop_window" --> doIgnore    
@@ -190,6 +198,7 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
 onNewWindow = 
     manageDocks <+>
     floatingWindows <+>
+    nonFloatingWindows <+>
     ignoredWindows <+>
     moveToWorkspace <+>
     manageScratchPad <+>
@@ -243,7 +252,7 @@ instance UrgencyHook MyUrgencyHook where
         ws <- gets windowset
         whenJust (W.findTag w ws) (flash name)
       where flash name index =
-                  dzenWithArgs (show name ++ " (go to " ++ index++")") a d
+                  dzenWithArgs ( " (go to " ++ index++")") a d
 myDzenUrgencyHook = MyUrgencyHook {dur = seconds 5, argss = ["-bg", "cyan","-fg","red", "-xs", "1", "-x", "100", "-w", "300"] }
 
 myUrgencyConfig = urgencyConfig { suppressWhen = Visible, remindWhen = Every 20}
