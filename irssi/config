@@ -2,7 +2,7 @@ settings = {
   core = {
     real_name = "Gregoire Seux";
     user_name = "g.seux";
-    nick = "g.seux";
+    nick = "gseux";
   };
   "fe-text" = { actlist_sort = "refnum"; };
   "fe-common/core" = {
@@ -49,3 +49,4 @@ ignores = (
     regexp = "yes";
   }
 );
+logs = { };
