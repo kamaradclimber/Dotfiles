@@ -1,4 +1,4 @@
-silent! colorscheme 256-jungle
+"silent! colorscheme desert
 
 set history=300
 set nocompatible
@@ -95,3 +95,7 @@ if !empty(system("setxkbmap -print|grep bepo"))
 endif
 
 autocmd BufRead /tmp/mutt*  :source ~/.mail.vim
+
+" Highlight trailing whitespaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
