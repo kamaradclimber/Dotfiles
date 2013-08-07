@@ -11,7 +11,7 @@ DATE_PERIOD=3
 DATE_COUNTER=$DATE_PERIOD;
 
 fdate() {
-    DATE=`date +'%H:%M'`
+    DATE=`TZ='Europe/Paris' date +'%H:%M'`
     PDATE="^fg(white)$DATE^fg()"
 }
 # }}}
@@ -73,6 +73,15 @@ todos() {
 }
 
 
+BATTERY_PERIOD=2
+BATTERY_COUNTER=1
+battery() {
+    if [ `which acpi` ]
+    then
+        pc=`acpi | grep Battery | cut -d ',' -f 2 | sed 's/ \|%//g'`
+        BATTERY="$SEP B :^fg(green)$pc^fg()"
+    fi
+}
 while true; do
    if [ $DATE_COUNTER -ge $DATE_PERIOD ]; then
      fdate
@@ -103,8 +112,13 @@ while true; do
      TODOS_COUNTER=0
    fi
 
+   if [ $BATTERY_COUNTER -ge $BATTERY_PERIOD ]; then
+    battery
+    BATTERY_COUNTER=0
+   fi
+
    
-   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} $SEP ${TODOS}"
+   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} $SEP ${TODOS} ${BATTERY}"
    
    DATE_COUNTER=$((DATE_COUNTER+1))
    CPU_COUNTER=$((CPU_COUNTER+1))
@@ -114,6 +128,7 @@ while true; do
    HDISK_COUNTER=$((HDISK_COUNTER+1))
    TEMP_COUNTER=$((TEMP_COUNTER+1))
    TODOS_COUNTER=$((TODOS_COUNTER+1))
+   BATTERY_COUNTER=$((BATTERY_COUNTER+1))
    
    sleep $INTERVAL
 done 
