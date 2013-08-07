@@ -70,9 +70,12 @@ myModMask = mod4Mask
 --
 
 
-myKeys c = bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c 
+myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
 bepoKeys conf@(XConfig {modMask = modm}) = M.fromList [
   ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a],
+   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+qwertyKeys conf@(XConfig {modMask = modm}) = M.fromList [
+  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39],
    (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
 
 --Don't forget to describe each command
