@@ -30,7 +30,6 @@ alias cp="cp -v -R"
 alias conflicts="git ls-files --unmerged | cut -f2 | uniq"
 
 #probably most used command ever :-)
-alias kk='ps aux |grep '
 alias pg='kk'
 
 # privileged access
@@ -132,13 +131,20 @@ man() {
 
 #history management
 export HISTIGNORE="&:ls:[bf]g:exit:*halt:*reboot" # ignore bg,fg,exit, ls without arguments  + does not remember of commands starting with spaces
-export HISTFILESIZE=10000
+export HISTFILESIZE=10000 #commands in the history file
+export HOSTSIZE=1000 #commands remembered by one shell
 export HISTCONTROL=ingorespace:erasedups
+shopt -s histappend
+#Most used commands
 alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
 
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-shopt -s checkwinsize #allegedly : support of redimensionnable terminals like xterm and screen
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize  
 shopt -s autocd # allow to cd without typing cd :-)
 shopt -s cdspell # minor mistake for cd are corrected
 shopt -s no_empty_cmd_completion #no tab mistake
@@ -169,6 +175,8 @@ export GEM_HOME=~/.gem/ruby/2.0.0/
 #Work station or persannal desktop?
 if [ $(uname -n) == "criteo-scalasto" ]; then
   export MAILDIR=$HOME/Mail/Criteo
+  export EMAIL="g.seux@criteo.com"
+else if [ $(uname -a) == "vargas" ]: then
   export EMAIL="g.seux@criteo.com"
 else
   export MAILDIR=$HOME/Mail/Gmail
