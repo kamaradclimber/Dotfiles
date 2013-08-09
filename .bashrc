@@ -155,10 +155,10 @@ BOLD="\[\e[01;39m\]"
 NORM="\[\e[00m\]"
 
 if [ -n "$SSH_CLIENT" ]; then
-    export PS1="[\t] ${RED}\u${NORM}${CYAN}\h${NORM}:${YELLOW}\w${NORM} >"
-    export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-  else
-    export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
+  export PS1="[\t] ${RED}\u${NORM}${CYAN}\h${NORM}:${YELLOW}\w${NORM} >"
+  export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+else
+  export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
 fi
 
 export PATH=/usr/bin/vendor_perl:~/.cabal/bin:~/.gem/ruby/2.0.0/bin:$PATH
@@ -169,7 +169,7 @@ export GEM_HOME=~/.gem/ruby/2.0.0/
 if [ $(uname -n) == "criteo-scalasto" ]; then
   export MAILDIR=$HOME/Mail/Criteo
   export EMAIL="g.seux@criteo.com"
-else if [ $(uname -a) == "vargas" ]: then
+elif [ $(uname -n) == "vargas" ]; then
   export EMAIL="g.seux@criteo.com"
 else
   export MAILDIR=$HOME/Mail/Gmail
@@ -202,10 +202,11 @@ extract () {
      fi
 }
 
-if [ -d $HOME/perl5 ]; then
+if [ -d "$HOME/perl5" ] ; then
   export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/perl5";
   export PERL_MB_OPT="--install_base $HOME/perl5";
   export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5";
   export PERL5LIB="$HOME/perl5/lib/perl5:$PERL5LIB";
-  export PATH="$HOME/perl5/bin:$PATH";
+  export PATH="$HOME/perl5/bin:$PATH"
 fi
+

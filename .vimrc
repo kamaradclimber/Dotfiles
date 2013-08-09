@@ -4,7 +4,7 @@ set history=300
 set nocompatible
 
 ":W ask for sudo password to save the file
-command W w !sudo tee % > /dev/null  
+command W w !sudo tee % > /dev/null
 
 filetype plugin indent on
 
@@ -12,10 +12,10 @@ set t_Co=256
 syntax enable
 set background&  "adapt background automatically.
 
-augroup filetypedetect 
+augroup filetypedetect
     autocmd FileType ruby,eruby,yaml set sw=2 sts=2
     autocmd FileType java,sh,haskell set sw=2 sts=2
-augroup END 
+augroup END
 
 set autoread
 
@@ -50,7 +50,7 @@ set tabstop=4
 
 
 " Auto-wrap comments and allow "gq" formatting
-" Trailing white space indicates a paragraph continues in the next line. 
+" Trailing white space indicates a paragraph continues in the next line.
 " A line that ends in a non-white character ends a paragraph.
 set formatoptions=cqw
 
@@ -87,7 +87,7 @@ if !empty(system("setxkbmap -print|grep bepo"))
     noremap R L
     noremap T J
     noremap S K
-    " easier page up/down 
+    " easier page up/down
     noremap <BS> <PageUp>
     noremap <Space> <PageDown>
     " enter to center cursor
