@@ -87,12 +87,14 @@ wifi() {
 }
 
 BATTERY_PERIOD=2
-BATTERY_COUNTER=1
+BATTERY_COUNTER=2
 battery() {
     if [ `which acpi` ]
     then
         pc=`acpi | grep Battery | cut -d ',' -f 2 | sed 's/ \|%//g'`
-        BATTERY="$SEP B :^fg(green)$pc%^fg()"
+        color=green
+        test $pc -lt 21 && color=red
+        BATTERY="$SEP B :^fg($color)$pc%^fg()"
     fi
 }
 while true; do
