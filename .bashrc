@@ -19,7 +19,6 @@ alias df='df -h'
 alias du='du -c -h'
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
-command -v htop >/dev/null 2>&1 && alias top='htop'
 
 alias gti='git'                     # alias because of frequent typo
 alias m='mutt'
@@ -30,7 +29,7 @@ alias cp="cp -v -R"
 alias conflicts="git ls-files --unmerged | cut -f2 | uniq"
 
 #probably most used command ever :-)
-alias pg='kk'
+alias pg='ps aux | grep '
 
 # privileged access
 if [ $UID -ne 0 ]; then
@@ -50,21 +49,15 @@ fi
 
 # ls
 alias ls='ls -hF --color=auto'
-alias lr='ls -R'                    # recursive ls
 alias ll='ls -l'
 alias la='ll -A'
-alias lx='ll -BX'                   # sort by extension
-alias lz='ll -rS'                   # sort by size
-alias lt='ll -rt'                   # sort by date
-alias lm='la | more'
 
 #use colors
 if [ -f ~/.dircolors ]; then
   eval `dircolors ~/.dircolors`
 fi
 
-#As a reminder of common commands for pacman, let this aliases here even if unused
-# pacman aliases (if applicable, replace 'pacman' with 'yaourt'/'pacaur'/whatever)
+#Archlinux specific
 alias pacman='pacmatic'
 
 #Completion
@@ -72,7 +65,7 @@ complete -cf sudo
 complete -cf pacman
 complete -cf man
 
-# Add bash completion for ssh: it tries to complete the host to which you 
+# Add bash completion for ssh: it tries to complete the host to which you
 # want to connect from the list of the ones contained in ~/.ssh/known_hosts
 
 __ssh_known_hosts() {
@@ -86,7 +79,7 @@ _ssh() {
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     known_hosts="$(__ssh_known_hosts)"
-    
+
     if [[ ! ${cur} == -* ]] ; then
         COMPREPLY=( $(compgen -W "${known_hosts}" -- ${cur}) )
         return 0
@@ -144,7 +137,7 @@ alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 3
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
-shopt -s checkwinsize  
+shopt -s checkwinsize
 shopt -s autocd # allow to cd without typing cd :-)
 shopt -s cdspell # minor mistake for cd are corrected
 shopt -s no_empty_cmd_completion #no tab mistake
@@ -209,8 +202,10 @@ extract () {
      fi
 }
 
-export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/home/gregoire/perl5";
-export PERL_MB_OPT="--install_base /home/gregoire/perl5";
-export PERL_MM_OPT="INSTALL_BASE=/home/gregoire/perl5";
-export PERL5LIB="/home/gregoire/perl5/lib/perl5:$PERL5LIB";
-export PATH="/home/gregoire/perl5/bin:$PATH";
+if [ -d $HOME/perl5 ]; then
+  export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/perl5";
+  export PERL_MB_OPT="--install_base $HOME/perl5";
+  export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5";
+  export PERL5LIB="$HOME/perl5/lib/perl5:$PERL5LIB";
+  export PATH="$HOME/perl5/bin:$PATH";
+fi
