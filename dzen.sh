@@ -72,6 +72,19 @@ todos() {
     fi
 }
 
+WIFI_PERIOD=2
+WIFI_COUNTER=1
+wifi() {
+    if [ -f /sbin/iwconfig ]
+    then
+      w=`/sbin/iwconfig | grep ESSID | cut -d ':' -f 2 | sed 's/"\|\b//g'`
+      if [ $w == "off/any" ]; then
+        WIFI=""
+      else
+        WIFI="$SEP $w"
+      fi
+    fi
+}
 
 BATTERY_PERIOD=2
 BATTERY_COUNTER=1
@@ -79,7 +92,7 @@ battery() {
     if [ `which acpi` ]
     then
         pc=`acpi | grep Battery | cut -d ',' -f 2 | sed 's/ \|%//g'`
-        BATTERY="$SEP B :^fg(green)$pc^fg()"
+        BATTERY="$SEP B :^fg(green)$pc%^fg()"
     fi
 }
 while true; do
@@ -112,13 +125,18 @@ while true; do
      TODOS_COUNTER=0
    fi
 
+   if [ $WIFI_COUNTER -ge $WIFI_PERIOD ]; then
+    wifi
+    WIFI_COUNTER=0
+   fi
+
    if [ $BATTERY_COUNTER -ge $BATTERY_PERIOD ]; then
     battery
     BATTERY_COUNTER=0
    fi
 
    
-   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} $SEP ${TODOS} ${BATTERY}"
+   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} $SEP ${TODOS} ${BATTERY} ${WIFI}"
    
    DATE_COUNTER=$((DATE_COUNTER+1))
    CPU_COUNTER=$((CPU_COUNTER+1))
@@ -128,6 +146,7 @@ while true; do
    HDISK_COUNTER=$((HDISK_COUNTER+1))
    TEMP_COUNTER=$((TEMP_COUNTER+1))
    TODOS_COUNTER=$((TODOS_COUNTER+1))
+   WIFI_COUNTER=$((WIFI_COUNTER+1))
    BATTERY_COUNTER=$((BATTERY_COUNTER+1))
    
    sleep $INTERVAL
