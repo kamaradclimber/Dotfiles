@@ -68,7 +68,7 @@ todos() {
     then
         td=`grep  -c ^- ~/todo`
         exToDo=`grep ^- ~/todo | shuf -n 1 | cut -c -50 |sed 's/^-\b?//'`
-        TODOS="todos :^fg(green)$td^fg() $exToDo"
+        TODOS="$SEP todos :^fg(green)$td^fg() $exToDo"
     fi
 }
 
@@ -135,9 +135,9 @@ while true; do
     BATTERY_COUNTER=0
    fi
 
-   
-   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} $SEP ${TODOS} ${BATTERY} ${WIFI}"
-   
+
+   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} ${TODOS} ${BATTERY} ${WIFI}"
+
    DATE_COUNTER=$((DATE_COUNTER+1))
    CPU_COUNTER=$((CPU_COUNTER+1))
    PKG_COUNTER=$((PKG_COUNTER+1))
@@ -148,6 +148,6 @@ while true; do
    TODOS_COUNTER=$((TODOS_COUNTER+1))
    WIFI_COUNTER=$((WIFI_COUNTER+1))
    BATTERY_COUNTER=$((BATTERY_COUNTER+1))
-   
+
    sleep $INTERVAL
-done 
+done
