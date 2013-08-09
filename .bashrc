@@ -25,8 +25,6 @@ alias m='mutt'
 alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
 
-#git shortcuts
-alias conflicts="git ls-files --unmerged | cut -f2 | uniq"
 
 #probably most used command ever :-)
 alias pg='ps aux | grep '
