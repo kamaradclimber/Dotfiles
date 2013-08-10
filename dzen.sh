@@ -37,7 +37,7 @@ fmail() {
     CMAILS=`find ~/Mail/Criteo -type f -wholename '*/INBOX/new/*' |wc -l`
     ACMAILS=`find ~/Mail/Criteo -type f -wholename '*/*/new/*' |wc -l`
     ACMAILS=$((ACMAILS - CMAILS))
-    PMAIL="MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
+    PMAIL="$SEP MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
 }
 # }}}
 
@@ -45,7 +45,7 @@ READER_PERIOD=2
 READER_COUNTER=0
 freader() {
     READER=`find ~/Mail/ -type f -wholename '*/rss/new/*' | wc -l`
-    PREADER="RSS ^fg(green)$READER^fg()"
+    PREADER="$SEP RSS ^fg(green)$READER^fg()"
 }
 
 
@@ -73,7 +73,7 @@ todos() {
 }
 
 WIFI_PERIOD=2
-WIFI_COUNTER=1
+WIFI_COUNTER=2
 wifi() {
     if [ -f /sbin/iwconfig ]
     then
@@ -138,7 +138,7 @@ while true; do
    fi
 
 
-   echo "  $SEP ${PHDISK} $SEP ${PMAIL} $SEP ${PREADER} $SEP ${PPKG} $SEP ${PDATE} ${TODOS} ${BATTERY} ${WIFI}"
+   echo "  $SEP ${PHDISK} ${PMAIL} ${PREADER} $SEP ${PPKG} $SEP ${PDATE} ${TODOS} ${BATTERY} ${WIFI}"
 
    DATE_COUNTER=$((DATE_COUNTER+1))
    CPU_COUNTER=$((CPU_COUNTER+1))
