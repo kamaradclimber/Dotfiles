@@ -19,6 +19,8 @@ set visible-stats on
 
 set menu-complete-display-prefix on
 
+set menu-complete-display-prefix on
+
 $if Bash
   #do history expansion when space entered
   Space: magic-space
