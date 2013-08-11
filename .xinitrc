@@ -45,6 +45,8 @@ fi
 feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
 
 which synclient && synclient TapButton1=1
+which synclient && synclient PalmDetect=1
+
 
 
 xsetroot -cursor_name left_ptr
