@@ -7,8 +7,8 @@
 
 
 #standard editor variable
-export EDITOR=vim
-export BROWSER=firefox
+export EDITOR=/usr/bin/vim
+export BROWSER=/usr/bin/conkeror
 
 
 # modified commands
