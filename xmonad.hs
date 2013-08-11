@@ -39,8 +39,8 @@ import System.Exit
 import System.IO
 
 myTerminal           = "urxvt"
-myBrowser            = "firefox"
-mySecondaryBrowser   = "conkeror"
+myBrowser            = "conkeror"
+mySecondaryBrowser   = "firefox"
 myWorkspaces         = map show [1..7] ++ ["MAIL", "IM"]
 
 myBorderWidth        = 1
