@@ -77,8 +77,8 @@ WIFI_COUNTER=2
 wifi() {
     if [ -f /sbin/iwconfig ]
     then
-      w=`/sbin/iwconfig | grep ESSID | cut -d ':' -f 2 | sed 's/"\|\b//g'`
-      if [ $w == "off/any" ]; then
+      w=`/sbin/iwgetid -a wlan0 | grep -v '00:00:00:00:00:00' > /dev/null && /sbin/iwgetid -r wlan0`
+      if [ $w == "off/any" || $w == " "]; then
         WIFI=""
       else
         WIFI="$SEP $w"
@@ -150,6 +150,7 @@ while true; do
    TODOS_COUNTER=$((TODOS_COUNTER+1))
    WIFI_COUNTER=$((WIFI_COUNTER+1))
    BATTERY_COUNTER=$((BATTERY_COUNTER+1))
+
 
    sleep $INTERVAL
 done
