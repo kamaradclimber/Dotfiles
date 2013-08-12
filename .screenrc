@@ -2,6 +2,7 @@
 
 bindkey "^[Od" prev  # change window with ctrl-left
 bindkey "^[Oc" next  # change window with ctrl-right
+vbell off # or remove the existing 'vbell on' line
 
 
 startup_message off # get rid of the welcome message
