@@ -5,6 +5,10 @@ dumpln("Toto"); //it seems it has never really worked
 //Learn something new !
 homepage = "http://en.wikipedia.org/wiki/Special:Random"
 
+//External editor
+editor_shell_command = "urxvt -e vim";
+
+
 //Omnibox style for the mini buffer
 minibuffer_auto_complete_default = true;
 url_completion_use_history = true;
@@ -17,6 +21,8 @@ define_webjump("jira","http://agile.criteo/browse/%s");
 //----- shortcuts -----
 
 define_key(default_global_keymap,'/','isearch-forward')
+define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
+define_key(content_buffer_normal_keymap, "C-w", "kill-current-buffer");
 
 //------ Bindings test -----
 //function scroll_verti_complete (buffer, n) {
@@ -30,8 +36,6 @@ define_key(default_global_keymap,'/','isearch-forward')
 
 
 //----- Page modes -----
-
-require("xkcd");
 xkcd_add_title = true;
 
 require("youtube"); //I should set a vlc handler instead
