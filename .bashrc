@@ -25,6 +25,8 @@ alias m='mutt'
 alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
 
+alias irc="ssh familleseux.net -t screen -r irc"
+
 
 #probably most used command ever :-)
 alias pg='ps aux | grep '
