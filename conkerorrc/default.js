@@ -1,5 +1,5 @@
 //Default file with basic handling
-dumpln("Toto"); //it sees it has never really worked
+dumpln("Toto"); //it seems it has never really worked
 
 
 //Learn something new !
@@ -9,7 +9,16 @@ homepage = "http://en.wikipedia.org/wiki/Special:Random"
 minibuffer_auto_complete_default = true;
 url_completion_use_history = true;
 
-//Bindings
+//----- webjumps -----
+
+//criteo jira
+define_webjump("jira","http://agile.criteo/browse/%s");
+
+//----- shortcuts -----
+
+define_key(default_global_keymap,'/','isearch-forward')
+
+//------ Bindings test -----
 //function scroll_verti_complete (buffer, n) {
 //    vqr w = buffer.focused_frame;
 //    w.scrollTo (n > 0 ? w.scrollMaxY : 0, w.scrollX);
@@ -20,7 +29,7 @@ url_completion_use_history = true;
 //define_key("default_global_keymap", "H", "scroll-end-of-age")
 
 
-//Page modes
+//----- Page modes -----
 
 require("xkcd");
 xkcd_add_title = true;
