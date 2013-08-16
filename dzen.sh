@@ -88,7 +88,7 @@ battery() {
     color=green
     test $pc -lt 21 && color=red
     BATTERY="$SEP B :^fg($color)$pc%^fg()"
-    acpi -a | grep 'on-line' && unset BATTERY
+    acpi -a | grep 'on-line' && test $pc -gt 99 && unset BATTERY
   fi
 }
 
