@@ -17,6 +17,7 @@ url_completion_use_history = true;
 
 //criteo jira
 define_webjump("jira","http://agile.criteo/browse/%s");
+define_webjump("g","https://encrypted.google.com/search?q=%s");
 
 //----- shortcuts -----
 
