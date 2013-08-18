@@ -1,0 +1,30 @@
+# /* vim: set filetype=sh : */
+
+
+__whereami() {
+  if grep 'search criteois.lan' /etc/resolv.conf > /dev/null ; then
+    echo "criteo"
+  elif ping 192.168.0.189 -c 1 -w 2 > /dev/null; then
+    echo "mothership"
+  else
+    echo "elsewhere"
+  fi
+}
+
+__mothership() {
+  local home=familleseux.net
+  case $(__whereami) in
+    criteo )
+      echo "ssh -p 443 grego@$home";;
+    mothership )
+      echo "ssh grego@192.168.0.189";;
+    *)
+      echo "ssh grego@$home";;
+  esac
+}
+
+__rss() {
+  echo "$(__mothership) -t sudo -u rss /usr/bin/mutt -f /home/rss/Maildir"
+}
+
+alias rss='eval "$(__rss)"'
