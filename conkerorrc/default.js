@@ -24,6 +24,7 @@ define_webjump("g","https://encrypted.google.com/search?q=%s");
 define_key(default_global_keymap,'/','isearch-forward')
 define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
 define_key(content_buffer_normal_keymap, "C-w", "kill-current-buffer");
+define_key(content_buffer_normal_keymap, ":", "execute-extended-command");
 
 //------ Bindings test -----
 //function scroll_verti_complete (buffer, n) {
@@ -42,3 +43,15 @@ xkcd_add_title = true;
 require("youtube"); //I should set a vlc handler instead
 
 require("smbc");
+
+// -- youtube experiments
+//require("string");
+//interactive("open with vlc",
+//  "open with vlc",
+//  function(I) {
+//      var error="";
+//      require("string");
+//      var result = yield shell_command_with_argument("vlc ", I.buffer.current_uri);
+//      //if (result != 0 || error != "")
+//      //    throw new interactive_error("status "+result+", "+error);
+//  });

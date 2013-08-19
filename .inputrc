@@ -14,10 +14,8 @@ set show-all-if-ambiguous on
 set page-completions off
 set match-hidden-files off
 set completion-ignore-case on
-set visible-stats on 
+set visible-stats on
 #when using completion, puts / after directories and * after executables
-
-set menu-complete-display-prefix on
 
 set menu-complete-display-prefix on
 
