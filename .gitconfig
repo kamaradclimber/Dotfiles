@@ -21,6 +21,7 @@
 
 [merge]
     summary=true
+	tool = diffconflicts
 
 [help]
     autocorrect = 3 #wait 0.3 seconds before excuting probable correction in case of mispell of commands
@@ -30,3 +31,9 @@
     browse = !"f() { DEFAULT_REMOTE=$(git remote |head -n 1) ; $BROWSER $(git config remote.${1:-$DEFAULT_REMOTE}.url | sed  's|.*@\\(.*\\):\\(.*\\)\\.git|http://\\1/\\2|g') > /dev/null 2>&1 ; }; f"
 [push]
 	default = upstream
+[credential]
+	helper = cache --timeout=360000000
+[mergetool "diffconflicts"]
+	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+	trustExitCode = true
+	keepBackup = false
