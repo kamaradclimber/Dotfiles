@@ -44,6 +44,12 @@ require("youtube"); //I should set a vlc handler instead
 
 require("smbc");
 
+//prevent github and others to steal my keys !
+require("key-kill");
+key_kill_mode.test.push(build_url_regexp($domain = "github"));
+key_kill_mode.test.push(build_url_regexp($domain = "google"));
+
+
 // -- youtube experiments
 //require("string");
 //interactive("open with vlc",
