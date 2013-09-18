@@ -28,7 +28,14 @@
 
 [alias]
     last = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-    browse = !"f() { DEFAULT_REMOTE=$(git remote |head -n 1) ; $BROWSER $(git config remote.${1:-$DEFAULT_REMOTE}.url | sed  's|.*@\\(.*\\):\\(.*\\)\\.git|http://\\1/\\2|g') > /dev/null 2>&1 ; }; f"
+    browse = !"f() { \
+        DEFAULT_REMOTE=$(git remote |head -n1 );\
+        REMOTE=$(git config remote.${1:-$DEFAULT_REMOTE}.url);\
+        URL=$(echo $REMOTE | sed -r 's|.*@(.*):(.*).git|http://\\1/\\2|g');\
+        URL=$(echo $URL    | sed -r 's|git://(.*).git|http://\\1|');\
+        $BROWSER $URL > /dev/null 2>&1 ;\
+        };\
+        f"
 [push]
 	default = upstream
 [credential]
