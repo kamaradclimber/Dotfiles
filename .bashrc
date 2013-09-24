@@ -217,6 +217,6 @@ if [ -d "$HOME/perl5" ] ; then
   export PATH="$HOME/perl5/bin:$PATH"
 fi
 
-if [ -d "$HOME/.bash_criteo" ] ; then
+if [ -f "$HOME/.bash_criteo" ] ; then
   . .bash_criteo
 fi

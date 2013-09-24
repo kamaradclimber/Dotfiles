@@ -2,8 +2,12 @@
 dumpln("Toto"); //it seems it has never really worked
 
 
-//Learn something new !
-homepage = "http://en.wikipedia.org/wiki/Special:Random"
+//Learn something new or read !
+if (getenv("HOMEPAGE")) {
+    homepage = getenv("HOMEPAGE");
+} else {
+    homepage = "http://en.wikipedia.org/wiki/Special:Random"
+}
 
 //External editor
 editor_shell_command = "urxvt -e vim";
