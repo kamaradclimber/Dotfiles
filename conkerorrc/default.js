@@ -1,6 +1,8 @@
 //Default file with basic handling
 dumpln("Toto"); //it seems it has never really worked
 
+session_pref("general.useragent.compatMode.firefox", true);
+
 
 //Learn something new or read !
 if (getenv("HOMEPAGE")) {
@@ -25,7 +27,6 @@ define_webjump("g","https://encrypted.google.com/search?q=%s");
 
 //----- shortcuts -----
 
-define_key(default_global_keymap,'/','isearch-forward')
 define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
 define_key(content_buffer_normal_keymap, "C-w", "kill-current-buffer");
 define_key(content_buffer_normal_keymap, ":", "execute-extended-command");
@@ -40,7 +41,6 @@ define_key(content_buffer_normal_keymap, ":", "execute-extended-command");
 //    function (I) { scroll_verti_complete(I.buffer, 1 });
 //define_key("default_global_keymap", "H", "scroll-end-of-age")
 
-
 //----- Page modes -----
 xkcd_add_title = true;
 
@@ -51,7 +51,7 @@ require("smbc");
 //prevent github and others to steal my keys !
 require("key-kill");
 key_kill_mode.test.push(build_url_regexp($domain = "github"));
-key_kill_mode.test.push(build_url_regexp($domain = "google"));
+key_kill_mode.test.push(/\/\/.*google\..*\//);
 
 
 // -- youtube experiments
