@@ -25,6 +25,9 @@ xrdb -merge ~/.Xresources
 #no beep ever!
 xset -b
 
+if [ $(uname -n) == 'vargas' ]; then
+  setxkbmap -layout us -variant intl
+fi
 
 if [ $(uname -n) == "vasco" ]; then
   ~/.dotfiles/set_dualscreen_on.sh &

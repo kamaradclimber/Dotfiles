@@ -169,6 +169,7 @@ stack    = StackTile 1 (3/100) (1/2)
 floatingWindows = composeAll [
     --className =? "MPlayer"        --> doFloat,
     --className =? "Gimp"           --> doFloat
+    className =? "Steam" --> doFloat
     ]
 nonFloatingWindows = composeAll [
     className =? "rdesktop"         --> unfloat

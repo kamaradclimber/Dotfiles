@@ -24,8 +24,9 @@ __mothership() {
 }
 
 __rss() {
-  echo "$(__mothership) -t sudo -u rss /usr/bin/mutt -f /home/rss/Maildir"
+  echo "$(__mothership) -t screen -x mutt"
 }
+alias rss='eval "$(__rss)"'
 
 __homepage() {
   case $(__whereami) in
@@ -34,6 +35,10 @@ __homepage() {
   esac
 }
 
-alias rss='eval "$(__rss)"'
-
 __homepage "nen"
+
+__irc() {
+  echo "$(__mothership) -t screen -x irc"
+}
+
+alias irc='eval "$(__irc)"'

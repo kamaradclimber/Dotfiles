@@ -25,7 +25,6 @@ alias m='mutt'
 alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
 
-alias irc="ssh familleseux.net -t screen -r irc"
 
 
 #probably most used command ever :-)
@@ -218,5 +217,5 @@ if [ -d "$HOME/perl5" ] ; then
 fi
 
 if [ -f "$HOME/.bash_criteo" ] ; then
-  . .bash_criteo
+  . $HOME/.bash_criteo
 fi

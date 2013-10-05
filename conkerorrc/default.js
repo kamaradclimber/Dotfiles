@@ -19,6 +19,11 @@ editor_shell_command = "urxvt -e vim";
 minibuffer_auto_complete_default = true;
 url_completion_use_history = true;
 
+//Favicon everywhere
+require("favicon");
+add_hook("mode_line_hook", mode_line_adder(buffer_icon_widget), true);
+read_buffer_show_icons = true;
+
 //----- webjumps -----
 
 //criteo jira
