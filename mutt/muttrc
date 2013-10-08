@@ -24,3 +24,6 @@ set mailcap_path    = ~/.mailcap
 
 #Editing
 set edit_headers    = yes
+
+#Contact handling
+bind editor <Tab> complete-query
