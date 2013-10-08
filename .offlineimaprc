@@ -1,0 +1,43 @@
+[Repository gmail-remote]
+type=Gmail
+remoteuser = kamaradclimber@gmail.com
+folderfilter = lambda foldername: foldername in ['INBOX','[Gmail]/Drafts']
+nametrans = lambda foldername: re.sub('^\[Gmail\]', '', foldername)
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+realdelete=no
+
+[Repository gmail-local]
+type = Maildir
+localfolders = ~/Maildir/Gmail
+
+[Account Gmail]
+localrepository = gmail-local
+remoterepository = gmail-remote
+status_backend = sqlite
+
+[general]
+accounts = Gmail
+socktimeout = 90
+fsync = false
+
+[Account criteo]
+localrepository  = criteo-local
+remoterepository = criteo-remote
+status_backend = sqlite
+
+[Repository criteo-local]
+type = Maildir
+localfolders = ~/Maildir/Criteo
+sep = /
+
+[Repository criteo-remote]
+type = IMAP
+ssl = yes
+remotehost = imap.criteois.lan
+remoteuser = g.seux
+remoteport= 993
+maxconnections = 10
+#folderfilter =  lambda foldername: re.search('(^INBOX.[0-9]|^INBOX$|^Sent)', foldername) and not re.search('(^INBOX.mailing|^INBOX.bulk)', foldername)
+folderfilter =  lambda foldername: foldername in ['INBOX'] or (re.search('(^INBOX.[0-9])', foldername) and not re.search('20-Tickets$' ,foldername))
+nametrans = lambda folder: re.sub(r'^INBOX.', r'', re.sub('\.','/', re.sub(r' ', '_', folder)))
+cert_fingerprint = b0d449263da260273646a1c5fa16a0509bffbc5e
