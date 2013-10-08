@@ -1,0 +1,26 @@
+#Not sure these variables are useful
+set my_name="Gregoire Seux"
+
+#Sourcing other files
+source ~/.dotfiles/mutt/colors
+source ~/.dotfiles/mutt/sidebar
+source ~/.dotfiles/mutt/msmtp
+
+#Account dependant sourcing
+set my_reset_source=`~/.dotfiles/mutt/reset.sh ~/.dotfiles/mutt/*.config > /tmp/mutt-reset`
+folder-hook . source /tmp/mutt-reset
+folder-hook Gmail source ~/.dotfiles/mutt/gmail.config
+folder-hook Criteo source ~/.dotfiles/mutt/criteo.config
+
+set folder      = ~/Maildir
+mailboxes `~/.dotfiles/mutt/mailboxes.sh ~/Maildir/`
+
+#Auto view
+auto_view text/html image/* text/calendar
+alternative_order text/plain
+
+#Mailcap information
+set mailcap_path    = ~/.mailcap
+
+#Editing
+set edit_headers    = yes

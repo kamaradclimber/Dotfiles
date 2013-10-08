@@ -1,0 +1,4 @@
+set sendmail        = /usr/bin/msmtp
+set realname        = "Gregoire Seux"
+set use_from        = yes
+set envelope_from   = yes

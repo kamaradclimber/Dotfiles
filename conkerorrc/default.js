@@ -57,6 +57,7 @@ require("smbc");
 require("key-kill");
 key_kill_mode.test.push(build_url_regexp($domain = "github"));
 key_kill_mode.test.push(/\/\/.*google\..*\//);
+key_kill_mode.test.push(/\/\/.*facebook\..*\//);
 
 
 // -- youtube experiments

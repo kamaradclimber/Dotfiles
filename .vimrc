@@ -94,7 +94,7 @@ if !empty(system("setxkbmap -print|grep bepo"))
     noremap <Return> zz
 endif
 
-autocmd BufRead /tmp/mutt*  :source ~/.mail.vim
+autocmd BufRead /tmp/mutt*  :source ~/.dotfiles/mutt/mail.vim
 
 " Highlight trailing whitespaces
 highlight ExtraWhitespace ctermbg=red guibg=red
