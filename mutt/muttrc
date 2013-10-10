@@ -15,6 +15,7 @@ folder-hook Criteo source ~/.dotfiles/mutt/criteo.config
 folder-hook familleseux source ~/.dotfiles/mutt/familleseux.config
 
 set folder      = ~/Maildir
+set spoolfile   = "+Criteo/INBOX"
 mailboxes `~/.dotfiles/mutt/mailboxes.sh ~/Maildir/`
 
 #Auto view
@@ -29,7 +30,7 @@ set honor_followup_to   = yes    # obey followup for mailing lists
 set fast_reply          = yes
 set forward_format      = "Fwd: %s"
 set forward_quote               # include message in forward
-set include                     # include message in replies
+set include             = yes   # include message in replies
 
 #Headers
 set edit_headers        = yes       # display headers in mail edition
@@ -41,6 +42,7 @@ hdr_order from: to: cc: cci: Message-ID: In-Reply-To: Content-location: date: su
 #Sort
 set sort            = threads
 set sort_aux        = reverse-last-date-received
+set sort_re
 
 #Display
 set menu_scroll                 # scroll instead of redraw
