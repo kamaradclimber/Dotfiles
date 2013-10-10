@@ -31,7 +31,7 @@ MAIL_PERIOD=2
 
 fmail() {
   GMAILS=`find ~/Maildir/Gmail -type f -wholename '*/INBOX/new/*' | wc -l`
-  FAMAILS=`find ~/Maildir/Bidounet -type f -wholename '*/INBOX/new/*' |wc -l`
+  FAMAILS=`find ~/Maildir/familleseux -type f -wholename '*/INBOX/new/*' |wc -l`
   CMAILS=`find ~/Maildir/Criteo -type f -wholename '*/INBOX/new/*' |wc -l`
   ACMAILS=`find ~/Maildir/Criteo -type f -wholename '*/*/new/*' |wc -l`
   ACMAILS=$((ACMAILS - CMAILS))
@@ -41,7 +41,7 @@ fmail() {
 
 READER_PERIOD=2
 freader() {
-  READER=`find ~/Mail/ -type f -wholename '*/rss/new/*' | wc -l`
+  READER=`find ~/Maildir/ -type f -wholename '*/rss/new/*' | wc -l`
   PREADER="$SEP RSS ^fg(green)$READER^fg()"
 }
 

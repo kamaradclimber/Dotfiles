@@ -7,10 +7,12 @@ source ~/.dotfiles/mutt/sidebar
 source ~/.dotfiles/mutt/msmtp
 
 #Account dependant sourcing
+#TODO find a way to avoid having this line to ensure the mutt-reset file is created
 set my_reset_source=`~/.dotfiles/mutt/reset.sh ~/.dotfiles/mutt/*.config > /tmp/mutt-reset`
 folder-hook . source /tmp/mutt-reset
 folder-hook Gmail source ~/.dotfiles/mutt/gmail.config
 folder-hook Criteo source ~/.dotfiles/mutt/criteo.config
+folder-hook familleseux source ~/.dotfiles/mutt/familleseux.config
 
 set folder      = ~/Maildir
 mailboxes `~/.dotfiles/mutt/mailboxes.sh ~/Maildir/`
