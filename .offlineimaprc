@@ -16,7 +16,7 @@ remoterepository = gmail-remote
 status_backend = sqlite
 
 [general]
-accounts = Gmail
+accounts = Gmail, familleseux
 socktimeout = 90
 fsync = false
 
