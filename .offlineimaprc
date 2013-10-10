@@ -41,3 +41,20 @@ maxconnections = 10
 folderfilter =  lambda foldername: foldername in ['INBOX', 'Sent'] or (re.search('(^INBOX.[0-9])', foldername) and not re.search('20-Tickets$' ,foldername))
 nametrans = lambda folder: re.sub(r'^INBOX.', r'', re.sub('\.','/', re.sub(r' ', '_', folder)))
 cert_fingerprint = b0d449263da260273646a1c5fa16a0509bffbc5e
+
+[Repository familleseux-remote]
+type = IMAP
+remotehost = familleseux.net
+remoteuser = grego
+ssl = yes
+sslcacertfile = /etc/ssl/certs/dovecot.pem
+
+[Repository familleseux-local]
+type = Maildir
+localfolders = ~/Maildir/familleseux
+sep = /
+
+[Account familleseux]
+localrepository = familleseux-local
+remoterepository = familleseux-remote
+status_backend = sqlite
