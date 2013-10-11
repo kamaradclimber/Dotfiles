@@ -41,7 +41,7 @@ fmail() {
 
 READER_PERIOD=2
 freader() {
-  READER=`find ~/Maildir/ -type f -wholename '*/rss/new/*' | wc -l`
+  READER=`find ~/Maildir/ -type f -wholename '*/rss/INBOX/new/*' | wc -l`
   PREADER="$SEP RSS ^fg(green)$READER^fg()"
 }
 
