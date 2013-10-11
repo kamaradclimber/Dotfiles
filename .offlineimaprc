@@ -1,7 +1,7 @@
 [Repository gmail-remote]
 type=Gmail
 remoteuser = kamaradclimber@gmail.com
-folderfilter = lambda foldername: foldername in ['INBOX','[Gmail]/Drafts']
+folderfilter = lambda foldername: foldername in ['INBOX','[Gmail]/Drafts', '[Gmail]/Trash']
 nametrans = lambda foldername: re.sub('^\[Gmail\]', '', foldername)
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 realdelete=no
