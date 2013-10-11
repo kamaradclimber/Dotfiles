@@ -13,6 +13,7 @@ folder-hook . source /tmp/mutt-reset
 folder-hook Gmail source ~/.dotfiles/mutt/gmail.config
 folder-hook Criteo source ~/.dotfiles/mutt/criteo.config
 folder-hook familleseux source ~/.dotfiles/mutt/familleseux.config
+folder-hook rss source ~/.dotfiles/mutt/rss.config
 
 set folder      = ~/Maildir
 set spoolfile   = "+Criteo/INBOX"

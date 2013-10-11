@@ -16,7 +16,7 @@ remoterepository = gmail-remote
 status_backend = sqlite
 
 [general]
-accounts = Gmail, familleseux
+accounts = Gmail, familleseux, rss
 socktimeout = 90
 fsync = false
 
@@ -57,4 +57,21 @@ sep = /
 [Account familleseux]
 localrepository = familleseux-local
 remoterepository = familleseux-remote
+status_backend = sqlite
+
+[Repository rss-remote]
+type = IMAP
+remotehost = familleseux.net
+remoteuser = rss
+ssl = yes
+sslcacertfile = /etc/ssl/certs/dovecot.pem
+
+[Repository rss-local]
+type = Maildir
+localfolders = ~/Maildir/rss
+sep = /
+
+[Account rss]
+localrepository = rss-local
+remoterepository = rss-remote
 status_backend = sqlite
