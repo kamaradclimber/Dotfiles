@@ -25,19 +25,19 @@ xrdb -merge ~/.Xresources
 #no beep ever!
 xset -b
 
-if [ $(uname -n) == 'vargas' ]; then
-  setxkbmap -layout us -variant intl
+if [ "$(uname -n)" = "vargas" ]; then
+  setxkbmap us -variant intl
 fi
 
-if [ $(uname -n) == "vasco" ]; then
+if [ $(uname -n) = "vasco" ]; then
   ~/.dotfiles/set_dualscreen_on.sh &
 fi
 
-if [ $(uname -n) == "crocodile" ]; then
+if [ $(uname -n) = "crocodile" ]; then
   VBoxClient-all &
 fi
 
-if [ $(uname -n) == "criteo-scalasto" ]; then
+if [ $(uname -n) = "criteo-scalasto" ]; then
   ~/.dotfiles/dual_screen_criteo.sh &
 fi
 

@@ -20,7 +20,7 @@ fdate() {
 PKG_PERIOD=360
 
 fpkg() {
-  PKG=`pacman -Qu | wc -l`
+  PKG=`which pacman && pacman -Qu | wc -l`
 
   PPKG="PKG ^fg(green)$PKG^fg()"
 }
@@ -72,7 +72,7 @@ wifi() {
   if [ -f /sbin/iwconfig ]
   then
     w=`/sbin/iwgetid -a wlan0 | grep -v '00:00:00:00:00:00' > /dev/null && /sbin/iwgetid -r wlan0`
-    if [ $w == "off/any" || $w == " "]; then
+    if [[ $w = "off/any" || $w = " " ]]; then
       WIFI=""
     else
       WIFI="$SEP $w"
