@@ -20,7 +20,7 @@ fdate() {
 PKG_PERIOD=360
 
 fpkg() {
-  PKG=`which pacman && pacman -Qu | wc -l`
+  PKG=`which pacman > /dev/null && pacman -Qu | wc -l`
 
   PPKG="PKG ^fg(green)$PKG^fg()"
 }
