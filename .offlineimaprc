@@ -37,8 +37,7 @@ remotehost = imap.criteois.lan
 remoteuser = g.seux
 remoteport= 993
 maxconnections = 10
-#folderfilter =  lambda foldername: re.search('(^INBOX.[0-9]|^INBOX$|^Sent)', foldername) and not re.search('(^INBOX.mailing|^INBOX.bulk)', foldername)
-folderfilter =  lambda foldername: foldername in ['INBOX', 'Sent'] or (re.search('(^INBOX.[0-9])', foldername) and not re.search('20-Tickets$' ,foldername))
+folderfilter =  lambda foldername: foldername in ['INBOX', 'Sent', 'INBOX/bulk messages/Monitoring'] or (re.search('(^INBOX.[0-9])', foldername) and not re.search('20-Tickets$' ,foldername))
 nametrans = lambda folder: re.sub(r'^INBOX.', r'', re.sub('\.','/', re.sub(r' ', '_', folder)))
 cert_fingerprint = b0d449263da260273646a1c5fa16a0509bffbc5e
 
