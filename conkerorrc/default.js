@@ -35,6 +35,7 @@ define_webjump("g","https://encrypted.google.com/search?q=%s");
 define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
 define_key(content_buffer_normal_keymap, "C-w", "kill-current-buffer");
 define_key(content_buffer_normal_keymap, ":", "execute-extended-command");
+define_key(content_buffer_normal_keymap, "d", "follow-new-buffer");
 
 //------ Bindings test -----
 //function scroll_verti_complete (buffer, n) {
