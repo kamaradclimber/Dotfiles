@@ -2,7 +2,7 @@
 #text/html; lynx  -dump %s -dont_wrap_pre -image_links -justify -width=160 |less; nametemplate=%s.html;copiousoutput
 text/calendar;  /usr/local/bin/vcal -all %s; copiousoutput
 video/*;        vlc %s > /dev/null
-image/*;        feh %s > /dev/null
+image/*;        feh -F %s > /dev/null
 image/*;        img2txt %s; copiousoutput
 text/html; elinks -dump  -dump-charset utf-8 -default-mime-type text/html %s; copiousoutput;
 pdf/*; xpdf %s > /dev/null
