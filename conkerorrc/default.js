@@ -3,6 +3,9 @@ dumpln("Toto"); //it seems it has never really worked
 
 session_pref("general.useragent.compatMode.firefox", true);
 
+//Activate http pipelining.
+session_pref("network.http.pipelining", true);
+
 
 //Learn something new or read !
 if (getenv("HOMEPAGE")) {
