@@ -36,3 +36,6 @@ dzen2.background: #000033
 
 ! urxvt set urgent when there is a bell
 URxvt.urgentOnBell : true
+
+! History size
+URxvt*saveLines: 45000
