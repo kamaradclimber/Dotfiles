@@ -5,6 +5,6 @@ video/*;        vlc %s > /dev/null
 image/*;        feh -F %s > /dev/null
 image/*;        img2txt %s; copiousoutput
 text/html; elinks -dump  -dump-charset utf-8 -default-mime-type text/html %s; copiousoutput;
-pdf/*; xpdf %s > /dev/null
-application/pdf; xpdf %s > /dev/null
+pdf/*; evince %s > /dev/null
+application/pdf; evince %s > /dev/null
 
