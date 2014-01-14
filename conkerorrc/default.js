@@ -10,6 +10,7 @@ session_pref("network.http.pipelining", true);
 //Learn something new or read !
 if (getenv("HOMEPAGE")) {
     homepage = getenv("HOMEPAGE");
+    dumpln("using " + homepage + " as homepage");
 } else {
     homepage = "http://en.wikipedia.org/wiki/Special:Random"
 }
@@ -59,9 +60,10 @@ require("smbc");
 
 //prevent github and others to steal my keys !
 require("key-kill");
-key_kill_mode.test.push(build_url_regexp($domain = "github"));
-key_kill_mode.test.push(/\/\/.*google\..*\//);
-key_kill_mode.test.push(/\/\/.*facebook\..*\//);
+//key_kill_mode.test.push(build_url_regexp($domain = "github"));
+page_mode_deactivate(github_mode);
+//key_kill_mode.test.push(/\/\/.*google\..*\//);
+//key_kill_mode.test.push(/\/\/.*facebook\..*\//);
 
 
 // -- youtube experiments
