@@ -62,8 +62,17 @@ todos() {
   if [ -f ~/todo ]
   then
     td=`grep  -c ^- ~/todo`
-    exToDo=`grep ^- ~/todo | shuf -n 1 | cut -c -50 |sed 's/^-\b?//'`
+    exToDo=`grep ^- ~/todo | shuf -n 1 | cut -c -50 |sed 's/^- //'`
     TODOS="$SEP todos :^fg(green)$td^fg() $exToDo"
+  fi
+}
+ONDUTY_PERIOD=12
+onduty() {
+  if [ -f ~/todo ]
+  then
+    od=`grep  -c ^- ~/onduty`
+    exOD=`grep ^- ~/onduty | shuf -n 1 | cut -c -50 |sed 's/^- //'`
+    ONDUTY="$SEP onduty :^fg(green)$od^fg() $exOD"
   fi
 }
 
@@ -115,6 +124,9 @@ while true; do
   if [ $(expr $TICK % $TODOS_PERIOD) -eq 0 ]; then
     todos
   fi
+  if [ $(expr $TICK % $ONDUTY_PERIOD) -eq 0 ]; then
+    onduty
+  fi
 
   if [ $(expr $TICK % $WIFI_PERIOD) -eq 0 ]; then
     wifi
@@ -125,7 +137,7 @@ while true; do
   fi
 
 
-  echo "  $SEP ${PHDISK} ${PMAIL} ${PREADER} $SEP ${PPKG} $SEP ${PDATE} ${TODOS} ${BATTERY} ${WIFI}"
+  echo "  $SEP ${PHDISK} ${PMAIL} ${PREADER} $SEP ${PPKG} $SEP ${PDATE} ${TODOS} ${BATTERY} ${WIFI} ${ONDUTY}"
 
   TICK=$((TICK+1))
 
