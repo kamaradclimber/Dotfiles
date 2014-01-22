@@ -13,7 +13,7 @@ syntax enable
 set background&  "adapt background automatically.
 
 augroup filetypedetect
-    autocmd FileType ruby,eruby,yaml set sw=2 sts=2
+    autocmd FileType ruby,eruby,yaml,xml set sw=2 sts=2
     autocmd FileType java,sh,haskell set sw=2 sts=2
 augroup END
 
