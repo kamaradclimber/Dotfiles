@@ -31,7 +31,7 @@ read_buffer_show_icons = true;
 //----- webjumps -----
 
 //criteo jira
-define_webjump("jira","http://agile.criteo/browse/%s");
+define_webjump("jira","https://jira.criteois.com/browse/%s");
 define_webjump("g","https://encrypted.google.com/search?q=%s");
 
 //----- shortcuts -----
