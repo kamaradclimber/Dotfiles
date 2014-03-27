@@ -170,7 +170,7 @@ else
 fi
 
 export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:~/.gem/ruby/2.0.0/bin:$PATH
-export GEM_HOME=~/.gem/ruby/2.0.0/
+export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 
 
 #Work station or persannal desktop?
