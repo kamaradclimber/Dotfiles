@@ -26,6 +26,7 @@ alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
 
 
+alias irb="pry"
 
 #probably most used command ever :-)
 function psgrep() { ps aux | grep -v grep | grep "$@" -i --color=auto; }
