@@ -170,7 +170,8 @@ else
   export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
 fi
 
-export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:~/.gem/ruby/2.0.0/bin:$PATH
+export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:$PATH
+export PATH="`ruby -e 'puts Gem.user_dir'`/bin:$PATH"
 export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 
 
