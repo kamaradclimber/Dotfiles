@@ -15,6 +15,7 @@ set background&  "adapt background automatically.
 augroup filetypedetect
     autocmd FileType ruby,eruby,yaml,xml set sw=2 sts=2
     autocmd FileType java,sh,haskell set sw=2 sts=2
+    autocmd FileType javascript set sw=2 sts=2
 augroup END
 
 set autoread
@@ -78,15 +79,6 @@ function! CurDir()
 endfunction
 
 if !empty(system("setxkbmap -print|grep bepo"))
-    " movement keys
-    noremap c h
-    noremap r l
-    noremap t j
-    noremap s k
-    noremap C H
-    noremap R L
-    noremap T J
-    noremap S K
     " easier page up/down
     noremap <BS> <PageUp>
     noremap <Space> <PageDown>
