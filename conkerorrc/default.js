@@ -60,8 +60,12 @@ require("smbc");
 
 //prevent github and others to steal my keys !
 require("key-kill");
-//key_kill_mode.test.push(build_url_regexp($domain = "github"));
-page_mode_deactivate(github_mode);
+//page_mode_deactivate(key_kill_mode)
+//page_mode_activate(key_kill_mode)
+
+//key_kill_mode.test.push(build_url_regexp($domain = "github", $allow_www = true));
+//require('github');
+//page_mode_deactivate(github_mode)
 //key_kill_mode.test.push(/\/\/.*google\..*\//);
 //key_kill_mode.test.push(/\/\/.*facebook\..*\//);
 
