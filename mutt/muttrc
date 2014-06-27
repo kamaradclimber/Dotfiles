@@ -58,4 +58,3 @@ unset beep                      # not sure this is useful, but beeps are annoyin
 
 #Contact handling
 bind editor <Tab> complete-query
-alternates ".*@familleseux.net"
