@@ -2,7 +2,7 @@ settings = {
   core = {
     real_name = "Gregoire Seux";
     user_name = "g.seux";
-    nick = "gseux";
+    nick = "greg";
   };
   "fe-text" = { actlist_sort = "refnum"; };
   "fe-common/core" = {
@@ -47,6 +47,8 @@ ignores = (
     level = "ACTIONS";
     pattern = "]: is (Away|Gone|Back|Available)";
     regexp = "yes";
-  }
+  },
+  { mask = "MODES"; level = "JOINS PARTS QUITS"; },
+  { level = "JOINS PARTS QUITS MODES"; channels = ( "#criteo" ); }
 );
 logs = { };

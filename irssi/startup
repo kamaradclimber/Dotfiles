@@ -1,2 +1,3 @@
-load xmpp
-xmppconnect -host talk.criteo.com -ssl g.seux@criteo.com/work
+#connect 10.251.0.10
+#connect frdcplirc001.criteois.lan
+connect irc.criteois.lan
