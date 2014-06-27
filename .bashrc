@@ -163,12 +163,17 @@ CYAN="\[\e[01;36m\]"
 BOLD="\[\e[01;39m\]"
 NORM="\[\e[00m\]"
 
+HOST=""
+USER=""
+LAST_COMMAND_RESULT="\$(if [[ \$? == 0 ]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$? \$?>\"; fi)${NORM}"
+BELL="\a"
+
 if [ -n "$SSH_CLIENT" ]; then
-  export PS1="[\t] ${RED}\u${NORM}${CYAN}\h${NORM}:${YELLOW}\w${NORM} >"
+  HOST="${CYAN}\h${NORM} "
+  USER="${RED}\u${NORM}"
   export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-else
-  export PS1="[\t] ${RED}\u${NORM}${BLUE}\h${NORM}:${YELLOW}\w${NORM} >"
 fi
+export PS1="\t ${USER}${HOST}${YELLOW}\w${NORM} $LAST_COMMAND_RESULT $BELL"
 
 export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:$PATH
 export PATH="`ruby -e 'puts Gem.user_dir'`/bin:$PATH"
