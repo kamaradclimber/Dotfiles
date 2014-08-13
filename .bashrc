@@ -165,7 +165,7 @@ NORM="\[\e[00m\]"
 
 HOST=""
 USER_=""
-LAST_COMMAND_RESULT="\$(last=\$?; if [[ \$last == 0 ]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
+LAST_COMMAND_RESULT="\$(last=\$?; if [[ \$last == 0 || \$last == 130 ]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
 BELL="\[\a\]"
 
 if [ -n "$SSH_CLIENT" ]; then
