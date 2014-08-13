@@ -52,3 +52,28 @@ ignores = (
   { level = "JOINS PARTS QUITS MODES"; channels = ( "#criteo" ); }
 );
 logs = { };
+chatnets = {
+  freenode = {
+    type = "IRC";
+    nick = "kamaradclimber";
+    username = "kamaradclimber";
+    realname = "GSeux";
+  };
+  criteo = { type = "IRC"; nick = "greg"; };
+};
+servers = (
+  {
+    address = "irc.freenode.net";
+    chatnet = "freenode";
+    port = "6667";
+    use_ssl = "no";
+    ssl_verify = "no";
+  },
+  {
+    address = "irc.criteois.lan";
+    chatnet = "criteo";
+    port = "6667";
+    use_ssl = "no";
+    ssl_verify = "no";
+  }
+);
