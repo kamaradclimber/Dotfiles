@@ -17,7 +17,7 @@ folder-hook rss source ~/.dotfiles/mutt/rss.config
 macro index,pager 1 "<change-folder>=Criteo/INBOX<enter>" "Open Criteo mailbox"
 macro index,pager 2 "<change-folder>=Gmail/INBOX<enter>" "Open Gmail mailbox"
 macro index,pager 3 "<change-folder>=rss/INBOX<enter>" "Open RSS"
-macro index,pager 4 "<change-folder>=familleseux/INBOX<enter>" "Open familleseu mailbox"
+macro index,pager 4 "<change-folder>=familleseux/INBOX<enter>" "Open familleseux mailbox"
 
 set folder      = ~/Maildir
 set spoolfile   = "+Criteo/INBOX"
@@ -58,3 +58,6 @@ unset beep                      # not sure this is useful, but beeps are annoyin
 
 #Contact handling
 bind editor <Tab> complete-query
+
+# tuning
+set header_cache = ~/.cache/mutt
