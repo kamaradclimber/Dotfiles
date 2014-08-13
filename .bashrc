@@ -228,3 +228,4 @@ fi
 if [ -f "$HOME/.bash_criteo" ] ; then
   . $HOME/.bash_criteo
 fi
+[ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
