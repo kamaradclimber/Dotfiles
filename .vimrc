@@ -87,6 +87,7 @@ if !empty(system("setxkbmap -print|grep bepo"))
 endif
 
 autocmd BufRead /tmp/mutt*  :source ~/.dotfiles/mutt/mail.vim
+autocmd BufRead *thrift :set syntax=thrift
 
 " Highlight trailing whitespaces
 highlight ExtraWhitespace ctermbg=red guibg=red
