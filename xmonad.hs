@@ -5,11 +5,12 @@ import XMonad.Actions.CycleWS
 import XMonad.Actions.DwmPromote
 import XMonad.Actions.FindEmptyWorkspace
 import XMonad.Actions.NoBorders
+import XMonad.Actions.PhysicalScreens
 import XMonad.Config.Azerty
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.UrgencyHook hiding (DzenUrgencyHook)
 import XMonad.Layout.Accordion
 import XMonad.Layout.Decoration
@@ -17,7 +18,6 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Maximize
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
-import XMonad.Actions.PhysicalScreens
 import XMonad.Layout.StackTile
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
@@ -92,7 +92,6 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     -- Layouts
     ((modm,                 xK_space),      sendMessage NextLayout), --next Layout
     ((modm .|. shiftMask,   xK_space),      setLayout $ XMonad.layoutHook conf), --reset layout
-    --((modm,                 xK_n),          refresh), 
     ((modm,                 xK_e),          viewScreen 0),
     ((modm,                 xK_t),          viewScreen 1),
 
@@ -118,7 +117,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
 
     ((modm .|. shiftMask,   xK_q),          io exitSuccess), --leave xmonad
     ((modm              ,   xK_F5),         spawn "xmonad --recompile; xmonad --restart") --apply modif
-    ] 
+    ]
 
 myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList [
     -- mod-button1, Set the window to floating mode and move by dragging
@@ -134,7 +133,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList [
     ]
 
 ----------------------------------------------------------------------
--- Layouts 
+-- Layouts
 -- If you change layout bindings be sure to use 'mod-shift-space' after
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
@@ -146,7 +145,7 @@ defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirro
 
 myLayout = defaultLayout
 
-myTabConfig = theme kavonForestTheme 
+myTabConfig = theme kavonForestTheme
 myTabLayout = tabbed shrinkText myTabConfig
 
 tiled    = Tall nmaster delta ratio
@@ -175,9 +174,9 @@ nonFloatingWindows = composeAll [
     className =? "rdesktop"         --> unfloat
     ]
     where unfloat = ask >>= doF . W.sink
-    
+
 ignoredWindows = composeAll [
---    resource  =? "desktop_window" --> doIgnore    
+--    resource  =? "desktop_window" --> doIgnore
     ]
 
 noFocusWindows = composeAll [
@@ -199,7 +198,7 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
     t = 1 - h       -- distance from top edge
     l = (1 - w)/2   -- distance from left edge
 
-onNewWindow = 
+onNewWindow =
     manageDocks <+>
     floatingWindows <+>
     nonFloatingWindows <+>
