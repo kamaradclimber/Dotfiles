@@ -93,7 +93,7 @@ complete -o bashdefault -o default -o nospace -F _ssh ssh 2>/dev/null \
 
 
 
-#if present, use bash completion specifics. TODO  : quid of bash_completion.d/ dir ? 
+#if present, use bash completion specifics. TODO  : quid of bash_completion.d/ dir ?
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
@@ -102,17 +102,18 @@ fi
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
   . /usr/share/bash-completion/bash_completion
 
-[[ $PS1 && -f $HOME/mosespa/bin/completion_mosespa ]] && \
-  . $HOME/mosespa/bin/completion_mosespa
+comp=$(ls $GEM_HOME/gems/mosespa-*/bin/completion_mosespa)
+[[ $PS1 && -f $comp ]] && \
+  source $comp
 
 #colored reading of log files
-logview() 
+logview()
 {
     ccze -A < $1 | less -R
 }
 
 #same colored reading with tail
-logtail() 
+logtail()
 {
     tail -f $1 | ccze
 }
@@ -137,6 +138,8 @@ export HISTFILESIZE=100000 #commands in the history file
 export HOSTSIZE=10000 #commands remembered by one shell
 export HISTCONTROL=ingorespace:erasedups
 shopt -s histappend
+#http://unix.stackexchange.com/a/1292/12035
+export PROMPT_COMMAND="history -a"
 #Most used commands
 alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
@@ -176,8 +179,10 @@ fi
 export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM} $LAST_COMMAND_RESULT $BELL"
 
 export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:$PATH
-export PATH="`ruby -e 'puts Gem.user_dir'`/bin:$PATH"
+
 export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
+RUBY_PATH=$GEM_HOME/bin
+export PATH="$RUBY_PATH:$PATH"
 
 
 #Work station or persannal desktop?
@@ -229,3 +234,5 @@ if [ -f "$HOME/.bash_criteo" ] ; then
   . $HOME/.bash_criteo
 fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
+
+which rbenv > /dev/null && eval "$(rbenv init -)"
