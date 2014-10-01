@@ -17,6 +17,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Maximize
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
+import XMonad.Actions.PhysicalScreens
 import XMonad.Layout.StackTile
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
@@ -92,6 +93,8 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,                 xK_space),      sendMessage NextLayout), --next Layout
     ((modm .|. shiftMask,   xK_space),      setLayout $ XMonad.layoutHook conf), --reset layout
     --((modm,                 xK_n),          refresh), 
+    ((modm,                 xK_e),          viewScreen 0),
+    ((modm,                 xK_t),          viewScreen 1),
 
 
     -- Focus
