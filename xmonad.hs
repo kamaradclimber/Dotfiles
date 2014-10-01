@@ -69,8 +69,10 @@ myModMask = mod4Mask
 -- > mod2        Num_Lock (0x4d)
 --
 
-
+-- all key config unions
 myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
+
+-- setup keys for bepo and qwerty
 bepoKeys conf@(XConfig {modMask = modm}) = M.fromList [
   ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a],
    (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
@@ -81,42 +83,35 @@ qwertyKeys conf@(XConfig {modMask = modm}) = M.fromList [
 --Don't forget to describe each command
 generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     -- Spawn programs
-    ((modm,                 xK_F1),  spawn "~/.dotfiles/keybinding_recall.sh"), --the famous help
-    ((modm,                 xK_Return),     spawn $ XMonad.terminal conf), --new terminal
-    ((modm,                 xK_a),     scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
-    ((modm,                 xK_c),          spawn myBrowser), --browser
-    ((modm .|. shiftMask,    xK_c),          spawn mySecondaryBrowser),
-    ((modm,                 xK_l),          spawn "~/img/lock.sh"), --lock screen
-    ((modm,                 xK_F4),         kill), --kill current window
-
+    ((modm,               xK_F1),         spawn "~/.dotfiles/keybinding_recall.sh"),             --the famous help
+    ((modm,               xK_Return),     spawn $ XMonad.terminal conf),                         --new terminal
+    ((modm,               xK_a),          scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
+    ((modm,               xK_c),          spawn myBrowser),                                      --browser
+    ((modm .|. shiftMask, xK_c),          spawn mySecondaryBrowser),                             -- secondary browser
+    ((modm,               xK_l),          spawn "~/img/lock.sh"),                                --lock screen
+    ((modm,               xK_F4),         kill),                                                 --kill current window
     -- Layouts
-    ((modm,                 xK_space),      sendMessage NextLayout), --next Layout
-    ((modm .|. shiftMask,   xK_space),      setLayout $ XMonad.layoutHook conf), --reset layout
-    ((modm,                 xK_e),          viewScreen 0),
-    ((modm,                 xK_t),          viewScreen 1),
-
-
+    ((modm,               xK_space),      sendMessage NextLayout),                               --next Layout
+    ((modm .|. shiftMask, xK_space),      setLayout $ XMonad.layoutHook conf),                   --reset layout
+    ((modm,               xK_e),          viewScreen 0),
+    ((modm,               xK_t),          viewScreen 1),
     -- Focus
-    ((modm,                 xK_Tab),        windows W.focusDown), --the famous alt-tab equivalent
-    ((modm              ,   xK_u),          focusUrgent), --go to the (last?) urgent windows
-
+    ((modm,               xK_Tab),        windows W.focusDown),                                  --the famous alt-tab equivalent
+    ((modm,               xK_u),          focusUrgent),                                          --go to the (last?) urgent windows
     -- Swap focused window
-    ((modm .|. shiftMask,     xK_Return), dwmpromote), --move windows to master area
-    ((modm ,                xK_n), moveTo Next EmptyWS), --find next empty fallback
-
+    ((modm .|. shiftMask, xK_Return),     dwmpromote),                                           --move windows to master area
+    ((modm ,              xK_n),          moveTo Next EmptyWS),                                  --find next empty fallback
     -- Resize
-    ((modm,                 xK_Left),       sendMessage Shrink), --shrink master area
-    ((modm,                 xK_Right),         sendMessage Expand), --expand master area
-    ((modm .|. shiftMask,   xK_t),          withFocused $ windows . W.sink), --push window back into tiling
+    ((modm,               xK_Left),       sendMessage Shrink),                                   --shrink master area
+    ((modm,               xK_Right),      sendMessage Expand),                                   --expand master area
+    ((modm .|. shiftMask, xK_t),          withFocused $ windows . W.sink),                       --push window back into tiling
 
-    -- Toggle the status bar gap
-    ((modm,                 xK_b),          sendMessage ToggleStruts), --toggle status bar gap
+    ((modm,               xK_b),          sendMessage ToggleStruts),                             --toggle status bar gap
+    ((modm,               xK_z),          withFocused toggleBorder ),                            --toggle window border
 
-    ((modm,                 xK_z),          withFocused toggleBorder ), --toggle window border
-    ((modm,                 xK_F11),        withFocused (sendMessage . maximizeRestore)), -- ?
-
-    ((modm .|. shiftMask,   xK_q),          io exitSuccess), --leave xmonad
-    ((modm              ,   xK_F5),         spawn "xmonad --recompile; xmonad --restart") --apply modif
+    -- xmonad lifecycle
+    ((modm .|. shiftMask, xK_q),          io exitSuccess),                                       --leave xmonad
+    ((modm,               xK_F5),         spawn "xmonad --recompile; xmonad --restart")          --apply modif
     ]
 
 myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList [
