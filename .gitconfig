@@ -27,7 +27,7 @@
     autocorrect = 3 #wait 0.3 seconds before excuting probable correction in case of mispell of commands
 
 [alias]
-    last = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    last = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     browse = !"f() { \
         DEFAULT_REMOTE=$(git remote |head -n1 );\
         REMOTE=$(git config remote.${1:-$DEFAULT_REMOTE}.url);\
