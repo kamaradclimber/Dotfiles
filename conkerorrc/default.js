@@ -32,6 +32,11 @@ read_buffer_show_icons = true;
 
 //criteo jira
 define_webjump("jira","https://jira.criteois.com/browse/%s");
+
+//confluence search
+define_webjump("c", "https://confluence.criteois.com/dosearchsite.action?queryString=%s");
+
+//google search
 define_webjump("g","https://encrypted.google.com/search?q=%s");
 
 //----- shortcuts -----
