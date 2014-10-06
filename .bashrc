@@ -14,9 +14,6 @@ export BROWSER=/usr/bin/conkeror
 # modified commands
 command -v colordiff >/dev/null 2>&1 && alias diff='colordiff'              # requires colordiff package
 alias grep='grep --color=auto'
-alias more='less'
-alias df='df -h'
-alias du='du -c -h'
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
 
