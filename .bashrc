@@ -167,12 +167,18 @@ USER_=""
 LAST_COMMAND_RESULT="\$(last=\$?; if [[ \$last == 0 || \$last == 130 ]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
 BELL="\[\a\]"
 
+if [ -f ~/.git-prompt.sh ]; then
+  . ~/.git-prompt.sh
+  UWhite='\e[4;37m'
+  export GIT_BRANCH="\$(__git_ps1 \" $UWhite%.3s$NORM…\")"
+fi
+
 if [ -n "$SSH_CLIENT" ]; then
   HOST="${CYAN}\h${NORM} "
   USER_="${RED}\u${NORM}"
   export PROMPT_COMMAND='echo -ne "\033]0;${USER_}@${HOSTNAME}: ${PWD}\007"'
 fi
-export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM} $LAST_COMMAND_RESULT $BELL"
+export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} $LAST_COMMAND_RESULT $BELL"
 
 export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:$PATH
 
