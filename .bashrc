@@ -160,6 +160,7 @@ BLUE="\[\e[01;34m\]"
 MAGENTA="\[\e[01;35m\]"
 CYAN="\[\e[01;36m\]"
 BOLD="\[\e[01;39m\]"
+UWhite="\[\e[4;37m\]"
 NORM="\[\e[00m\]"
 
 HOST=""
@@ -169,8 +170,7 @@ BELL="\[\a\]"
 
 if [ -f ~/.git-prompt.sh ]; then
   . ~/.git-prompt.sh
-  UWhite='\e[4;37m'
-  export GIT_BRANCH="\$(__git_ps1 \" $UWhite%.3s$NORM…\")"
+  export GIT_BRANCH="\$(__git_ps1 \" $UWhite%.3s\")${NORM}"
 fi
 
 if [ -n "$SSH_CLIENT" ]; then
