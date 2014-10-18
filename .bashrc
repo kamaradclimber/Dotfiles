@@ -23,7 +23,7 @@ alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
 
 # will try ping until success. useful to wait for network to come back
-function ping_until { ok=1; while [[ $ok -eq 1 ]]; do ping -c 3 -W 1 -q $1 > /dev/null; ok=$? ; echo -n .; sleep 0.4; done }
+function ping_until { until [[  $(ping -c 3 -W 1 -q $1 > /dev/null; echo $?) -eq 0 ]]; do echo -n .; sleep 0.4; done }
 
 
 
