@@ -104,7 +104,7 @@ fi
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
   . /usr/share/bash-completion/bash_completion
 
-comp=$(ls $GEM_HOME/gems/mosespa-*/bin/completion_mosespa)
+comp=$(ls $GEM_HOME/gems/mosespa-*/bin/completion_mosespa 2> /dev/null)
 [[ $PS1 && -f $comp ]] && \
   source $comp
 
