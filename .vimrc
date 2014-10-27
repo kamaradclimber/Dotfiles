@@ -16,6 +16,7 @@ augroup filetypedetect
     autocmd FileType ruby,eruby,yaml,xml set sw=2 sts=2
     autocmd FileType java,sh,haskell set sw=2 sts=2
     autocmd FileType javascript set sw=2 sts=2
+    autocmd FileType python set sw=2 sts=2
 augroup END
 
 set autoread
