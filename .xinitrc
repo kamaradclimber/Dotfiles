@@ -27,6 +27,7 @@ xset -b
 
 if [ "$(uname -n)" = "vargas" ]; then
   setxkbmap us -variant intl
+  nm-applet &
 fi
 
 if [ $(uname -n) = "vasco" ]; then

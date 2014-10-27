@@ -243,3 +243,4 @@ fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
 which rbenv > /dev/null && eval "$(rbenv init -)"
+true
