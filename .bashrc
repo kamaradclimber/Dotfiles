@@ -178,10 +178,10 @@ if [ -f ~/.git-prompt.sh ]; then
   export GIT_BRANCH="\$(__git_ps1 \" $UWhite%.3s\")${NORM}"
 fi
 
+
 if [ -n "$SSH_CLIENT" ]; then
   HOST="${CYAN}\h${NORM} "
   USER_="${RED}\u${NORM}"
-  export PROMPT_COMMAND='echo -ne "\033]0;${USER_}@${HOSTNAME}: ${PWD}\007"'
 fi
 export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} $LAST_COMMAND_RESULT $BELL"
 
