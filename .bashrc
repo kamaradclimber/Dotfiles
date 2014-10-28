@@ -169,7 +169,7 @@ NORM="\[\e[00m\]"
 
 HOST=""
 USER_=""
-LAST_COMMAND_RESULT="\$(last=\$?; if [[ \$last == 0 || \$last == 130 ]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
+LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || \$last == 130 ]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
 BELL="\[\a\]"
 
 if [ -f ~/.git-prompt.sh ]; then
@@ -183,6 +183,14 @@ if [ -n "$SSH_CLIENT" ]; then
   USER_="${RED}\u${NORM}"
 fi
 export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} $LAST_COMMAND_RESULT $BELL"
+
+# called before each prompt
+# use it for all dynamic settings
+function prompt_command {
+ last=$?
+}
+
+PROMPT_COMMAND=prompt_command
 
 export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:$PATH
 
