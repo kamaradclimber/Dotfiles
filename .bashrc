@@ -140,7 +140,6 @@ export HISTFILESIZE=100000 #commands in the history file
 export HOSTSIZE=10000 #commands remembered by one shell
 export HISTCONTROL=ingorespace:erasedups
 shopt -s histappend
-export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
 #Most used commands
 alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 

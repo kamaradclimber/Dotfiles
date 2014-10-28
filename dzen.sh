@@ -57,13 +57,13 @@ fhdisk() {
 }
 # }}}
 
-TODOS_PERIOD=12
-todos() {
+REQUESTS_PERIOD=12
+requests() {
   if [ -f ~/todo ]
   then
     td=`grep  -c ^- ~/todo`
     exToDo=`grep ^- ~/todo | shuf -n 1 | cut -c -50 |sed 's/^- //'`
-    TODOS="$SEP todos :^fg(green)$td^fg() $exToDo"
+    REQUESTS="$SEP requests :^fg(green)$td^fg() $exToDo"
   fi
 }
 
@@ -112,8 +112,8 @@ while true; do
     fhdisk
   fi
 
-  if [ $(expr $TICK % $TODOS_PERIOD) -eq 0 ]; then
-    todos
+  if [ $(expr $TICK % $REQUESTS_PERIOD) -eq 0 ]; then
+    requests
   fi
 
   if [ $(expr $TICK % $WIFI_PERIOD) -eq 0 ]; then
@@ -125,7 +125,7 @@ while true; do
   fi
 
 
-  echo "  $SEP ${PHDISK} ${PMAIL} ${PREADER} $SEP ${PPKG} $SEP ${PDATE} ${TODOS} ${BATTERY} ${WIFI}"
+  echo "  $SEP ${PHDISK} ${PMAIL} ${PREADER} $SEP ${PPKG} $SEP ${PDATE} ${REQUESTS} ${BATTERY} ${WIFI}"
 
   TICK=$((TICK+1))
 
