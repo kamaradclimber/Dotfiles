@@ -7,9 +7,9 @@ URxvt.keysym.Shift-Down: command:\033]721;1\007
 URxvt*termName:rxvt-unicode
 URxvt*transparent: true
 ! scrollbar style - rxvt (default), plain (most compact), next, or xterm
- URxvt*scrollstyle:plain 
+ URxvt*scrollstyle:plain
 
- URxvt.font:  xft:inconsolata:size=13
+ URxvt.font:  xft:inconsolata:size=18
 
 ! use inverse colors for dark backgrounds
  URxvt.reverseVideo: True
@@ -21,7 +21,7 @@ URxvt.url-select.launcher:  /usr/bin/conkeror
 URxvt.url-select.underline: true
 URxvt.keysym.M-u:           perl:url-select:select_next
 
-! selection  is more clever : first one word and then extend 
+! selection  is more clever : first one word and then extend
 URxvt.selection.pattern-0: ([[:word:]]+)
 
 
@@ -31,7 +31,7 @@ URxvt.colorUL:      #87afd7
 
 
 !dzen configuration
-dzen2.font:       Inconsolata:pixelsize=16 
+dzen2.font:       Inconsolata:pixelsize=16
 dzen2.foreground: #7777aa
 dzen2.background: #000033
 
