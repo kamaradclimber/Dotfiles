@@ -249,5 +249,5 @@ if [ -f "$HOME/.bash_criteo" ] ; then
 fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
-which rbenv > /dev/null && eval "$(rbenv init -)"
+which rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
 true
