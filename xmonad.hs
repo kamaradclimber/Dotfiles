@@ -89,6 +89,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,               xK_a),          scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
     ((modm,               xK_c),          spawn myBrowser),                                      --browser
     ((modm .|. shiftMask, xK_c),          spawn mySecondaryBrowser),                             -- secondary browser
+    ((modm, xK_o),          spawn "dmenu_run"),                             -- any command
     ((modm,               xK_l),          spawn "~/img/lock.sh"),                                --lock screen
     ((modm,               xK_F4),         kill),                                                 --kill current window
     -- Layouts
