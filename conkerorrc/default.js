@@ -16,7 +16,8 @@ if (getenv("HOMEPAGE")) {
 }
 
 //External editor
-editor_shell_command = "urxvt -e vim";
+editor_shell_command = "urxvt -e vim --nofork";
+view_source_use_external_editor = true;
 
 
 //Omnibox style for the mini buffer
