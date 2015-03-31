@@ -40,6 +40,9 @@ define_webjump("c", "https://confluence.criteois.com/dosearchsite.action?querySt
 //google search
 define_webjump("g","https://encrypted.google.com/search?q=%s");
 
+// elasticsearch doc
+define_webjump("el","http://www.elasticsearch.org/?s=%s");
+
 //----- shortcuts -----
 
 define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
