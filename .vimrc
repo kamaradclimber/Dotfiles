@@ -1,4 +1,3 @@
-"silent! colorscheme desert
 
 set history=300
 set nocompatible
@@ -93,3 +92,7 @@ autocmd BufRead *thrift :set syntax=thrift
 " Highlight trailing whitespaces
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
+
+let mapleader=","
+
+silent! colorscheme desert
