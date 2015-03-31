@@ -50,3 +50,5 @@
 	templatedir = ~/.git_template
 [rebase]
     autosquash = true
+[fetch]
+    recurseSubmodules=true
