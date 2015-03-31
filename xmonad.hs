@@ -12,6 +12,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook hiding (DzenUrgencyHook)
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.Accordion
 import XMonad.Layout.Decoration
 import XMonad.Layout.Grid
@@ -237,7 +238,7 @@ statusInfo pipe = defaultPP {
 -- Perform an arbitrary action each time xmonad starts or is restarted
 -- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
-myStartupHook = return ()
+myStartupHook = setWMName "LG3D" -- LG3D is to run some java apps properly (intellij for instance)
 data MyUrgencyHook = MyUrgencyHook {
                          dur :: Int, -- ^ number of microseconds to display the dzen
                                           --   (hence, you'll probably want to use 'seconds')
