@@ -73,13 +73,14 @@ myModMask = mod4Mask
 -- all key config unions
 myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
 
+
+workspace conf modm keys = M.fromList [
+  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) keys,
+   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+
 -- setup keys for bepo and qwerty
-bepoKeys conf@(XConfig {modMask = modm}) = M.fromList [
-  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a],
-   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-qwertyKeys conf@(XConfig {modMask = modm}) = M.fromList [
-  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x40],
-   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+bepoKeys conf@(XConfig {modMask = modm}) = workspace conf modm [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a]
+qwertyKeys conf@(XConfig {modMask = modm}) = workspace conf modm [0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x40]
 
 --Don't forget to describe each command
 generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
@@ -89,6 +90,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,               xK_a),          scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
     ((modm,               xK_c),          spawn myBrowser),                                      --browser
     ((modm .|. shiftMask, xK_c),          spawn mySecondaryBrowser),                             -- secondary browser
+    ((modm, xK_o),          spawn "dmenu_run"),                             -- any command
     ((modm,               xK_l),          spawn "~/img/lock.sh"),                                --lock screen
     ((modm,               xK_F4),         kill),                                                 --kill current window
     -- Layouts

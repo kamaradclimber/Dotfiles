@@ -40,10 +40,10 @@ if [ $UID -ne 0 ]; then
   alias sudo='sudo '
   alias suvim='sudoedit'
   if [ -n "$SSH_CLIENT" ]; then
-    alias halt='echo "No you do not want to do that. Otherwise please use /usr/bin/halt'
-    alias reboot='echo "No you do not want to do that. Otherwise please use /usr/bin/reboot'
-    alias shutdown='echo "No you do not want to do that. Otherwise please use /usr/bin/shutdown'
-    alias poweroff='echo "No you do not want to do that. Otherwise please use /usr/bin/poweroff'
+    alias halt='echo "No you do not want to do that. Otherwise please use /usr/bin/halt"'
+    alias reboot='echo "No you do not want to do that. Otherwise please use /usr/bin/reboot"'
+    alias shutdown='echo "No you do not want to do that. Otherwise please use /usr/bin/shutdown"'
+    alias poweroff='echo "No you do not want to do that. Otherwise please use /usr/bin/poweroff"'
   else
     alias reboot='sudo reboot'
     alias halt='sudo halt'
@@ -253,5 +253,5 @@ if [ -f "$HOME/.bash_criteo" ] ; then
 fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
-which rbenv > /dev/null && eval "$(rbenv init -)"
+which rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
 true

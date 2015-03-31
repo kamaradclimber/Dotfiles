@@ -25,28 +25,34 @@ xrdb -merge ~/.Xresources
 #no beep ever!
 xset -b
 
-if [ "$(uname -n)" = "vargas" ]; then
-  setxkbmap us -variant intl
-  nm-applet &
-fi
+case "$(uname -n)" in
+  "vargas")
+    setxkbmap us -variant intl
+    nm-applet &
+    ;;
+  "vasco")
+    ~/.dotfiles/set_dualscreen_on.sh &
+    ;;
+  "criteo-scalasto")
+    ~/.dotfiles/dual_screen_criteo.sh &
+    ;;
+  "soksabai")
+    setxkbmap -device 11 fr -variant bepo
+    ;;
+esac
 
-if [ $(uname -n) = "vasco" ]; then
-  ~/.dotfiles/set_dualscreen_on.sh &
-fi
 
-if [ $(uname -n) = "crocodile" ]; then
-  VBoxClient-all &
-fi
 
-if [ $(uname -n) = "criteo-scalasto" ]; then
-  ~/.dotfiles/dual_screen_criteo.sh &
-fi
 
 if [ -f /usr/bin/numlockx ]; then
    numlockx &
 fi
 
-feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
+if [[ -d $HOME/.config/wallpapers ]]; then
+  feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
+else
+  echo "no wallpaper dir in $HOME/.config/wallpapers. Won't set any wallpaper"
+fi
 
 which synclient && synclient TapButton1=1
 which synclient && synclient PalmDetect=1
