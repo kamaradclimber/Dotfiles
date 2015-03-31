@@ -41,7 +41,7 @@ define_webjump("c", "https://confluence.criteois.com/dosearchsite.action?querySt
 define_webjump("g","https://encrypted.google.com/search?q=%s");
 
 // elasticsearch doc
-define_webjump("el","http://www.elasticsearch.org/?s=%s");
+define_webjump("el","https://www.elastic.co/search?q=%s");
 
 //----- shortcuts -----
 
