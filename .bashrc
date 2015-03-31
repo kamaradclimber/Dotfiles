@@ -244,6 +244,10 @@ if [ -d "$HOME/perl5" ] ; then
   export PATH="$HOME/perl5/bin:$PATH"
 fi
 
+if [ -d "/opt/chefdk/bin" ]; then
+  export PATH="/opt/chefdk/bin:$PATH"
+fi
+
 if [ -f "$HOME/.bash_criteo" ] ; then
   . $HOME/.bash_criteo
 fi
