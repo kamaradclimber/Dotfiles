@@ -30,11 +30,6 @@ function ping_until { until [[  $(ping -c 3 -W 1 -q $1 > /dev/null; echo $?) -eq
 
 alias irb="pry"
 
-#probably most used command ever :-)
-function psgrep() { ps aux | grep -v grep | grep "$@" -i --color=auto; }
-alias pg='psgrep'
-
-
 # privileged access
 if [ $UID -ne 0 ]; then
   alias sudo='sudo '
@@ -252,3 +247,6 @@ if [ -f "$HOME/.bash_criteo" ] ; then
   . $HOME/.bash_criteo
 fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
+
+export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin
