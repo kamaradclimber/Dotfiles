@@ -1,5 +1,5 @@
 [user]
-    name = Gregoire Seux
+    name = Grégoire Seux
 [core]
     autocrlf = false
     safecrlf = false
@@ -52,3 +52,4 @@
     autosquash = true
 [fetch]
     recurseSubmodules=true
+    prune=true
