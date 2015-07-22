@@ -248,5 +248,9 @@ if [ -f "$HOME/.bash_criteo" ] ; then
 fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
+if [ -d ~/.local/bin ] ; then
+  export PATH=$PATH:~/.local/bin
+fi
+
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
