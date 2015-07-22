@@ -14,13 +14,12 @@ folder-hook Gmail source ~/.dotfiles/mutt/gmail.config
 folder-hook Criteo source ~/.dotfiles/mutt/criteo.config
 folder-hook familleseux source ~/.dotfiles/mutt/familleseux.config
 folder-hook rss source ~/.dotfiles/mutt/rss.config
-macro index,pager 1 "<change-folder>=Criteo/INBOX<enter>" "Open Criteo mailbox"
+macro index,pager 1 "<change-folder>=familleseux/INBOX<enter>" "Open familleseux mailbox"
 macro index,pager 2 "<change-folder>=Gmail/INBOX<enter>" "Open Gmail mailbox"
 macro index,pager 3 "<change-folder>=rss/INBOX<enter>" "Open RSS"
-macro index,pager 4 "<change-folder>=familleseux/INBOX<enter>" "Open familleseux mailbox"
 
 set folder      = ~/Maildir
-set spoolfile   = "+Criteo/INBOX"
+set spoolfile   = "+Gmail/INBOX"
 mailboxes `~/.dotfiles/mutt/mailboxes.sh ~/Maildir/`
 
 #Auto view
