@@ -28,6 +28,7 @@
 
 [alias]
     last = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    blameless = !"f() { git blame roles/yum_criteo.rb | sed -re 's/\\(\\w+ \\w+/(Jeremy Mauro/' ; }; f"
     browse = !"f() { \
         DEFAULT_REMOTE=$(git remote |head -n1 );\
         REMOTE=$(git config remote.${1:-$DEFAULT_REMOTE}.url);\
