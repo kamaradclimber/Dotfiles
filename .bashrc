@@ -248,7 +248,14 @@ if [ -d "/opt/chefdk/bin" ]; then
   export PATH="/opt/chefdk/bin:$PATH"
 fi
 
+if [ -d "$HOME/.local/bin/" ]; then
+  export PATH=$PATH:$HOME/.local/bin/
+fi
+
 if [ -f "$HOME/.bash_criteo" ] ; then
   . $HOME/.bash_criteo
 fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
+
+
+true # finish with a correct exit code
