@@ -33,7 +33,7 @@ alias rss='eval "$(__rss)"'
 __homepage() {
   case $(__whereami) in
     criteo )
-      export HOMEPAGE="https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=195&view=detail&quickFilter=597"
+      export HOMEPAGE='https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=362'
   esac
 }
 
@@ -44,3 +44,21 @@ __irc() {
 }
 
 alias irc='eval "$(__irc)"'
+
+function knife_until {
+  if [ $# -ne 1 ]; then
+    echo "USAGE: $0 <NODE_NAME>" >&2
+    exit 1
+  fi
+  NODE_NAME=$1
+  START_TIME=$(date +%s)
+  CURRENT_TIME=${START_TIME}
+  KNIFE_OPTS="-i -R 1"
+  TIMEOUT_TIME=$(date -d "${TIMEOUT} seconds" +%s)
+  while ! bundle exec knife search node "name:${NODE_NAME} AND ohai_time:[${START_TIME} TO ${CURRENT_TIME}]" ${KNIFE_OPTS} | grep -q ${NODE_NAME};
+  do
+    echo -n .
+    sleep 30
+    CURRENT_TIME=$(date +%s)
+  done
+}
