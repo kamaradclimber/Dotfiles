@@ -175,3 +175,5 @@ function darken_page (I) {
 }
 interactive("darken-page", "Darken the page in an attempt to save your eyes.",
             darken_page);
+
+define_webjump("couchpotato", "javascript:void((function(){var%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://capodimonte/couchpotato/api/1a259810e5c94c9ca29098ce358d004e/userscript.bookmark/?host=http://capodimonte/couchpotato/api/1a259810e5c94c9ca29098ce358d004e/userscript.get/LuPmoRwi/&r='+Math.random()*99999999);document.body.appendChild(e)})());");
