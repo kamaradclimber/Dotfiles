@@ -6,6 +6,8 @@ __whereami() {
     echo "criteo"
   elif grep '192.168.0.1' /etc/resolv.conf > /dev/null; then
     echo "mothership" #quick test but 100% sure
+  elif (ip addr | grep -q "192.168.0.*/24"); then
+    echo "mothership"
   elif curl -s icanhazip.com | grep -q 78.194.186.226; then
     echo "mothership"
   else
