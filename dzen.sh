@@ -30,12 +30,20 @@ fpkg() {
 MAIL_PERIOD=2
 
 fmail() {
-  GMAILS=`find ~/Maildir/Gmail -type f -wholename '*/INBOX/new/*' | wc -l`
+  if [[ -d ~/Maildir/Gmail ]]; then
+    GMAILS=`find ~/Maildir/Gmail -type f -wholename '*/INBOX/new/*' | wc -l`
+  fi
+  if [[ -d ~/Maildir/familleseux ]]; then
   FAMAILS=`find ~/Maildir/familleseux -type f -wholename '*/INBOX/new/*' |wc -l`
+  fi
+  if [[ -d ~/Maildir/Criteo ]]; then
   CMAILS=`find ~/Maildir/Criteo -type f -wholename '*/INBOX/new/*' |wc -l`
   ACMAILS=`find ~/Maildir/Criteo -type f -wholename '*/*/new/*' |wc -l`
   ACMAILS=$((ACMAILS - CMAILS))
-  PMAIL="$SEP MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
+  fi
+  if [[ -d ~/Maildir ]]; then
+    PMAIL="$SEP MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
+  fi
 }
 # }}}
 
