@@ -37,6 +37,7 @@ case "$(uname -n)" in
     ~/.dotfiles/dual_screen_criteo.sh &
     ;;
   "soksabai")
+    setxkbmap -device 9 fr
     setxkbmap -device 11 fr -variant bepo
     ;;
 esac
