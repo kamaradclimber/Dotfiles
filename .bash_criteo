@@ -57,7 +57,7 @@ function knife_until {
   CURRENT_TIME=${START_TIME}
   KNIFE_OPTS="-i -R 1"
   TIMEOUT_TIME=$(date -d "${TIMEOUT} seconds" +%s)
-  while ! bundle exec knife search node "name:${NODE_NAME} AND ohai_time:[${START_TIME} TO ${CURRENT_TIME}]" ${KNIFE_OPTS} | grep -q ${NODE_NAME};
+  while ! bundle exec knife search node "name:${NODE_NAME} AND ohai_time:[${START_TIME} TO ${CURRENT_TIME}]" ${KNIFE_OPTS} 2>&1 | grep -q ${NODE_NAME};
   do
     echo -n .
     sleep 30
