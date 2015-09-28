@@ -107,3 +107,8 @@ match ExtraWhitespace /\s\+$/
 let mapleader=","
 
 silent! colorscheme desert
+
+" vim-test setup
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+
