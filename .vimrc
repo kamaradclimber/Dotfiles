@@ -1,11 +1,22 @@
-
 set history=300
 set nocompatible
+
+" vundle setup require filetype to be off during setup
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'janko-m/vim-test'
+" all plugins should be set above
+call vundle#end()
+
+" reactivate filetype after vundle setup
+filetype plugin indent on
+
 
 ":W ask for sudo password to save the file
 command W w !sudo tee % > /dev/null
 
-filetype plugin indent on
 
 set t_Co=256
 syntax enable
