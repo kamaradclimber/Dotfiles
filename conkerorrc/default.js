@@ -1,5 +1,7 @@
 session_pref("general.useragent.compatMode.firefox", true);
 
+url_completion_use_bookmarks = true;
+
 //Activate http pipelining.
 session_pref("network.http.pipelining", true);
 
@@ -32,7 +34,10 @@ read_buffer_show_icons = true;
 //----- webjumps -----
 
 //criteo jira
-define_webjump("jira","https://jira.criteois.com/browse/%s");
+define_webjump("j","https://jira.criteois.com/browse/%s");
+
+//criteo gitlab
+define_webjump("gitlab","https://gitlab.criteois.com/search?utf8=%E2%9C%93&search=%s");
 
 //confluence search
 define_webjump("c", "https://confluence.criteois.com/dosearchsite.action?queryString=%s");
