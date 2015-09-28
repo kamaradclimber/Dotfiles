@@ -34,6 +34,7 @@ case "$(uname -n)" in
     ~/.dotfiles/set_dualscreen_on.sh &
     ;;
   "criteo-scalasto")
+    export ALSA_CARD=Creative # this sets the default card in alsamixer
     ~/.dotfiles/dual_screen_criteo.sh &
     ;;
   "soksabai")
