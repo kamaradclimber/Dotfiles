@@ -6,7 +6,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'janko-m/vim-test'
+Plugin 'janko-m/vim-test' "test for ruby
 " all plugins should be set above
 call vundle#end()
 
@@ -17,6 +17,8 @@ filetype plugin indent on
 ":W ask for sudo password to save the file
 command W w !sudo tee % > /dev/null
 
+" visual autocomplete for command menu
+set wildmenu
 
 set t_Co=256
 syntax enable
@@ -54,11 +56,11 @@ catch
 endtry
 set ffs=unix,dos,mac "Default file types
 
-" Tabs as space of 4 (by default)
-set expandtab
+set tabstop=4     " display tabs as 4 spaces
+set softtabstop=4 " number of spaces when adding tabs
+set shiftwidth=4  "
+set expandtab     " tabs are converted to spaces
 set smarttab
-set shiftwidth=4
-set tabstop=4
 
 
 " Auto-wrap comments and allow "gq" formatting
