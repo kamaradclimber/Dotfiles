@@ -45,6 +45,9 @@ case "$(uname -n)" in
 esac
 
 
+if [ -f $HOME/.Xmodmap ]; then
+   xmodmap ~/.Xmodmap
+ fi
 
 
 if [ -f /usr/bin/numlockx ]; then
