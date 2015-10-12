@@ -43,7 +43,7 @@ import System.IO
 myTerminal           = "urxvt"
 myBrowser            = "conkeror"
 mySecondaryBrowser   = "firefox"
-myWorkspaces         = map show [1..7] ++ ["MAIL", "IM"] ++ map show [0]
+myWorkspaces         = map show [1..6] ++ ["CAL", "MAIL", "IM"] ++ map show [0]
 
 myBorderWidth        = 1
 myNormalBorderColor  = "#dddddd"
