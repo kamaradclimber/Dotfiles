@@ -27,6 +27,7 @@ xset -b
 
 case "$(uname -n)" in
   "vargas")
+    #setxkbmap fr -variant bepo
     setxkbmap us -variant intl
     nm-applet &
     ;;

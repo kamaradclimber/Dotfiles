@@ -31,7 +31,7 @@ URxvt.colorUL:      #87afd7
 
 
 !dzen configuration
-dzen2.font:       Inconsolata:pixelsize=16
+dzen2.font:       Inconsolata:pixelsize=32
 dzen2.foreground: #7777aa
 dzen2.background: #000033
 
