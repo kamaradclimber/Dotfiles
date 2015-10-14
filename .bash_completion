@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# This file only generates completion for subcommands
+# Any help to generate options and arguments is welcome
+
+# the main objective of this file is to remain readable
+
+_generate_knife()
+{
+  bundle exec knife | grep ^knife | sed 's/[\\([A-Z].*//' | sed -re 's/^\s+//'
+}
+
+_check_knife_cache()
+{
+  find /tmp/knife_commands -mmin +30 2> /dev/null
+  return $?
+}
+
+_knife()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local prev=${COMP_WORDS[@]:0:$((COMP_CWORD))}
+  _check_knife_cache > /dev/null || (_generate_knife > /tmp/knife_commands)
+  subs=$(cat /tmp/knife_commands | grep "^$prev" | awk -v i=$((COMP_CWORD+1)) '{print $i}' | sort | uniq)
+  case $prev in
+    *from*file*)
+#      COMPREPLY=( $(compgen -f -- ${cur} ) )
+      COMPREPLY=()
+      ;;
+    *)
+      COMPREPLY=( $(compgen -W "$subs" -- $cur) )
+      ;;
+  esac
+}
+
+complete -o default -F _knife knife
+
+_generate_kitchen()
+{
+  bundle exec kitchen | grep "^  kitchen" | sed 's/[\\([A-Z].*//' | sed -re 's/^\s+//'
+}
+
+_check_kitchen_cache()
+{
+  find /tmp/kitchen_commands -mmin +30 2> /dev/null
+  return $?
+}
+
+_kitchen()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local prev=${COMP_WORDS[@]:0:$((COMP_CWORD))}
+  _check_kitchen_cache > /dev/null || (_generate_kitchen > /tmp/kitchen_commands)
+  subs=$(cat /tmp/kitchen_commands | grep "^$prev" | awk -v i=$((COMP_CWORD+1)) '{print $i}' | sort | uniq)
+  COMPREPLY=( $(compgen -W "$subs" -- $cur) )
+}
+complete -o default -F _kitchen kitchen
