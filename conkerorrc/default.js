@@ -187,3 +187,28 @@ interactive("darken-page", "Darken the page in an attempt to save your eyes.",
             darken_page);
 
 define_webjump("couchpotato", "javascript:void((function(){var%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://capodimonte/couchpotato/api/1a259810e5c94c9ca29098ce358d004e/userscript.bookmark/?host=http://capodimonte/couchpotato/api/1a259810e5c94c9ca29098ce358d004e/userscript.get/LuPmoRwi/&r='+Math.random()*99999999);document.body.appendChild(e)})());");
+
+
+require("cookie.js"); // hopefully this would go in modules/cookie.js so this would not be needed
+
+function for_each_host_cookie(host, fn) {
+    var cookies = cookie_manager.getCookiesFromHost(host);
+    while (cookies.hasMoreElements()) {
+        var cookie = cookies.getNext().QueryInterface(Components.interfaces.nsICookie2);
+        fn(cookie);
+    }
+}
+
+function clear_host_cookies(host) {
+    for_each_host_cookie(host,
+            function (cookie) {
+            cookie_manager.remove(cookie.host, cookie.name, cookie.path, false);
+            });
+}
+
+interactive("clear-site-cookies", "Delete all cookies for the current site",
+        function (I) {
+        var host = I.buffer.current_uri.host;
+        clear_host_cookies(host);
+        I.minibuffer.message("Cookies cleared for " + host);
+        });
