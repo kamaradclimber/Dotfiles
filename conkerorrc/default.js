@@ -1,3 +1,8 @@
+// Helper to allow notifications
+// go to the conkerror directory (something like ~/.conkeror.mozdev.org/conkeror/) and open permission.sqlite
+// then to allow notifications for criteo.slack.com:
+// INSERT INTO moz_hosts (host,type,permission,expireType, expireTime, appId, isInBrowserElement, modificationTime) SELECT "criteo.slack.com","desktop-notification",1, 0,0,0,0, 1448698455696 WHERE NOT EXISTS (SELECT 1 FROM moz_hosts WHERE host = "criteo.slack.com")
+
 session_pref("general.useragent.compatMode.firefox", true);
 
 url_completion_use_bookmarks = true;
