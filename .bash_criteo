@@ -35,7 +35,7 @@ alias rss='eval "$(__rss)"'
 __homepage() {
   case $(__whereami) in
     criteo )
-      export HOMEPAGE='https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=362'
+      export HOMEPAGE='https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=1033'
   esac
 }
 
