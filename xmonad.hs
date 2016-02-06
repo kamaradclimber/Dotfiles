@@ -31,6 +31,7 @@ import XMonad.Util.Loggers
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Scratchpad
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Themes
 import qualified XMonad.StackSet as W
 
@@ -72,7 +73,8 @@ myModMask = mod4Mask
 --
 
 -- all key config unions
-myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
+-- myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
+myKeys c = bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c
 
 
 workspace conf modm keys = M.fromList [
@@ -82,6 +84,8 @@ workspace conf modm keys = M.fromList [
 -- setup keys for bepo and qwerty
 bepoKeys conf@(XConfig {modMask = modm}) = workspace conf modm [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a]
 qwertyKeys conf@(XConfig {modMask = modm}) = workspace conf modm [0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x40]
+-- for reference azertyKeys
+-- [0x26,0xe9,0x22,0x27,0x28,0x2d,0xe8,0x5f,0xe7,0xe0],
 
 --Don't forget to describe each command
 generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
