@@ -187,10 +187,23 @@ if [ -n "$SSH_CLIENT" ]; then
 fi
 export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} $LAST_COMMAND_RESULT $BELL"
 
+# Measure how long commands last
+# the result can be called using `echo $timer_show`
+function timer_start {
+  timer=${timer:-$SECONDS}
+}
+function timer_stop {
+  timer_show=$(($SECONDS - $timer))
+  unset timer
+}
+trap 'timer_start' DEBUG
+
+
 # called before each prompt
 # use it for all dynamic settings
 function prompt_command {
  last=$?
+ timer_stop
 }
 
 PROMPT_COMMAND=prompt_command
