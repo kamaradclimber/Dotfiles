@@ -277,5 +277,12 @@ fi
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
 
+set -o history
 
-true # finish with a correct exit code
+open() {
+  command=$(history | tail -2 | head -n 1| awk '{$1=""; print}')
+  echo $command
+  $EDITOR $($command | awk  'BEGIN {FS=":";} {print $1":"$2}')
+}
+
+true # exit with proper status
