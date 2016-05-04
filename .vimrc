@@ -7,6 +7,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'janko-m/vim-test' "test for ruby
+Plugin 'derekwyatt/vim-scala' "scala stuff
+Plugin 'bogado/file-line' "allow to open filename:line
 " all plugins should be set above
 call vundle#end()
 
