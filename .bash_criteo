@@ -4,10 +4,6 @@
 __whereami() {
   if grep 'search criteois.lan' /etc/resolv.conf > /dev/null ; then
     echo "criteo"
-  elif grep '192.168.0.1' /etc/resolv.conf > /dev/null; then
-    echo "mothership" #quick test but 100% sure
-  elif (ip addr | grep -q "192.168.0.*/24"); then
-    echo "mothership"
   elif curl -s icanhazip.com | grep -q 78.194.186.226; then
     echo "mothership"
   else
@@ -15,9 +11,19 @@ __whereami() {
   fi
 }
 
+
+# use this method to get cached access to localization
+__cached_whereami() {
+  local tmp=/tmp/whereami.cache
+  if test -f $tmp; then
+    [[ -z "$(find $tmp -mmin +30)" ]] && cat $tmp && return 0
+  fi
+  __whereami | tee $tmp
+}
+
 __mothership() {
   local home=familleseux.net
-  case $(__whereami) in
+  case $(__cached_whereami) in
     mothership )
       echo "ssh grego@capodimonte";;
     *)
@@ -26,13 +32,13 @@ __mothership() {
 }
 
 __homepage() {
-  case $(__whereami) in
-    criteo)
+  case $(__cached_whereami) in
+    criteo )
       export HOMEPAGE='https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=1033'
   esac
 }
 
-__homepage "nen"
+__homepage
 
 function knife_until {
   if [ $# -ne 1 ]; then
