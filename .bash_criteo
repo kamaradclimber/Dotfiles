@@ -18,19 +18,12 @@ __whereami() {
 __mothership() {
   local home=familleseux.net
   case $(__whereami) in
-    criteo )
-      echo "ssh -p 443 grego@$home";;
     mothership )
-      echo "ssh grego@192.168.0.189";;
+      echo "ssh grego@capodimonte";;
     *)
       echo "ssh grego@$home";;
   esac
 }
-
-__rss() {
-  echo "$(__mothership) -t screen -x mutt"
-}
-alias rss='eval "$(__rss)"'
 
 __homepage() {
   case $(__whereami) in
@@ -40,12 +33,6 @@ __homepage() {
 }
 
 __homepage "nen"
-
-__irc() {
-  echo "$(__mothership) -t screen -x irc"
-}
-
-alias irc='eval "$(__irc)"'
 
 function knife_until {
   if [ $# -ne 1 ]; then
