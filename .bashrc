@@ -27,7 +27,20 @@ alias dict="cat /usr/share/dict/words"
 alias rdesktop="rdesktop -K -g 1200x800"
 
 # will try ping until success. useful to wait for network to come back
-function ping_until { until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done }
+function ping_until {
+  until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done
+}
+
+function nc_until {
+  until nc -w 1 $1 $2 > /dev/null ; do echo -n .; sleep 0.4; done
+}
+
+function ssh_until {
+  echo -n ping
+  ping_until $1
+  echo -n ssh_port
+  nc_until $1 22
+}
 
 
 
