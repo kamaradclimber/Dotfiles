@@ -22,6 +22,7 @@ __cached_whereami() {
 }
 
 __send_location_to_mqtt() {
+  [[ -n "$SSH_CLIENT" ]] && return 0 # do not send location when connecting through ssh
   local dir=$HOME/misc/mqtt-location
   test -d $dir || return 1
   pushd $dir > /dev/null
