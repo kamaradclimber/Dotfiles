@@ -10,6 +10,10 @@
 export EDITOR=/usr/bin/vim
 export BROWSER=/usr/bin/conkeror
 
+# Add criteo related utilities
+if [ -f "$HOME/.bash_criteo" ] ; then
+  . $HOME/.bash_criteo
+fi
 
 # modified commands
 command -v colordiff >/dev/null 2>&1 && alias diff='colordiff'              # requires colordiff package
@@ -256,9 +260,6 @@ if [ -d "$HOME/.local/bin/" ]; then
   export PATH=$PATH:$HOME/.local/bin/
 fi
 
-if [ -f "$HOME/.bash_criteo" ] ; then
-  . $HOME/.bash_criteo
-fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
 # Smart cd for criteo projects
