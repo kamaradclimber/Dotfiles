@@ -315,7 +315,7 @@ open() {
   $EDITOR $($command | awk  'BEGIN {FS=":";} {print $1":"$2}')
 }
 
-true # finish with a correct exit code
-
 # added by travis gem
 [ -f /home/grego/.travis/travis.sh ] && source /home/grego/.travis/travis.sh
+
+true # finish with a correct exit code
