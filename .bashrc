@@ -286,6 +286,46 @@ if [ -f "$HOME/.bash_criteo" ] ; then
 fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
+# Smart cd for criteo projects
+# TODO move this to .bash_criteo
+_gitlab_clone() {
+  project=$1
+  repo=$2
+  dir=$3
+  git clone git@gitlab.criteois.com:$project/$repo.git $dir
+}
+
+_gerrit_clone() {
+  project=$1
+  repo=$2
+  dir=$3
+  git clone ssh://review.criteois.lan:29418/$project/$repo.git $dir
+}
+
+ck() {
+  ck_dir=~/cookbooks/$1
+  [[ ! -d $ck_dir ]] && _gerrit_clone chef-cookbooks $1 $ck_dir
+  cd $ck_dir
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-cookbooks/$1.git
+}
+_ck_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/cookbooks/)" -- $cur) )
+}
+complete -o default -F _ck_complete ck
+repo() {
+  name=$(echo $1 | sed 's/^(chef-repos)?/chef-repos/')
+  repo_dir=~/chef-repos/$1
+  [[ ! -d $repo_dir ]] && _gitlab_clone chef-repositories $name $repo_dir
+  cd $repo_dir
+}
+_repo_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/chef-repos/)" -- $cur) )
+}
+complete -o default -F _repo_complete repo
+# end of smart
+
 
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
