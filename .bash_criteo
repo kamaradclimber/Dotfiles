@@ -5,7 +5,7 @@ __whereami() {
   if grep 'search criteois.lan' /etc/resolv.conf > /dev/null ; then
     echo "criteo"
   elif curl -s icanhazip.com | grep -q 78.194.186.226; then
-    echo "mothership"
+    echo "home"
   else
     echo "elsewhere"
   fi
