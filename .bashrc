@@ -220,6 +220,7 @@ trap 'timer_start' DEBUG
 # use it for all dynamic settings
 function prompt_command {
  last=$?
+ __cached_send_location_to_mqtt
  timer_stop
 }
 
