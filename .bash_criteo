@@ -4,7 +4,9 @@
 __whereami() {
   if grep 'search criteois.lan' /etc/resolv.conf > /dev/null ; then
     echo "criteo"
-  elif curl -s icanhazip.com | grep -q 78.194.186.226; then
+  # 78.194.186.226 is home fixed ipaddress
+  # 91.199.242.* is the address of criteo when using the firewall
+  elif curl -s icanhazip.com | grep -q -e 78.194.186.226 -e 91.199.242.; then
     echo "home"
   else
     echo "elsewhere"
