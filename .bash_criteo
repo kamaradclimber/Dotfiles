@@ -25,7 +25,7 @@ __send_location_to_mqtt() {
   local dir=$HOME/misc/mqtt-location
   test -d $dir || return 1
   pushd $dir > /dev/null
-  bundle exec bin/presence.rb /location/grego_criteo $(__cached_whereami)
+  bundle exec bin/presence.rb /location/grego $(__cached_whereami)
   popd > /dev/null
 }
 
