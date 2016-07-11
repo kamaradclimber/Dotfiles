@@ -1,0 +1,347 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: !secret location_name
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret location_latitude
+  longitude: !secret location_longitude
+  elevation: 66 # altitude
+  # C for Celcius, F for Fahrenheit
+  temperature_unit: C
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Paris
+  customize:
+    switch.capodimonte_led:
+      icon: mdi:led-variant-on
+
+
+# Track the sun
+sun:
+
+recorder:
+  purge_days: 14
+
+# Enables support for tracking state changes over time.
+history:
+# View all events in a logbook
+#logbook:
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Enables the frontend
+frontend:
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+# Expose home-assistant metadata over bonjour
+zeroconf:
+
+media_player:
+  platform: kodi
+  host: http://192.168.0.13
+  port: 8080
+  name: KoKodi
+
+mqtt:
+  # TODO use my own broker
+  broker: m21.cloudmqtt.com
+  port: 21974
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+
+# Prediction of weather
+sensor:
+  - platform: yr
+  - platform: speedtest
+    minute: 5
+    hour:
+      - 0
+      - 6
+      - 12
+      - 18
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+  - platform: forecast
+    api_key: !secret forecast_api_key
+    monitored_conditions: # read the doc to see all weather sensors
+      - precip_type
+      - precip_intensity
+      - precip_probability
+      - temperature
+      - apparent_temperature
+      - humidity
+      - visibility
+
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.0.0/24
+    home_interval: 10
+    interval_seconds: 120
+    track_new_devices: no
+  - platform: mqtt
+    qos: 1
+    devices:
+      Gregoire: /location/grego
+
+
+zone:
+  name: Criteo # Work
+  longitude: 2.331610
+  latitude: 48.878887
+  icon: "mdi:desktop-tower"
+
+notify:
+  platform: free_mobile
+  username: !secret free_mobile_username
+  access_token: !secret free_mobile_token
+
+zwave:
+  usb_path: /dev/zwave1 #using udev rule to have stable name
+  # TODO make this path more robust
+  config_path: /usr/lib/python3.5/site-packages/libopenzwave-0.3.0b9-py3.5-linux-armv7l.egg/config
+  polling_interval: 60000
+  autoheal: False # is done at might night
+  customize:
+    sensor.greenwave_powernode_6_port_energy_10:
+      polling_intensity: 1
+
+light:
+  platform: limitlessled
+  bridges:
+    - host: 192.168.0.110
+      groups:
+        - number: 1
+          type: rgbw
+          name: Table à manger
+
+switch:
+  - platform: command_line
+    switches:
+      capodimonte_led:
+        oncmd: sudo systemctl start raspberry_led
+        offcmd: sudo systemctl stop raspberry_led
+        statecmd: systemctl is-active raspberry_led > /dev/null
+
+input_boolean:
+  light_control_by_kokodi:
+    name: Kokodi controle lumière du salon
+    initial: on
+    icon: mdi:toggle-switch
+  bathroom_light_control:
+    name: Allumage automatique SdB
+    initial: on
+    icon: mdi:toggle-switch
+
+script:
+  restart_ha:
+    alias: Restart HA
+    sequence:
+      - alias: Restart HA
+        service: homeassistant.restart
+  heal_zwave:
+    alias: Heal ZWave network
+    sequence:
+      - alias: heal
+        service: zwave.heal_network
+      - alias: soft_reset
+        service: zwave.soft_reset
+  bedtime:
+    alias: Fin de soirée
+    sequence:
+      - alias: Switch on light
+        service: light.turn_on
+        data:
+          entity_id: light.table__manger
+          transition: 10
+          brightness: 215
+          color_name: white
+      - alias: wait 10 seconds for pipeline
+        delay:
+          seconds: 15
+      - alias: Slowly dim light off
+        service: light.turn_off
+        data:
+          entity_id: light.table__manger
+          transition: 180
+# Grouped states should share the same type of states (ON/OFF or HOME/NOT_HOME)
+group:
+  Famille:
+    - device_tracker.Noemi
+    - device_tracker.Gregoire
+  ChambreGN:
+    - light.domitech_smart_led_retrofit_kit_ze27eu_level
+    - light.domitech_smart_led_retrofit_kit_ze27eu_level_2
+    - light.domitech_smart_led_retrofit_kit_ze27eu_level_3
+  Salon:
+    - light.table__manger
+    - media_player.kokodi
+    - scene.movie_paused
+    - scene.movie_playing
+    - scene.movie_stopped
+  Controles:
+    - input_boolean.light_control_by_kokodi
+    - input_boolean.bathroom_light_control
+  Capodimonte:
+    - sensor.speedtest_ping
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - switch.capodimonte_led
+  Temps:
+    - sun.sun
+    - sensor.yr_symbol
+    - sensor.weather_temperature
+    - sensor.weather_apparent_temperature
+    - sensor.weather_precip
+    - sensor.weather_precip_intensity
+    - sensor.weather_precip_probability
+    - sensor.weather_humidity
+    - sensor.weather_visibility
+
+scene:
+  - name: Movie Playing
+    entities:
+      light.table__manger:
+        state: on
+        transition: 5
+        brightness: 75
+        color_name: blue
+  - name: Movie Paused
+    entities:
+      light.table__manger:
+        state: on
+        transition: 5
+        brightness: 75
+        color_name: white
+  - name: Movie Stopped
+    entities:
+      script.bedtime:
+        state: on
+
+automation:
+  - alias: Enable light control by kokodi in the evening
+    trigger:
+      platform: time
+      seconds: 0
+      minutes: 0
+      hours: 18
+    action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.light_control_by_kokodi
+  - alias: Disable light control by kokodi in the evening
+    trigger:
+      platform: time
+      seconds: 0
+      minutes: 0
+      hours: 1
+    action:
+      service: input_boolean.turn_off
+      entity_id: input_boolean.light_control_by_kokodi
+
+
+  - alias: Activate movie playing scene
+    trigger:
+      platform: state
+      entity_id: media_player.kokodi
+      to: playing
+    condition:
+      - condition: state
+        entity_id: input_boolean.light_control_by_kokodi
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.movie_playing
+  - alias: Activate movie paused scene
+    trigger:
+      platform: state
+      entity_id: media_player.kokodi
+      from: playing
+      to: paused
+    condition:
+      - condition: state
+        entity_id: input_boolean.light_control_by_kokodi
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.movie_paused
+  - alias: Activate movie stopped scene
+    trigger:
+      platform: state
+      entity_id: media_player.kokodi
+      to: idle
+    condition:
+      - condition: state
+        entity_id: input_boolean.light_control_by_kokodi
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.movie_stopped
+
+
+  - alias: Switch off capodimonte led
+    trigger:
+      platform: sun
+      event: sunset
+    action:
+      service: switch.turn_off
+      entity_id: switch.capodimonte_led
+  # TODO factorize capodimonte led management using templates
+  - alias: Switch on capodimonte led
+    trigger:
+      platform: sun
+      event: sunrise
+    action:
+      service: switch.turn_on
+      entity_id: switch.capodimonte_led
+
+  - alias: WakeUp
+    trigger:
+      platform: time
+      after: '07:00:00'
+    action:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: input_boolean.bathroom_light_control
+            state: 'on'
+          - condition: state
+            entity_id: group.all_devices
+            state: home
+          - condition: time
+            weekday:
+              - mon
+              - tue
+              - wed
+              - thu
+              - fri
+      - service: light.turn_on
+        entity_id: light.domitech_smart_led_retrofit_kit_ze27eu_level_3
+        data:
+          brightness: 20
+  - alias: Switch off
+    trigger:
+      platform: time
+      after: '07:15:00'
+    action:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: input_boolean.bathroom_light_control
+            state: 'on'
+          - condition: state
+            entity_id: group.all_devices
+            state: home
+          - condition: time
+            weekday:
+              - mon
+              - tue
+              - wed
+              - thu
+              - fri
+      - service: light.turn_off
+        entity_id: light.domitech_smart_led_retrofit_kit_ze27eu_level_3
