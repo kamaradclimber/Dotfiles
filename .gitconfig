@@ -1,5 +1,5 @@
 [user]
-    name = Gregoire Seux
+    name = Grégoire Seux
 [core]
     autocrlf = false
     safecrlf = false
@@ -28,11 +28,11 @@
 
 [alias]
     last = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    blameless = !"f() { git blame $@ | sed -re 's/\\(\\w+ \\w+/(Jeremy Mauro/' ; }; f"
     browse = !"f() { \
         DEFAULT_REMOTE=$(git remote |head -n1 );\
         REMOTE=$(git config remote.${1:-$DEFAULT_REMOTE}.url);\
-        URL=$(echo $REMOTE | sed -r 's|.*@(.*):(.*).git|http://\\1/\\2|g');\
-        URL=$(echo $URL    | sed -r 's|git://(.*).git|http://\\1|');\
+        URL=$(echo $REMOTE | sed -E 's/^(git@|https:\\/\\/)(.*):(.*)\\.git$/https:\\/\\/\\2\\/\\3/');\
         $BROWSER $URL > /dev/null 2>&1 ;\
         };\
         f"
@@ -50,3 +50,9 @@
 	templatedir = ~/.git_template
 [rebase]
     autosquash = true
+[fetch]
+    recurseSubmodules=true
+    prune=true
+
+[commit]
+    verbose = true

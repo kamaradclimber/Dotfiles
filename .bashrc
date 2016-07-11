@@ -10,6 +10,10 @@
 export EDITOR=/usr/bin/vim
 export BROWSER=/usr/bin/conkeror
 
+# Add criteo related utilities
+if [ -f "$HOME/.bash_criteo" ] ; then
+  . $HOME/.bash_criteo
+fi
 
 # modified commands
 command -v colordiff >/dev/null 2>&1 && alias diff='colordiff'              # requires colordiff package
@@ -22,18 +26,30 @@ alias m='mutt'
 alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
 
+alias dict="cat /usr/share/dict/words"
+
+alias rdesktop="rdesktop -K -g 1200x800"
+
 # will try ping until success. useful to wait for network to come back
-function ping_until { until [[  $(ping -c 3 -W 1 -q $1 > /dev/null; echo $?) -eq 0 ]]; do echo -n .; sleep 0.4; done }
+function ping_until {
+  until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done
+}
+
+function nc_until {
+  until nc -w 1 $1 $2 > /dev/null ; do echo -n .; sleep 0.4; done
+}
+
+function ssh_until {
+  echo -n ping
+  ping_until $1
+  echo -n ssh_port
+  nc_until $1 22
+}
 
 
 
 
 alias irb="pry"
-
-#probably most used command ever :-)
-function psgrep() { ps aux | grep -v grep | grep "$@" -i --color=auto; }
-alias pg='psgrep'
-
 
 # privileged access
 if [ $UID -ne 0 ]; then
@@ -98,6 +114,10 @@ complete -o bashdefault -o default -o nospace -F _ssh ssh 2>/dev/null \
 #if present, use bash completion specifics. TODO  : quid of bash_completion.d/ dir ?
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
+fi
+
+if [ -f $HOME/.bash_completion ]; then
+    . $HOME/.bash_completion
 fi
 
 # Use bash-completion, if available
@@ -184,10 +204,24 @@ if [ -n "$SSH_CLIENT" ]; then
 fi
 export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} $LAST_COMMAND_RESULT $BELL"
 
+# Measure how long commands last
+# the result can be called using `echo $timer_show`
+function timer_start {
+  timer=${timer:-$SECONDS}
+}
+function timer_stop {
+  timer_show=$(($SECONDS - $timer))
+  unset timer
+}
+trap 'timer_start' DEBUG
+
+
 # called before each prompt
 # use it for all dynamic settings
 function prompt_command {
  last=$?
+ __cached_send_location_to_mqtt
+ timer_stop
 }
 
 PROMPT_COMMAND=prompt_command
@@ -211,31 +245,6 @@ else
 fi
 
 
-###
-###     Handy Extract Program
-###     found at http://dotfiles.org/~blackbook/.bashrc
-###     added 2008-10-07
-extract () {
-     if [ -f $1 ] ; then
-         case $1 in
-             *.tar.bz2)   tar xvjf $1    ;;
-             *.tar.gz)    tar xvzf $1    ;;
-             *.bz2)       bunzip2 $1     ;;
-             *.rar)       unrar x $1     ;;
-             *.gz)        gunzip $1      ;;
-             *.tar)       tar xvf $1     ;;
-             *.tbz2)      tar xvjf $1    ;;
-             *.tgz)       tar xvzf $1    ;;
-             *.zip)       unzip $1       ;;
-             *.Z)         uncompress $1  ;;
-             *.7z)        7z x $1        ;;
-             *)           echo "'$1' cannot be extracted via >extract<" ;;
-         esac
-     else
-         echo "'$1' is not a valid file"
-     fi
-}
-
 if [ -d "$HOME/perl5" ] ; then
   export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/perl5";
   export PERL_MB_OPT="--install_base $HOME/perl5";
@@ -244,10 +253,70 @@ if [ -d "$HOME/perl5" ] ; then
   export PATH="$HOME/perl5/bin:$PATH"
 fi
 
-if [ -f "$HOME/.bash_criteo" ] ; then
-  . $HOME/.bash_criteo
+if [ -d "/opt/chefdk/bin" ]; then
+  export PATH="/opt/chefdk/bin:$PATH"
 fi
+
+if [ -d "$HOME/.local/bin/" ]; then
+  export PATH=$PATH:$HOME/.local/bin/
+fi
+
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
-which rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
-true
+# Smart cd for criteo projects
+# TODO move this to .bash_criteo
+_gitlab_clone() {
+  project=$1
+  repo=$2
+  dir=$3
+  git clone git@gitlab.criteois.com:$project/$repo.git $dir
+}
+
+_gerrit_clone() {
+  project=$1
+  repo=$2
+  dir=$3
+  git clone ssh://review.criteois.lan:29418/$project/$repo.git $dir
+}
+
+ck() {
+  ck_dir=~/cookbooks/$1
+  [[ ! -d $ck_dir ]] && _gerrit_clone chef-cookbooks $1 $ck_dir
+  cd $ck_dir
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-cookbooks/$1.git
+}
+_ck_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/cookbooks/)" -- $cur) )
+}
+complete -o default -F _ck_complete ck
+repo() {
+  name=$(echo $1 | sed 's/^(chef-repos)?/chef-repos/')
+  repo_dir=~/chef-repos/$1
+  [[ ! -d $repo_dir ]] && _gerrit_clone chef-repositories $name $repo_dir
+  cd $repo_dir
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-cookbooks/$1.git
+}
+_repo_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/chef-repos/)" -- $cur) )
+}
+complete -o default -F _repo_complete repo
+# end of smart
+
+
+export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin
+
+set -o history
+
+open() {
+  command=$(history | tail -2 | head -n 1| awk '{$1=""; print}')
+  echo $command
+  $EDITOR $($command | awk  'BEGIN {FS=":";} {print $1":"$2}')
+}
+
+# added by travis gem
+[ -f /home/grego/.travis/travis.sh ] && source /home/grego/.travis/travis.sh
+
+true # finish with a correct exit code

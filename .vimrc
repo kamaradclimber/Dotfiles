@@ -1,12 +1,26 @@
-"silent! colorscheme desert
-
 set history=300
 set nocompatible
+
+" vundle setup require filetype to be off during setup
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'janko-m/vim-test' "test for ruby
+Plugin 'derekwyatt/vim-scala' "scala stuff
+Plugin 'bogado/file-line' "allow to open filename:line
+" all plugins should be set above
+call vundle#end()
+
+" reactivate filetype after vundle setup
+filetype plugin indent on
+
 
 ":W ask for sudo password to save the file
 command W w !sudo tee % > /dev/null
 
-filetype plugin indent on
+" visual autocomplete for command menu
+set wildmenu
 
 set t_Co=256
 syntax enable
@@ -44,11 +58,11 @@ catch
 endtry
 set ffs=unix,dos,mac "Default file types
 
-" Tabs as space of 4 (by default)
-set expandtab
+set tabstop=4     " display tabs as 4 spaces
+set softtabstop=4 " number of spaces when adding tabs
+set shiftwidth=4  "
+set expandtab     " tabs are converted to spaces
 set smarttab
-set shiftwidth=4
-set tabstop=4
 
 
 " Auto-wrap comments and allow "gq" formatting
@@ -93,3 +107,12 @@ autocmd BufRead *thrift :set syntax=thrift
 " Highlight trailing whitespaces
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
+
+let mapleader=","
+
+silent! colorscheme desert
+
+" vim-test setup
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+

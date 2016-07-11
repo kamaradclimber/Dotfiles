@@ -30,12 +30,20 @@ fpkg() {
 MAIL_PERIOD=2
 
 fmail() {
-  GMAILS=`find ~/Maildir/Gmail -type f -wholename '*/INBOX/new/*' | wc -l`
+  if [[ -d ~/Maildir/Gmail ]]; then
+    GMAILS=`find ~/Maildir/Gmail -type f -wholename '*/INBOX/new/*' | wc -l`
+  fi
+  if [[ -d ~/Maildir/familleseux ]]; then
   FAMAILS=`find ~/Maildir/familleseux -type f -wholename '*/INBOX/new/*' |wc -l`
+  fi
+  if [[ -d ~/Maildir/Criteo ]]; then
   CMAILS=`find ~/Maildir/Criteo -type f -wholename '*/INBOX/new/*' |wc -l`
   ACMAILS=`find ~/Maildir/Criteo -type f -wholename '*/*/new/*' |wc -l`
   ACMAILS=$((ACMAILS - CMAILS))
-  PMAIL="$SEP MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
+  fi
+  if [[ -d ~/Maildir ]]; then
+    PMAIL="$SEP MAIL ^fg(green)$GMAILS $FAMAILS $CMAILS $ACMAILS^fg()"
+  fi
 }
 # }}}
 
@@ -80,14 +88,15 @@ wifi() {
   fi
 }
 
-BATTERY_PERIOD=2
+BATTERY_PERIOD=1
 battery() {
   if [ `which acpi` ]
   then
     pc=`acpi | grep Battery | cut -d ',' -f 2 | sed 's/ \|%//g'`
     color=green
     test $pc -lt 21 && color=red
-    BATTERY="$SEP B :^fg($color)$pc%^fg()"
+    (acpi | grep -q Discharging) && charge=" ^fg(red)↓^fg()" || charge=" ^fg(green)↑^fg()"
+    BATTERY="$SEP B :^fg($color)$pc%^fg()$charge"
     acpi -a | grep 'on-line' && test $pc -gt 99 && unset BATTERY
   fi
 }

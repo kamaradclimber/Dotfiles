@@ -1,4 +1,5 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 import XMonad
 import XMonad.Actions.CycleWS
@@ -12,6 +13,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook hiding (DzenUrgencyHook)
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.Accordion
 import XMonad.Layout.Decoration
 import XMonad.Layout.Grid
@@ -29,6 +31,7 @@ import XMonad.Util.Loggers
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.Scratchpad
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Themes
 import qualified XMonad.StackSet as W
 
@@ -41,7 +44,7 @@ import System.IO
 myTerminal           = "urxvt"
 myBrowser            = "conkeror"
 mySecondaryBrowser   = "firefox"
-myWorkspaces         = map show [1..7] ++ ["MAIL", "IM"] ++ map show [0]
+myWorkspaces         = map show [1..6] ++ ["CAL", "MAIL", "IM"] ++ map show [0]
 
 myBorderWidth        = 1
 myNormalBorderColor  = "#dddddd"
@@ -70,15 +73,19 @@ myModMask = mod4Mask
 --
 
 -- all key config unions
-myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
+-- myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
+myKeys c = bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c
+
+
+workspace conf modm keys = M.fromList [
+  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) keys,
+   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
 
 -- setup keys for bepo and qwerty
-bepoKeys conf@(XConfig {modMask = modm}) = M.fromList [
-  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a],
-   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-qwertyKeys conf@(XConfig {modMask = modm}) = M.fromList [
-  ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) [0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x40],
-   (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+bepoKeys conf@(XConfig {modMask = modm}) = workspace conf modm [0x22,0xab,0xbb,0x28,0x29,0x40,0x2b,0x2d,0x2f,0x2a]
+qwertyKeys conf@(XConfig {modMask = modm}) = workspace conf modm [0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x40]
+-- for reference azertyKeys
+-- [0x26,0xe9,0x22,0x27,0x28,0x2d,0xe8,0x5f,0xe7,0xe0],
 
 --Don't forget to describe each command
 generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
@@ -88,6 +95,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,               xK_a),          scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
     ((modm,               xK_c),          spawn myBrowser),                                      --browser
     ((modm .|. shiftMask, xK_c),          spawn mySecondaryBrowser),                             -- secondary browser
+    ((modm, xK_o),          spawn "dmenu_run"),                             -- any command
     ((modm,               xK_l),          spawn "~/img/lock.sh"),                                --lock screen
     ((modm,               xK_F4),         kill),                                                 --kill current window
     -- Layouts
@@ -101,6 +109,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     -- Swap focused window
     ((modm .|. shiftMask, xK_Return),     dwmpromote),                                           --move windows to master area
     ((modm ,              xK_n),          moveTo Next EmptyWS),                                  --find next empty fallback
+    ((modm .|. shiftMask, xK_n),          moveTo Next AnyWS),                                       --find next empty fallback
     -- Resize
     ((modm,               xK_Left),       sendMessage Shrink),                                   --shrink master area
     ((modm,               xK_Right),      sendMessage Expand),                                   --expand master area
@@ -133,9 +142,10 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList [
 -- restarting (with 'mod-q') to reset your layout state to the new
 -- defaults, as xmonad preserves your old layout settings by default.
 threeColumns = ThreeCol 1 (3/100) (1/2)
+threeLines   = Mirror (ThreeCol 1 (3/100) (1/3))
 
 
-defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout  ||| threeColumns ||| Mirror threeColumns
+defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout  ||| threeColumns ||| threeLines
 
 
 myLayout = defaultLayout
@@ -237,7 +247,7 @@ statusInfo pipe = defaultPP {
 -- Perform an arbitrary action each time xmonad starts or is restarted
 -- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
-myStartupHook = return ()
+myStartupHook = setWMName "LG3D" -- LG3D is to run some java apps properly (intellij for instance)
 data MyUrgencyHook = MyUrgencyHook {
                          dur :: Int, -- ^ number of microseconds to display the dzen
                                           --   (hence, you'll probably want to use 'seconds')

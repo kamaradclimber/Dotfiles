@@ -27,6 +27,7 @@ xset -b
 
 case "$(uname -n)" in
   "vargas")
+    #setxkbmap fr -variant bepo
     setxkbmap us -variant intl
     nm-applet &
     ;;
@@ -34,14 +35,19 @@ case "$(uname -n)" in
     ~/.dotfiles/set_dualscreen_on.sh &
     ;;
   "criteo-scalasto")
+    export ALSA_CARD=Creative # this sets the default card in alsamixer
     ~/.dotfiles/dual_screen_criteo.sh &
     ;;
   "soksabai")
-    setxkbmap fr -variant bepo
+    setxkbmap -device 9 fr
+    setxkbmap -device 11 fr -variant bepo
     ;;
 esac
 
 
+if [ -f $HOME/.Xmodmap ]; then
+   xmodmap ~/.Xmodmap
+ fi
 
 
 if [ -f /usr/bin/numlockx ]; then
