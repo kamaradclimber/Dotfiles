@@ -199,14 +199,14 @@ RUBY_PATH=$GEM_HOME/bin
 export PATH="$RUBY_PATH:$PATH"
 
 
-#Work station or persannal desktop?
+#Workstation or personnal desktop?
 if [ $(uname -n) == "criteo-scalasto" ]; then
   export MAILDIR=$HOME/Mail/Criteo
   export EMAIL="g.seux@criteo.com"
 elif [ $(uname -n) == "vargas" ]; then
   export EMAIL="g.seux@criteo.com"
 else
-  export MAILDIR=$HOME/Mail/Gmail
+  export MAILDIR=$HOME/Maildir
   export EMAIL="kamaradclimber@gmail.com"
 fi
 

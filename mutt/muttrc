@@ -36,6 +36,7 @@ set fast_reply          = yes
 set forward_format      = "Fwd: %s"
 set forward_quote               # include message in forward
 set include             = yes   # include message in replies
+set reverse_name
 
 #Headers
 set edit_headers        = yes       # display headers in mail edition
