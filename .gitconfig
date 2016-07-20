@@ -6,6 +6,7 @@
     preloadindex = true #should be faster on NFS (because of weak caching semantics)
     hideDotFiles = dotGitOnly
     whitespace = trailing-space,space-before-tab
+    hooksPath  = ~/git-hooks-common
 
 [color]
     branch = auto
@@ -16,8 +17,9 @@
     status = auto
 
 [diff]
-    renames = true #detect rename of files
+    renames = true #detect rename of files, default since 2.9
     mnemonicprefix = true #don't use a,b as prefix in diff output but i (index) and w (working directory) instead
+    compactionHeuristic = true # new option in 2.9, better diff heuristic
 
 [merge]
     summary=true
@@ -56,3 +58,11 @@
 
 [commit]
     verbose = true
+
+[pager]
+    show = /usr/share/git/diff-highlight/diff-highlight | less
+    log  = /usr/share/git/diff-highlight/diff-highlight | less
+    diff = /usr/share/git/diff-highlight/diff-highlight | less
+
+[interactive]
+    diffFilter = /usr/share/git/diff-highlight/diff-highlight
