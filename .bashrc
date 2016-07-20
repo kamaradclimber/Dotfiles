@@ -291,11 +291,12 @@ _ck_complete() {
 }
 complete -o default -F _ck_complete ck
 repo() {
-  name=$(echo $1 | sed 's/^(chef-repos)?/chef-repos/')
+  shortname=$(echo $1 | sed -re 's/^(chef-)?//')
+  fullname=$(echo $1 | sed -re 's/^(chef-)?/chef-/')
   repo_dir=~/chef-repos/$1
-  [[ ! -d $repo_dir ]] && _gerrit_clone chef-repositories $name $repo_dir
+  [[ ! -d $repo_dir ]] && _gerrit_clone chef-repositories $fullname $repo_dir
   cd $repo_dir
-  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-cookbooks/$1.git
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-repositories/$fullname.git
 }
 _repo_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
