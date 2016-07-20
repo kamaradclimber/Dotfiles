@@ -309,13 +309,10 @@ complete -o default -F _repo_complete repo
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
 
-set -o history
-
-open() {
-  command=$(history | tail -2 | head -n 1| awk '{$1=""; print}')
-  echo $command
-  $EDITOR $($command | awk  'BEGIN {FS=":";} {print $1":"$2}')
-}
+if hash ag 2>/dev/null; then
+  tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null; }
+  alias ag=tag
+fi
 
 # added by travis gem
 [ -f /home/grego/.travis/travis.sh ] && source /home/grego/.travis/travis.sh
