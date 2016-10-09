@@ -5,8 +5,7 @@ homeassistant:
   latitude: !secret location_latitude
   longitude: !secret location_longitude
   elevation: 66 # altitude
-  # C for Celcius, F for Fahrenheit
-  temperature_unit: C
+  unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Paris
   customize:
@@ -65,9 +64,7 @@ sensor:
       - 18
     monitored_conditions:
       - ping
-      - download
-      - upload
-  - platform: forecast
+  - platform: darksky
     api_key: !secret forecast_api_key
     monitored_conditions: # read the doc to see all weather sensors
       - precip_type
@@ -77,17 +74,22 @@ sensor:
       - apparent_temperature
       - humidity
       - visibility
+  - platform: statistics
+    name: Ping Stats
+    entity_id: sensor.speedtest_ping
 
 device_tracker:
   - platform: nmap_tracker
     hosts: 192.168.0.0/24
     home_interval: 10
     interval_seconds: 120
-    track_new_devices: no
+    track_new_devices: yes
   - platform: mqtt
     qos: 1
     devices:
       Gregoire: /location/grego
+  - platform: owntracks
+    max_gps_accuracy: 200
 
 
 zone:
@@ -96,17 +98,12 @@ zone:
   latitude: 48.878887
   icon: "mdi:desktop-tower"
 
-notify:
-  platform: free_mobile
-  username: !secret free_mobile_username
-  access_token: !secret free_mobile_token
-
 zwave:
   usb_path: /dev/zwave1 #using udev rule to have stable name
   # TODO make this path more robust
   config_path: /usr/lib/python3.5/site-packages/libopenzwave-0.3.0b9-py3.5-linux-armv7l.egg/config
   polling_interval: 60000
-  autoheal: False # is done at might night
+  autoheal: False # is done at midnight
   customize:
     sensor.greenwave_powernode_6_port_energy_10:
       polling_intensity: 1
@@ -124,9 +121,20 @@ switch:
   - platform: command_line
     switches:
       capodimonte_led:
-        oncmd: sudo systemctl start raspberry_led
-        offcmd: sudo systemctl stop raspberry_led
-        statecmd: systemctl is-active raspberry_led > /dev/null
+        command_on: sudo systemctl start raspberry_led
+        command_off: sudo systemctl stop raspberry_led
+        command_state: systemctl is-active raspberry_led > /dev/null
+
+cover:
+  - platform: command_line
+    covers:
+      volets_salon:
+        command_open: curl -s http://192.168.0.20/up
+        command_close: curl -s http://192.168.0.20/down
+        command_stop: curl -s http://192.168.0.20/down # can't do better for now
+        # command_state is commented since covers are not connected at the moment
+        # and status polling is polluting logs
+        #command_state: curl -s http://192.168.0.20/status
 
 input_boolean:
   light_control_by_kokodi:
@@ -169,39 +177,61 @@ script:
         data:
           entity_id: light.table__manger
           transition: 180
+  diving_submarine:
+    alias: Sous Marin
+    sequence:
+      - alias: Move lights to red
+        service: light.turn_on
+        data:
+          entity_id: light.table__manger
+          transition: 5
+          brightness: 60
+          color_name: red
+      - alias: Move roller shutter down
+        service: rollershutter.move_down
+        data:
+          entity_id: rollershutter.salon
+
+
+
 # Grouped states should share the same type of states (ON/OFF or HOME/NOT_HOME)
 group:
   Famille:
     - device_tracker.Noemi
     - device_tracker.Gregoire
-  ChambreGN:
+  SdB_Parents:
+    # On every association the zwave hub gives a new id (incremental) to the light bulb
+    # don't use directly the name as it can change but only this group
     - light.domitech_smart_led_retrofit_kit_ze27eu_level
     - light.domitech_smart_led_retrofit_kit_ze27eu_level_2
     - light.domitech_smart_led_retrofit_kit_ze27eu_level_3
+    - light.domitech_smart_led_retrofit_kit_ze27eu_level_5
   Salon:
     - light.table__manger
     - media_player.kokodi
     - scene.movie_paused
     - scene.movie_playing
     - scene.movie_stopped
+    - scene.diving_submarine
+    - device_tracker.milightrouter
+    - cover.volets_salon
   Controles:
     - input_boolean.light_control_by_kokodi
     - input_boolean.bathroom_light_control
   Capodimonte:
-    - sensor.speedtest_ping
-    - sensor.speedtest_download
-    - sensor.speedtest_upload
     - switch.capodimonte_led
+    - sensor.speedtest_ping
+    - sensor.ping_stats_mean
   Temps:
     - sun.sun
     - sensor.yr_symbol
-    - sensor.weather_temperature
-    - sensor.weather_apparent_temperature
-    - sensor.weather_precip
-    - sensor.weather_precip_intensity
-    - sensor.weather_precip_probability
-    - sensor.weather_humidity
-    - sensor.weather_visibility
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_humidity
+    - sensor.dark_sky_precip
+    - sensor.dark_sky_precip_intensity
+    - sensor.dark_sky_precip_probability
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_visibility
 
 scene:
   - name: Movie Playing
@@ -283,20 +313,13 @@ automation:
       entity_id: scene.movie_stopped
 
 
-  - alias: Switch off capodimonte led
+  - alias: Trigger capodimonte led on sun rise/set events
     trigger:
       platform: sun
       event: sunset
     action:
-      service: switch.turn_off
-      entity_id: switch.capodimonte_led
-  # TODO factorize capodimonte led management using templates
-  - alias: Switch on capodimonte led
-    trigger:
-      platform: sun
-      event: sunrise
-    action:
-      service: switch.turn_on
+      service_template: >-
+        switch.turn_{% if trigger.event == "sunrise" %}on{% else %}off{% endif %}
       entity_id: switch.capodimonte_led
 
   - alias: WakeUp
@@ -320,7 +343,7 @@ automation:
               - thu
               - fri
       - service: light.turn_on
-        entity_id: light.domitech_smart_led_retrofit_kit_ze27eu_level_3
+        entity_id: group.sdb_parents
         data:
           brightness: 20
   - alias: Switch off
@@ -344,4 +367,4 @@ automation:
               - thu
               - fri
       - service: light.turn_off
-        entity_id: light.domitech_smart_led_retrofit_kit_ze27eu_level_3
+        entity_id: group.sdb_parents
