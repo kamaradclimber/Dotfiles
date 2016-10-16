@@ -77,6 +77,8 @@ require("youtube"); //I should set a vlc handler instead
 
 require("smbc");
 
+require("reddit");
+
 //prevent github and others to steal my keys !
 require("key-kill");
 //page_mode_deactivate(key_kill_mode)
