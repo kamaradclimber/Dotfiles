@@ -36,7 +36,7 @@ function ping_until {
 }
 
 function nc_until {
-  until nc -w 1 $1 $2 > /dev/null ; do echo -n .; sleep 0.4; done
+  until (echo "" | nc -w 1 $1 $2) > /dev/null ; do echo -n .; sleep 0.4; done
 }
 
 function ssh_until {
