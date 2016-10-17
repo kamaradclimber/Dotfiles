@@ -78,3 +78,7 @@ function knife_until {
     CURRENT_TIME=$(date +%s)
   done
 }
+
+alias j='mosespa browse'
+
+export CRITEO_USER=g.seux
