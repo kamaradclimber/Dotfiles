@@ -18,7 +18,6 @@
 
 [diff]
     renames = true #detect rename of files, default since 2.9
-    mnemonicprefix = true #don't use a,b as prefix in diff output but i (index) and w (working directory) instead
     compactionHeuristic = true # new option in 2.9, better diff heuristic
 
 [merge]
