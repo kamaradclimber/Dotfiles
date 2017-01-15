@@ -19,6 +19,7 @@
 [diff]
     renames = true #detect rename of files, default since 2.9
     compactionHeuristic = true # new option in 2.9, better diff heuristic
+    indentHeuristic = true # better heuristic for diff. should become default
 
 [merge]
     summary=true
@@ -51,6 +52,7 @@
 	templatedir = ~/.git_template
 [rebase]
     autosquash = true
+    autostash = true # do all the manual work for me
 [fetch]
     recurseSubmodules=true
     prune=true
