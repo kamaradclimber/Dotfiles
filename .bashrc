@@ -30,6 +30,11 @@ alias dict="cat /usr/share/dict/words"
 
 alias rdesktop="rdesktop -K -g 1200x800"
 
+alias b='bundle install'
+alias bb='mv Gemfile.lock{,$(date +%s)}; bundle install'
+
+alias js="mosespa search"
+
 # will try ping until success. useful to wait for network to come back
 function ping_until {
   until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done
@@ -194,6 +199,7 @@ HOST=""
 USER_=""
 LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
 BELL="\[\a\]"
+LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 10 ]]; then echo "${timer_show}s "; fi)'
 
 if [ -f ~/.git-prompt.sh ]; then
   . ~/.git-prompt.sh
@@ -205,7 +211,7 @@ if [ -n "$SSH_CLIENT" ]; then
   HOST="${CYAN}\h${NORM} "
   USER_="${RED}\u${NORM}"
 fi
-export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} $LAST_COMMAND_RESULT $BELL"
+export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT $BELL"
 
 # Measure how long commands last
 # the result can be called using `echo $timer_show`
@@ -306,6 +312,17 @@ _repo_complete() {
   COMPREPLY=( $(compgen -W "$(command ls ~/chef-repos/)" -- $cur) )
 }
 complete -o default -F _repo_complete repo
+ruby_gem () {
+  gem_dir=~/gems/$1
+  [[ ! -d $gem_dir ]] && _gerrit_clone ruby-gems $1 $gem_dir
+  cd $gem_dir
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:ruby-gems/$1.git
+}
+_gem_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/gems/)" -- $cur) )
+}
+complete -o default -F _gem_complete ruby_gem
 # end of smart
 
 

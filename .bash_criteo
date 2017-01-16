@@ -84,3 +84,8 @@ function j {
 }
 
 export CRITEO_USER=g.seux
+
+function kitchenec2 {
+  source ~/.env
+  KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen $@
+}
