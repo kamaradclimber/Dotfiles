@@ -79,6 +79,8 @@ function knife_until {
   done
 }
 
-alias j='mosespa browse'
+function j {
+  xdg-open http://jira.criteois.com/browse/$1
+}
 
 export CRITEO_USER=g.seux
