@@ -95,7 +95,7 @@ complete -cf man
 
 __ssh_known_hosts() {
   if [[ -f ~/.ssh/known_hosts ]]; then
-    cut -d " " -f1 ~/.ssh/known_hosts | cut -d "," -f1 |sed 's/\[\|\]\|\(:[0-9]*\)//g' | xargs -n1
+    cut -d " " -f1 ~/.ssh/known_hosts | cut -d "," -f1 |sed 's/\[\|\]\|\(:[0-9]*\)//g'
   fi
   if [[ -f ~/.ssh/config ]]; then
     cat ~/.ssh/config | awk '/Host / {print $2}' | grep -v '*' | xargs -n1
