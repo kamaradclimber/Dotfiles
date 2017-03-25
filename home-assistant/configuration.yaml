@@ -1,3 +1,5 @@
+# to validate the conf:
+# sudo -u hass hass --script check_config --files -c /var/lib/hass
 homeassistant:
   # Name of the location where Home Assistant is running
   name: !secret location_name
@@ -8,16 +10,53 @@ homeassistant:
   unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Paris
+  customize_domain:
+    device_tracker:
+      icon: mdi:network-question
   customize:
     switch.capodimonte_led:
       icon: mdi:led-variant-on
-
+    script.radio_swiss_classic:
+      icon: mdi:radio
+    device_tracker.kodi:
+      icon: mdi:projector
+    script.bedtime:
+      icon: mdi:hotel
+    script.restart_ha:
+      icon: mdi:restart
+    scene.movie_paused:
+      icon: mdi:play-pause
+    scene.movie_playing:
+      icon: mdi:play
+    scene.movie_stopped:
+      icon: mdi:stop
+    device_tracker.Imprimante:
+      icon: mdi:printer
+    device_tracker.dellxps:
+      icon: mdi:laptop
+    device_tracker.milight:
+      icon: mdi:wifi
+    device_tracker.wifi:
+      icon: mdi:access-point
+    device_tracker.soksabai_wifi:
+      icon: mdi:laptop
+    device_tracker.nut1:
+      icon: mdi:face
+    device_tracker.nut2:
+      icon: mdi:face
 
 # Track the sun
 sun:
 
 recorder:
   purge_days: 14
+
+logbook:
+  exclude:
+    domains:
+      - sun
+      - cover
+      - switch
 
 # Enables support for tracking state changes over time.
 history:
@@ -26,6 +65,7 @@ history:
 
 # Checks for available updates
 updater:
+  reporting: no
 
 # Discover some devices automatically
 discovery:
@@ -36,21 +76,16 @@ frontend:
 # Allows you to issue voice commands from the frontend
 conversation:
 
+config:
+
 # Expose home-assistant metadata over bonjour
 zeroconf:
 
 media_player:
   platform: kodi
-  host: http://192.168.0.13
+  host: 192.168.0.13
   port: 8080
   name: KoKodi
-
-mqtt:
-  # TODO use my own broker
-  broker: m21.cloudmqtt.com
-  port: 21974
-  username: !secret mqtt_username
-  password: !secret mqtt_password
 
 # Prediction of weather
 sensor:
@@ -64,19 +99,17 @@ sensor:
       - 18
     monitored_conditions:
       - ping
-  - platform: darksky
-    api_key: !secret forecast_api_key
-    monitored_conditions: # read the doc to see all weather sensors
-      - precip_type
-      - precip_intensity
-      - precip_probability
-      - temperature
-      - apparent_temperature
-      - humidity
-      - visibility
-  - platform: statistics
-    name: Ping Stats
-    entity_id: sensor.speedtest_ping
+  - platform: sonarr
+    api_key: a08c1dbcc5254544affd9d23669bab72
+    host: familleseux.net
+    port: 443
+    ssl: true
+    urlbase: /sonarr
+    days: 6
+    monitored_conditions:
+      - upcoming
+      - wanted
+
 
 device_tracker:
   - platform: nmap_tracker
@@ -84,12 +117,7 @@ device_tracker:
     home_interval: 10
     interval_seconds: 120
     track_new_devices: yes
-  - platform: mqtt
-    qos: 1
-    devices:
-      Gregoire: /location/grego
-  - platform: owntracks
-    max_gps_accuracy: 200
+# - platform: bluetooth_le_tracker
 
 
 zone:
@@ -101,21 +129,29 @@ zone:
 zwave:
   usb_path: /dev/zwave1 #using udev rule to have stable name
   # TODO make this path more robust
-  config_path: /usr/lib/python3.5/site-packages/libopenzwave-0.3.0b9-py3.5-linux-armv7l.egg/config
+  config_path: /usr/lib/python3.6/site-packages/libopenzwave-0.3.2-py3.6-linux-armv7l.egg/config
   polling_interval: 60000
   autoheal: False # is done at midnight
-  customize:
-    sensor.greenwave_powernode_6_port_energy_10:
+  device_config_domain:
+    light:
       polling_intensity: 1
+  #  customize:
+  #    sensor.greenwave_powernode_6_port_energy_10:
+  #      polling_intensity: 1
 
 light:
   platform: limitlessled
   bridges:
     - host: 192.168.0.110
+      version: 4
+      port: 8899
       groups:
         - number: 1
           type: rgbw
           name: Table à manger
+        - number: 2
+          type: rgbw
+          name: Salon
 
 switch:
   - platform: command_line
@@ -123,7 +159,11 @@ switch:
       capodimonte_led:
         command_on: sudo systemctl start raspberry_led
         command_off: sudo systemctl stop raspberry_led
-        command_state: systemctl is-active raspberry_led > /dev/null
+        command_state: systemctl is-active raspberry_led > /dev/null 2>&1
+      nzbget_pause:
+        command_on: "curl -XPOST capodimonte/nzbget/jsonrpc -d '{\"method\": \"pausepost\"}' && curl -XPOST capodimonte/nzbget/jsonrpc -d '{\"method\": \"pausedownload\"}'"
+        command_off: "curl -XPOST capodimonte/nzbget/jsonrpc -d '{\"method\": \"scheduleresume\", \"params\": [1]}'"
+        command_state: "curl -s capodimonte/nzbget/jsonrpc -d '{\"method\": \"status\"}' |grep -q 'Paused\" : true'"
 
 cover:
   - platform: command_line
@@ -132,21 +172,24 @@ cover:
         command_open: curl -s http://192.168.0.20/up
         command_close: curl -s http://192.168.0.20/down
         command_stop: curl -s http://192.168.0.20/down # can't do better for now
-        # command_state is commented since covers are not connected at the moment
-        # and status polling is polluting logs
-        #command_state: curl -s http://192.168.0.20/status
+        command_state: curl -s http://192.168.0.20/status
 
 input_boolean:
   light_control_by_kokodi:
     name: Kokodi controle lumière du salon
     initial: on
     icon: mdi:toggle-switch
-  bathroom_light_control:
-    name: Allumage automatique SdB
-    initial: on
-    icon: mdi:toggle-switch
+
+shell_command:
+  classical_music_on_kodi: /var/lib/hass/play_random_classical_music_kodi.sh
+  radio_swiss_classic: /var/lib/hass/play_radio_swiss_classic.sh
 
 script:
+  radio_swiss_classic:
+    alias: Launch Swiss Classic Music
+    sequence:
+      - alias: start
+        service: shell_command.radio_swiss_classic
   restart_ha:
     alias: Restart HA
     sequence:
@@ -159,99 +202,145 @@ script:
         service: zwave.heal_network
       - alias: soft_reset
         service: zwave.soft_reset
+
+  shower_on:
+    alias: Shower On
+    sequence:
+      - alias: music
+        service: shell_command.classical_music_on_kodi
+      - alias: wait for a few seconds
+        delay:
+          seconds: 5
+      - alias: light on
+        service: light.turn_on
+        data:
+          entity_id: group.sdb_parents
+          brightness: 20
+      - alias: wait for a few seconds
+        delay:
+          seconds: 5
+      - alias: light on
+        service: light.turn_on
+        data:
+          entity_id: group.sdb_parents
+          brightness: 40
+
   bedtime:
     alias: Fin de soirée
     sequence:
+      - alias: Switch to white
+        service: light.turn_on
+        data:
+          entity_id: group.salon
+          transition: 1
+          brightness: 10
+          color_name: white
       - alias: Switch on light
         service: light.turn_on
         data:
-          entity_id: light.table__manger
+          entity_id: light.salon
           transition: 10
           brightness: 215
           color_name: white
       - alias: wait 10 seconds for pipeline
         delay:
-          seconds: 15
+          seconds: 10
+      - alias: wait until we go to bed
+        delay:
+          seconds: 60
       - alias: Slowly dim light off
         service: light.turn_off
         data:
-          entity_id: light.table__manger
-          transition: 180
+          entity_id: light.salon
+          transition: 60
+  # this script must be killed before being launched
+  bathroom_light_countdown:
+    alias: Countdown until bathroom shutdown
+    sequence:
+      - alias: Wait countdown
+        delay:
+          seconds: 60
+      - alias: Slowly dim light off
+        service: light.turn_off
+        data:
+          entity_id: group.sdb_parents
+          transition: 60
+
   diving_submarine:
     alias: Sous Marin
     sequence:
       - alias: Move lights to red
         service: light.turn_on
         data:
-          entity_id: light.table__manger
+          entity_id: group.salon
           transition: 5
           brightness: 60
           color_name: red
       - alias: Move roller shutter down
-        service: rollershutter.move_down
+        service: covers.close_cover
         data:
-          entity_id: rollershutter.salon
+          entity_id: covers.volets_salon
 
 
 
 # Grouped states should share the same type of states (ON/OFF or HOME/NOT_HOME)
-group:
-  Famille:
-    - device_tracker.Noemi
-    - device_tracker.Gregoire
-  SdB_Parents:
-    # On every association the zwave hub gives a new id (incremental) to the light bulb
-    # don't use directly the name as it can change but only this group
-    - light.domitech_smart_led_retrofit_kit_ze27eu_level
-    - light.domitech_smart_led_retrofit_kit_ze27eu_level_2
-    - light.domitech_smart_led_retrofit_kit_ze27eu_level_3
-    - light.domitech_smart_led_retrofit_kit_ze27eu_level_5
-  Salon:
-    - light.table__manger
-    - media_player.kokodi
-    - scene.movie_paused
-    - scene.movie_playing
-    - scene.movie_stopped
-    - scene.diving_submarine
-    - device_tracker.milightrouter
-    - cover.volets_salon
-  Controles:
-    - input_boolean.light_control_by_kokodi
-    - input_boolean.bathroom_light_control
-  Capodimonte:
-    - switch.capodimonte_led
-    - sensor.speedtest_ping
-    - sensor.ping_stats_mean
-  Temps:
-    - sun.sun
-    - sensor.yr_symbol
-    - sensor.dark_sky_apparent_temperature
-    - sensor.dark_sky_humidity
-    - sensor.dark_sky_precip
-    - sensor.dark_sky_precip_intensity
-    - sensor.dark_sky_precip_probability
-    - sensor.dark_sky_temperature
-    - sensor.dark_sky_visibility
+group: !include groups.yaml
 
 scene:
-  - name: Movie Playing
+  - name: Reset to white
     entities:
-      light.table__manger:
-        state: on
-        transition: 5
-        brightness: 75
-        color_name: blue
-  - name: Movie Paused
-    entities:
-      light.table__manger:
+      light.table_a_manger:
         state: on
         transition: 5
         brightness: 75
         color_name: white
+      light.salon:
+        state: on
+        transition: 5
+        brightness: 75
+        color_name: white
+  - name: Movie Playing
+    entities:
+      light.table_a_manger:
+        state: on
+        transition: 5
+        brightness: 75
+        color_name: blue
+      light.salon:
+        state: off
+        transition: 5
+      script.bedtime:
+        state: off
+      switch.nzbget_pause:
+        state: on
+  - name: Movie Paused
+    entities:
+      light.table_a_manger:
+        state: on
+        transition: 5
+        brightness: 75
+        color_name: white
+      light.salon:
+        state: on
+        transition: 5
+        brightness: 75
+        color_name: white
+      script.bedtime:
+        state: off
   - name: Movie Stopped
     entities:
       script.bedtime:
         state: on
+      switch.nzbget_pause:
+        state: off
+  - name: Shower on
+    entities:
+      script.shower_on:
+        state: on
+  - name: LateMorning
+    entities:
+      covers.volets_salon:
+        state: open
 
 automation:
   - alias: Enable light control by kokodi in the evening
@@ -322,49 +411,83 @@ automation:
         switch.turn_{% if trigger.event == "sunrise" %}on{% else %}off{% endif %}
       entity_id: switch.capodimonte_led
 
-  - alias: WakeUp
+  - alias: Automatic switch off in parents bathroom
+    trigger:
+      platform: state
+      entity_id: group.sdb_parents
+      from: 'off'
+      to: 'on'
+    action:
+      - service: script.turn_off
+        entity_id: script.bathroom_light_countdown
+        #- service: script.turn_on
+        #entity_id: script.bathroom_light_countdown
+
+  - alias: WakeUp routine
     trigger:
       platform: time
       after: '07:00:00'
+    condition:
+      - condition: state
+        entity_id: group.all_devices
+        state: home
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
     action:
-      - condition: and
-        conditions:
-          - condition: state
-            entity_id: input_boolean.bathroom_light_control
-            state: 'on'
-          - condition: state
-            entity_id: group.all_devices
-            state: home
-          - condition: time
-            weekday:
-              - mon
-              - tue
-              - wed
-              - thu
-              - fri
-      - service: light.turn_on
-        entity_id: group.sdb_parents
-        data:
-          brightness: 20
-  - alias: Switch off
+      service: light.turn_on
+      entity_id: group.sdb_parents
+      data:
+        brightness: 20
+  - alias: Switch off bathroom time in the morning
     trigger:
       platform: time
-      after: '07:15:00'
+      after: '07:25:00'
+    condition:
+      - condition: state
+        entity_id: group.all_devices
+        state: home
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
     action:
-      - condition: and
-        conditions:
-          - condition: state
-            entity_id: input_boolean.bathroom_light_control
-            state: 'on'
-          - condition: state
-            entity_id: group.all_devices
-            state: home
-          - condition: time
-            weekday:
-              - mon
-              - tue
-              - wed
-              - thu
-              - fri
-      - service: light.turn_off
-        entity_id: group.sdb_parents
+      service: light.turn_off
+      entity_id: group.sdb_parents
+
+  - alias: Turn on music when dash button is pressed (day)
+    trigger:
+      platform: event
+      event_type: device_lease_44:65:d:b:aa:e6 # amazon dash "simple human"
+    condition:
+      - condition: time
+        after: '07:00:00' # avoid night errors
+        before: '19:30:00'
+      - condition: state
+        entity_id: media_player.kokodi
+        state: idle
+    action:
+      service: shell_command.radio_swiss_classic
+
+  - alias: Play/Pause kodi when dash button pressed (evening)
+    trigger:
+      platform: event
+      event_type: device_lease_44:65:d:b:aa:e6 # amazon dash "simple human"
+    condition:
+      - condition: time
+        after: '19:30:00'
+        before: '00:00:00'
+    action:
+      service: media_player.media_play_pause
+      entity_id: media_player.kokodi
+
+logger:
+  logs:
+    homeassistant.components.device_tracker: debug

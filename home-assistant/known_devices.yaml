@@ -1,0 +1,96 @@
+Noemi:
+  name: Noemi
+  mac: D8:3C:69:B1:4D:0B
+  picture: https://lh3.googleusercontent.com/-Rxel74yPRtE/AAAAAAAAAAI/AAAAAAAABUc/4lw869mupfk/s120-c/photo.jpg
+  track: yes
+  hide_if_away: no
+
+gregoire:
+  name: Gregoire
+  mac: 44:78:3E:EA:53:57
+  gravatar: kamaradclimber@gmail.com
+  track: yes
+  hide_if_away: no
+
+19216801:
+  name: XRouterX
+  mac: 04:18:D6:06:2A:9C
+  picture: 
+  track: no
+  hide_if_away: no
+
+kodi:
+  name: kodi
+  mac: B8:27:EB:BC:9F:BF
+  picture: 
+  track: yes
+  hide_if_away: no
+
+milight:
+  name: MiLight Bridge
+  mac: AC:CF:23:A6:B2:1E
+  track: yes
+  hide_if_away: no
+
+volets:
+  name: Volets Bubendorf
+  mac: F8:F0:05:F5:D6:9C
+  picture: 
+  track: yes
+  hide_if_away: no
+
+f01faf615cae:
+  hide_if_away: false
+  mac: F0:1F:AF:61:5C:AE
+  name: soksabai
+  picture:
+  track: false
+  vendor: Dell Inc.
+
+wifi:
+  hide_if_away: true
+  mac: E8:DE:27:FA:0A:36
+  name: Wifi 
+  picture:
+  track: true
+  vendor: TP-LINK TECHNOLOGIES CO.,LTD.
+
+Imprimante:
+  hide_if_away: false
+  mac: 84:4B:F5:AC:4A:10
+  name: Imprimante
+  picture:
+  track: true
+  vendor: Hon Hai Precision Ind. Co.,Ltd.
+
+dellxps:
+  hide_if_away: false
+  mac: BC:85:56:26:19:6F
+  name: dellxps
+  picture:
+  track: true
+  vendor: Hon Hai Precision Ind. Co.,Ltd.
+
+soksabai_wifi:
+  hide_if_away: true
+  mac: 3C:77:E6:52:C1:B1
+  name: soksabai wifi
+  picture:
+  track: true
+  vendor: Hon Hai Precision Ind. Co.,Ltd.
+
+b0a2e7418eae:
+  hide_if_away: false
+  mac: B0:A2:E7:41:8E:AE
+  name: b0a2e7418eae
+  picture:
+  track: true
+  vendor: Shenzhen TINNO Mobile Technology Corp.
+
+70e72c42d44b:
+  hide_if_away: false
+  mac: 70:E7:2C:42:D4:4B
+  name: 70e72c42d44b
+  picture:
+  track: true
+  vendor: Apple, Inc.
