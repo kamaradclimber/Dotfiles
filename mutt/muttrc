@@ -8,18 +8,14 @@ source ~/.dotfiles/mutt/msmtp
 
 #Account dependant sourcing
 #TODO find a way to avoid having this line to ensure the mutt-reset file is created
-set my_reset_source=`~/.dotfiles/mutt/reset.sh ~/.dotfiles/mutt/*.config > ~/.mutt-reset`
-folder-hook . source ~/.mutt-reset
-folder-hook Gmail source ~/.dotfiles/mutt/gmail.config
-folder-hook Criteo source ~/.dotfiles/mutt/criteo.config
+set my_reset_source=`~/.dotfiles/mutt/reset.sh ~/.dotfiles/mutt/*.config > /tmp/mutt-reset`
+folder-hook . source /tmp/mutt-reset
 folder-hook familleseux source ~/.dotfiles/mutt/familleseux.config
-folder-hook rss source ~/.dotfiles/mutt/rss.config
-macro index,pager 1 "<change-folder>=familleseux/INBOX<enter>" "Open familleseux mailbox"
-macro index,pager 2 "<change-folder>=Gmail/INBOX<enter>" "Open Gmail mailbox"
-macro index,pager 3 "<change-folder>=rss/INBOX<enter>" "Open RSS"
+macro index,pager 4 "<change-folder>=familleseux/INBOX<enter>" "Open familleseux mailbox"
 
 set folder      = ~/Maildir
-set spoolfile   = "+Gmail/INBOX"
+set spoolfile   = "+familleseux/INBOX"
+set from        = "gregoire@familleseux.net"
 mailboxes `~/.dotfiles/mutt/mailboxes.sh ~/Maildir/`
 
 #Auto view
@@ -40,8 +36,8 @@ set reverse_name
 #Headers
 set edit_headers        = yes       # display headers in mail edition
 ignore *
-unignore  from: to: cc: cci: Message-ID: In-Reply-To: Content-location: date: subject:
-hdr_order from: to: cc: cci: Message-ID: In-Reply-To: Content-location: date: subject:
+unignore  from: to: cc: cci: Message-ID: In-Reply-To: Content-location: date: subject: X-Source-URI:
+hdr_order from: to: cc: cci: Message-ID: In-Reply-To: Content-location: date: subject: X-Source-URI:
 
 
 #Sort
