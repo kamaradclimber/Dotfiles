@@ -77,6 +77,8 @@ require("youtube"); //I should set a vlc handler instead
 
 require("smbc");
 
+require("reddit");
+
 //prevent github and others to steal my keys !
 require("key-kill");
 //page_mode_deactivate(key_kill_mode)
@@ -212,3 +214,13 @@ interactive("clear-site-cookies", "Delete all cookies for the current site",
         clear_host_cookies(host);
         I.minibuffer.message("Cookies cleared for " + host);
         });
+
+
+// allow notifications
+var permissionManager = Components.classes["@mozilla.org/permissionmanager;1"]
+        .getService(Components.interfaces.nsIPermissionManager);
+permissionManager.add(
+    make_uri("https://criteo.slack.com/"),
+    "desktop-notification",
+    Components.interfaces.nsIPermissionManager.ALLOW_ACTION
+  );

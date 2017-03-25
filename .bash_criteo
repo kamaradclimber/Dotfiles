@@ -5,9 +5,11 @@ __whereami() {
   if grep 'search criteois.lan' /etc/resolv.conf > /dev/null ; then
     echo "criteo"
   # 78.194.186.226 is home fixed ipaddress
-  # 91.199.242.* is the address of criteo when using the firewall
+  # 91.199.242.* is the address of criteo when using the vpn
   elif curl -s icanhazip.com | grep -q -e 78.194.186.226 -e 91.199.242.; then
     echo "home"
+  elif host 192.168.1.1 | grep -q -e neufbox; then
+    echo "SPDO"
   else
     echo "elsewhere"
   fi
@@ -75,4 +77,15 @@ function knife_until {
     sleep 30
     CURRENT_TIME=$(date +%s)
   done
+}
+
+function j {
+  xdg-open http://jira.criteois.com/browse/$1
+}
+
+export CRITEO_USER=g.seux
+
+function kitchenec2 {
+  source ~/.env
+  KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen $@
 }

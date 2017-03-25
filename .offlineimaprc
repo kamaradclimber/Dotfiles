@@ -20,27 +20,6 @@ accounts = Gmail, familleseux
 socktimeout = 90
 fsync = false
 
-[Account criteo]
-localrepository  = criteo-local
-remoterepository = criteo-remote
-status_backend = sqlite
-
-[Repository criteo-local]
-type = Maildir
-localfolders = ~/Maildir/Criteo
-sep = /
-
-[Repository criteo-remote]
-type = IMAP
-ssl = yes
-remotehost = outlook.office365.com
-remoteuser = g.seux@criteo.com
-remoteport= 993
-maxconnections = 10
-folderfilter =  lambda foldername: foldername in ['INBOX', 'Sent'] or re.search('(^INBOX.)', foldername)
-nametrans = lambda folder: re.sub(r'^INBOX.', r'', re.sub('\.','/', re.sub(r' ', '_', folder)))
-cert_fingerprint = 97cf22e92fb6baf9162523c32e29490974804888
-
 [Repository familleseux-remote]
 type = IMAP
 remotehost = familleseux.net
@@ -56,21 +35,4 @@ sep = /
 [Account familleseux]
 localrepository = familleseux-local
 remoterepository = familleseux-remote
-status_backend = sqlite
-
-[Repository rss-remote]
-type = IMAP
-remotehost = familleseux.net
-remoteuser = rss
-ssl = yes
-sslcacertfile = /etc/ssl/certs/dovecot.pem
-
-[Repository rss-local]
-type = Maildir
-localfolders = ~/Maildir/rss
-sep = /
-
-[Account rss]
-localrepository = rss-local
-remoterepository = rss-remote
 status_backend = sqlite

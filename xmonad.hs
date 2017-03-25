@@ -43,7 +43,7 @@ import System.IO
 
 myTerminal           = "urxvt"
 myBrowser            = "conkeror"
-mySecondaryBrowser   = "firefox"
+mySecondaryBrowser   = "chromium"
 myWorkspaces         = map show [1..6] ++ ["CAL", "MAIL", "IM"] ++ map show [0]
 
 myBorderWidth        = 1
@@ -93,6 +93,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,               xK_F1),         spawn "~/.dotfiles/keybinding_recall.sh"),             --the famous help
     ((modm,               xK_Return),     spawn $ XMonad.terminal conf),                         --new terminal
     ((modm,               xK_a),          scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
+    ((modm, xK_backslash), withFocused (sendMessage . maximizeRestore)),
     ((modm,               xK_c),          spawn myBrowser),                                      --browser
     ((modm .|. shiftMask, xK_c),          spawn mySecondaryBrowser),                             -- secondary browser
     ((modm, xK_o),          spawn "dmenu_run"),                             -- any command
@@ -148,7 +149,7 @@ threeLines   = Mirror (ThreeCol 1 (3/100) (1/3))
 defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout  ||| threeColumns ||| threeLines
 
 
-myLayout = defaultLayout
+myLayout = maximize $ defaultLayout
 
 myTabConfig = theme kavonForestTheme
 myTabLayout = tabbed shrinkText myTabConfig

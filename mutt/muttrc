@@ -1,5 +1,6 @@
 #Not sure these variables are useful
 set my_name="Gregoire Seux"
+set from="Grégoire Seux <kamaradclimber@gmail.com>"
 
 #Sourcing other files
 source ~/.dotfiles/mutt/colors
