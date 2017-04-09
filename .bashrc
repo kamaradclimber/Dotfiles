@@ -5,7 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-
 #standard editor variable
 export EDITOR=/usr/bin/vim
 export BROWSER=/usr/bin/conkeror
@@ -229,7 +228,6 @@ trap 'timer_start' DEBUG
 # use it for all dynamic settings
 function prompt_command {
  last=$?
- __cached_send_location_to_mqtt
  timer_stop
 }
 

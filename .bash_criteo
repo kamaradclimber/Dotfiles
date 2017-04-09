@@ -25,23 +25,6 @@ __cached_whereami() {
   __whereami | tee $tmp
 }
 
-__send_location_to_mqtt() {
-  [[ -n "$SSH_CLIENT" ]] && return 0 # do not send location when connecting through ssh
-  local dir=$HOME/misc/mqtt-location
-  test -d $dir || return 1
-  pushd $dir > /dev/null
-  bundle exec bin/presence.rb /location/grego $(__cached_whereami)
-  popd > /dev/null
-}
-
-__cached_send_location_to_mqtt() {
-  local tmp=/tmp/location.cache
-  if test -f $tmp; then
-    [[ -z "$(find $tmp -mmin +30)" ]] && return 0
-  fi
-  __send_location_to_mqtt && touch $tmp
-}
-
 __mothership() {
   local home=familleseux.net
   case $(__cached_whereami) in
@@ -89,3 +72,5 @@ function kitchenec2 {
   source ~/.env
   KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen $@
 }
+
+alias gogogo='ssh -D 1080 -Nn criteo'
