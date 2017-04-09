@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 #standard editor variable
-export EDITOR=/usr/bin/vim
+export EDITOR=/usr/bin/emacs
 export BROWSER=/usr/bin/conkeror
 
 # Add criteo related utilities
