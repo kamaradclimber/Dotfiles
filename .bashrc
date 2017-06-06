@@ -27,20 +27,6 @@ alias cp="cp -v -R"
 
 alias dict="cat /usr/share/dict/words"
 
-#alias rdesktop="rdesktop -K -g 1200x800"
-
-function rdesktop() {
-  rdesktop_base="command rdesktop -K -g 1200x800"
-  dc=$(echo $1 | sed -re 's/[^\.]+\.([^\.]+)\..+/\1/')
-  if [ ! -z "$dc" ]; then
-    echo "Inserting '$dc' as domain name"
-    $rdesktop_base -d $dc -p - -u $CRITEO_USER $1
-  else
-    echo "No dc found, fallback to normal rdesktop"
-    $rdesktop_base $1
-  fi
-}
-
 alias b='bundle install'
 alias bb='mv Gemfile.lock{,$(date +%s)}; bundle install'
 

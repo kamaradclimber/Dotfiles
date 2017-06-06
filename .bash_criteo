@@ -74,3 +74,17 @@ function kitchenec2 {
 }
 
 alias gogogo='ssh -D 1080 -Nn criteo'
+
+
+function rdesktop() {
+  rdesktop_base="command rdesktop -K -g 1200x800"
+  dc=$(echo $1 | sed -re 's/[^\.]+\.([^\.]+)\..+/\1/')
+  if [ ! -z "$dc" ]; then
+    echo "Inserting '$dc' as domain name"
+    $rdesktop_base -d $dc -p - -u $CRITEO_USER $1
+  else
+    echo "No dc found, fallback to normal rdesktop"
+    $rdesktop_base $1
+  fi
+}
+
