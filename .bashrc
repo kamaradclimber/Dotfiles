@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 #standard editor variable
-export EDITOR=/usr/bin/emacs
+export EDITOR=/usr/bin/vim
 export BROWSER=/usr/bin/conkeror
 
 # Add criteo related utilities
@@ -244,6 +244,8 @@ if [ $(uname -n) == "criteo-scalasto" ]; then
   export EMAIL="g.seux@criteo.com"
 elif [ $(uname -n) == "vargas" ]; then
   export EMAIL="g.seux@criteo.com"
+elif [ $(uname -n) == "churchill" ]; then
+  export EMAIL="g.seux@criteo.com"
 else
   export MAILDIR=$HOME/Maildir
   export EMAIL="kamaradclimber@gmail.com"
@@ -268,60 +270,6 @@ fi
 
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
-# Smart cd for criteo projects
-# TODO move this to .bash_criteo
-_gitlab_clone() {
-  project=$1
-  repo=$2
-  dir=$3
-  git clone git@gitlab.criteois.com:$project/$repo.git $dir
-}
-
-_gerrit_clone() {
-  project=$1
-  repo=$2
-  dir=$3
-  git clone ssh://review.criteois.lan:29418/$project/$repo.git $dir
-}
-
-ck() {
-  ck_dir=~/cookbooks/$1
-  [[ ! -d $ck_dir ]] && _gerrit_clone chef-cookbooks $1 $ck_dir
-  cd $ck_dir
-  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-cookbooks/$1.git
-}
-_ck_complete() {
-  local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command ls ~/cookbooks/)" -- $cur) )
-}
-complete -o default -F _ck_complete ck
-repo() {
-  shortname=$(echo $1 | sed -re 's/^(chef-)?//')
-  fullname=$(echo $1 | sed -re 's/^(chef-)?/chef-/')
-  repo_dir=~/chef-repos/$1
-  [[ ! -d $repo_dir ]] && _gerrit_clone chef-repositories $fullname $repo_dir
-  cd $repo_dir
-  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-repositories/$fullname.git
-}
-_repo_complete() {
-  local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command ls ~/chef-repos/)" -- $cur) )
-}
-complete -o default -F _repo_complete repo
-ruby_gem () {
-  gem_dir=~/gems/$1
-  [[ ! -d $gem_dir ]] && _gerrit_clone ruby-gems $1 $gem_dir
-  cd $gem_dir
-  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:ruby-gems/$1.git
-}
-_gem_complete() {
-  local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command ls ~/gems/)" -- $cur) )
-}
-complete -o default -F _gem_complete ruby_gem
-# end of smart
-
-
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
 
@@ -334,3 +282,6 @@ fi
 [ -f /home/grego/.travis/travis.sh ] && source /home/grego/.travis/travis.sh
 
 true # finish with a correct exit code
+
+# added by travis gem
+[ -f /home/g_seux/.travis/travis.sh ] && source /home/g_seux/.travis/travis.sh

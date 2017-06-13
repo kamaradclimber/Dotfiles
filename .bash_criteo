@@ -38,7 +38,7 @@ __mothership() {
 __homepage() {
   case $(__cached_whereami) in
     criteo )
-      export HOMEPAGE='https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=1033'
+      export HOMEPAGE='https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=1829'
   esac
 }
 
@@ -74,6 +74,62 @@ function kitchenec2 {
 }
 
 alias gogogo='ssh -D 1080 -Nn criteo'
+
+# Smart cd for criteo projects
+# TODO move this to .bash_criteo
+_gitlab_clone() {
+  project=$1
+  repo=$2
+  dir=$3
+  git clone git@gitlab.criteois.com:$project/$repo.git $dir
+}
+
+_gerrit_clone() {
+  project=$1
+  repo=$2
+  dir=$3
+  echo git clone ssh://review.criteois.lan:29418/$project/$repo.git $dir
+  git clone ssh://review.criteois.lan:29418/$project/$repo.git $dir
+}
+
+gerrit() {
+  local project=$(dirname $1)
+  local repo=$(basename $1)
+  mkdir -p ~/$project
+  [[ ! -d ~/$1 ]] && _gerrit_clone "$project" "$repo" "$HOME/$1"
+  cd ~/$1
+}
+
+ck() {
+  gerrit chef-cookbooks/$1
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-cookbooks/$1.git
+}
+_ck_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/chef-cookbooks/)" -- $cur) )
+}
+complete -o default -F _ck_complete ck
+repo() {
+  shortname=$(echo $1 | sed -re 's/^(chef-)?//')
+  fullname=$(echo $1 | sed -re 's/^(chef-)?/chef-/')
+  gerrit chef-repositories/$fullname
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-repositories/$fullname.git
+}
+_repo_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/chef-repositories/)" -- $cur) )
+}
+complete -o default -F _repo_complete repo
+rubygem () {
+  gerrit ruby-gems/$1
+  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:ruby-gems/$1.git
+}
+_gem_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/ruby-gems/)" -- $cur) )
+}
+complete -o default -F _gem_complete rubygem
+# end of smart
 
 
 function rdesktop() {

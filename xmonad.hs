@@ -270,8 +270,8 @@ myUrgencyHook = withUrgencyHookC myDzenUrgencyHook myUrgencyConfig
 
 
 main = do
-    spawn "~/.dotfiles/dzen.sh | dzen2 -xs 1 -x 500 -p  -ta r -expand \"r\""
-    dzenPipe <- spawnPipe "dzen2 -xs 1 -ta \"l\" -w 480 "
+    spawn "~/.dotfiles/dzen.sh | dzen2 -dock -xs 1 -x 500 -p  -ta r -expand \"r\""
+    dzenPipe <- spawnPipe "dzen2 -dock -xs 1 -ta \"l\" -w 480 "
     _ <- spawn myTerminal
     xmonad $ myUrgencyHook $ defaults dzenPipe
 
