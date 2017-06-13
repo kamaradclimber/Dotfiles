@@ -16,10 +16,11 @@ URxvt*transparent: true
 
 
 ! !yankable urls
-URxvt.perl-ext-common:      default,matcher
+URxvt.perl-ext-common:      default,clipboard,url-select,searchable-scrollback
 URxvt.url-select.launcher:  /usr/bin/conkeror
 URxvt.url-select.underline: true
-URxvt.keysym.M-u:           perl:matcher:select
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-s:           perl:searchable-scrollback:start
 
 ! selection  is more clever : first one word and then extend
 URxvt.selection.pattern-0: ([[:word:]]+)
