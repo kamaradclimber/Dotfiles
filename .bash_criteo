@@ -76,7 +76,6 @@ function kitchenec2 {
 alias gogogo='ssh -D 1080 -Nn criteo'
 
 # Smart cd for criteo projects
-# TODO move this to .bash_criteo
 _gitlab_clone() {
   project=$1
   repo=$2
@@ -100,9 +99,18 @@ gerrit() {
   cd ~/$1
 }
 
+add_gitlab_remote() {
+  path=$1
+  if git remote -v | grep -q review; then
+    (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:$path.git
+  elif git remote -v | grep -q gitlab; then
+    git remote -v | grep gitlab | awk '{print $1}' | xargs -n1 git remote remove
+  fi
+}
+
 ck() {
   gerrit chef-cookbooks/$1
-  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-cookbooks/$1.git
+  add_gitlab_remote chef-cookbooks/$1
 }
 _ck_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
@@ -113,7 +121,7 @@ repo() {
   shortname=$(echo $1 | sed -re 's/^(chef-)?//')
   fullname=$(echo $1 | sed -re 's/^(chef-)?/chef-/')
   gerrit chef-repositories/$fullname
-  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:chef-repositories/$fullname.git
+  add_gitlab_remote chef-repositories/$fullname
 }
 _repo_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
@@ -122,7 +130,7 @@ _repo_complete() {
 complete -o default -F _repo_complete repo
 rubygem () {
   gerrit ruby-gems/$1
-  (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:ruby-gems/$1.git
+  add_gitlab_remote ruby-gems/$1
 }
 _gem_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}

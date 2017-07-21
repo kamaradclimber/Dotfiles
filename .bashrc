@@ -20,7 +20,7 @@ alias grep='grep --color=auto'
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
 
-alias gti='git'                     # alias because of frequent typo
+which gti >/dev/null 2>&1 || alias gti='git'                     # alias because of frequent typo
 alias m='mutt'
 alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
