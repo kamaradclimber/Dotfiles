@@ -29,6 +29,7 @@
     autocorrect = 3 #wait 0.3 seconds before excuting probable correction in case of mispell of commands
 
 [alias]
+    c = commit -s
     last = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     blameless = !"f() { git blame $@ | sed -re 's/\\(\\w+ \\w+/(Jeremy Mauro/' ; }; f"
     browse = !"f() { \

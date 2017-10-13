@@ -126,6 +126,8 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_ruby_rubocop_exec = 'bundle'
+let g:syntastic_ruby_rubocop_args = 'exec rubocop'
 
 au FileType qf call AdjustWindowHeight(1, 4)
 function! AdjustWindowHeight(minheight, maxheight)

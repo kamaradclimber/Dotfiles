@@ -196,9 +196,9 @@ noFocusWindows = composeAll [
     where role = stringProperty "WM_WINDOW_ROLE"
 
 moveToWorkspace = composeAll [
-    resource =?  "Pidgin"  --> doF (W.shift "IM"),
+    resource =?  "Pidgin"  --> doF (W.shift "IM")
     --className =? "rdesktop" --> doF (W.shift "8")
-    className =? "Thunderbird" --> doF (W.shift "MAIL")
+    --className =? "Thunderbird" --> doF (W.shift "MAIL")
      ]
 
 manageScratchPad :: ManageHook
