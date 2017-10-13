@@ -88,6 +88,7 @@ qwertyKeys conf@(XConfig {modMask = modm}) = workspace conf modm [0x31,0x32,0x33
 -- [0x26,0xe9,0x22,0x27,0x28,0x2d,0xe8,0x5f,0xe7,0xe0],
 
 --Don't forget to describe each command
+-- INFO: https://superuser.com/questions/389737/how-do-you-make-volume-keys-and-mute-key-work-in-xmonad to find new key code
 generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     -- Spawn programs
     ((modm,               xK_F1),         spawn "~/.dotfiles/keybinding_recall.sh"),             --the famous help
@@ -118,6 +119,10 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
 
     ((modm,               xK_b),          sendMessage ToggleStruts),                             --toggle status bar gap
     ((modm,               xK_z),          withFocused toggleBorder ),                            --toggle window border
+
+    ((0,                  0x1008ff11),    spawn "amixer set Master 2-"),
+    ((0,                  0x1008ff13),    spawn "amixer set Master 2+"),
+
 
     -- xmonad lifecycle
     ((modm .|. shiftMask, xK_q),          io exitSuccess),                                       --leave xmonad
@@ -273,7 +278,7 @@ main = do
     spawn "~/.dotfiles/dzen.sh | dzen2 -dock -xs 1 -x 500 -p  -ta r -expand \"r\""
     dzenPipe <- spawnPipe "dzen2 -dock -xs 1 -ta \"l\" -w 480 "
     _ <- spawn myTerminal
-    xmonad $ myUrgencyHook $ defaults dzenPipe
+    xmonad $ docks $ myUrgencyHook $ defaults dzenPipe
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
