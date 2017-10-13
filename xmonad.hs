@@ -42,7 +42,7 @@ import System.Exit
 import System.IO
 
 myTerminal           = "urxvt"
-myBrowser            = "conkeror"
+myBrowser            = "chromium"
 mySecondaryBrowser   = "chromium --enable-remote-extensions"
 myWorkspaces         = map show [1..6] ++ ["CAL", "MAIL", "IM"] ++ map show [0]
 

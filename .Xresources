@@ -17,7 +17,7 @@ URxvt*transparent: true
 
 ! !yankable urls
 URxvt.perl-ext-common:      default,clipboard,url-select,searchable-scrollback
-URxvt.url-select.launcher:  /usr/bin/conkeror
+URxvt.url-select.launcher:  /usr/bin/chromium --new-window
 URxvt.url-select.underline: true
 URxvt.keysym.M-u:           perl:url-select:select_next
 URxvt.keysym.M-s:           perl:searchable-scrollback:start
