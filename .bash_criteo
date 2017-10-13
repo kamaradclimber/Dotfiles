@@ -145,10 +145,31 @@ function rdesktop() {
   dc=$(echo $1 | sed -re 's/[^\.]+\.([^\.]+)\..+/\1/')
   if [ ! -z "$dc" ]; then
     echo "Inserting '$dc' as domain name"
-    $rdesktop_base -d $dc -p - -u $CRITEO_USER $1
+    password=$(cat ~/.watson_env | grep SSH_PERSONAL_PASSWORD | cut -d"'" -f2)
+    $rdesktop_base -d $dc -u $CRITEO_USER -p "$password" $1
   else
     echo "No dc found, fallback to normal rdesktop"
     $rdesktop_base $1
   fi
 }
 
+
+rack_info()
+{
+ curl -s "https://rackenstein-api.crto.in/devices?serial_no=$1" | jq '.'
+}
+
+rack_ext_info()
+{
+ curl -s "https://rackenstein-api.crto.in/device/id/$(curl -s "https://rackenstein-api.crto.in/devices?serial_no=$1" | jq '.data.devices[0].id' | sed -e 's/"//g')/" | jq '.'
+}
+
+rack_vlan_info()
+{
+ rack_ext_info $1 | jq -r '.data[0].device_interface[] | .switch_port.vlan | select(.!=null)'
+}
+
+chef_serial_from_nodename()
+{
+ knife node show $1 -a dmi.system.serial_number | grep "^ " | awk '{ print $2 }'
+}
