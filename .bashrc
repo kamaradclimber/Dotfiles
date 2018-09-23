@@ -2,6 +2,8 @@
 # ~/.bashrc
 #
 
+shopt -s globstar
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -205,7 +207,20 @@ if [ -n "$SSH_CLIENT" ]; then
   HOST="${CYAN}\h${NORM} "
   USER_="${RED}\u${NORM}"
 fi
-export PS1="\t ${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT $BELL"
+
+case $TERM in
+  xterm*)
+    XTERM_TITLE='\[\033]0;\u@\h:\w\007\]'
+    ;;
+  rxvt-unicode)
+    XTERM_TITLE='\[\033]0;\u@\h:\w\007\]'
+    ;;
+  *)
+    XTERM_TITLE=''
+    ;;
+esac
+
+export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT $BELL"
 
 # Measure how long commands last
 # the result can be called using `echo $timer_show`
@@ -216,8 +231,7 @@ function timer_stop {
   timer_show=$(($SECONDS - $timer))
   unset timer
 }
-trap 'timer_start' DEBUG
-
+trap 'timer_start' DEBUG # TODO consider using $PS0 (http://stromberg.dnsalias.org/~strombrg/PS0-prompt/)
 
 # called before each prompt
 # use it for all dynamic settings
@@ -258,6 +272,10 @@ if [ -d "$HOME/.local/bin/" ]; then
   export PATH=$PATH:$HOME/.local/bin/
 fi
 
+if [ -d "/var/lib/snapd/snap/bin" ]; then
+  export PATH=$PATH:/var/lib/snapd/snap/bin
+fi
+
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
 export GOPATH=~/go
@@ -275,3 +293,33 @@ true # finish with a correct exit code
 
 # added by travis gem
 [ -f /home/g_seux/.travis/travis.sh ] && source /home/g_seux/.travis/travis.sh
+
+
+if which fzf &> /dev/null; then
+  which fzf &> /dev/null && source /usr/share/fzf/key-bindings.bash
+  # see https://github.com/junegunn/fzf/issues/1203 we can reuse this on fzf 0.17.4
+  if grep -q 0.17.4 <(fzf --version); then
+    source /usr/share/fzf/completion.bash
+  fi
+fi
+
+function gotmp() {
+  dir=$(mktemp -d)
+  cd $dir
+}
+
+function my_private_ipaddress() {
+  ip addr | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' | grep 192.168 | sort | head -n1
+}
+
+export my_ip=$(my_private_ipaddress)
+
+function webserver() {
+  python3 -m http.server 8000 > /dev/null &
+  echo "server accessible on http://$my_ip:8000/"
+  echo "you can kill it with:"
+  echo "kill $(jobs -p)"
+  wait
+}
+
+alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"

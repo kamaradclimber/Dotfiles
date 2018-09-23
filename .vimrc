@@ -9,7 +9,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'janko-m/vim-test' "test for ruby
 Plugin 'derekwyatt/vim-scala' "scala stuff
 Plugin 'bogado/file-line' "allow to open filename:line
-Plugin 'vim-syntastic/syntastic'
+Plugin 'w0rp/ale' " linting
 " all plugins should be set above
 call vundle#end()
 
@@ -118,16 +118,10 @@ nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-let g:syntastic_ruby_rubocop_exec = 'bundle'
-let g:syntastic_ruby_rubocop_args = 'exec rubocop'
+let b:ale_fixers = {'ruby': ['rubocop']}
+let b:ale_ruby_rubocop_executable = 'bundle'
 
 au FileType qf call AdjustWindowHeight(1, 4)
 function! AdjustWindowHeight(minheight, maxheight)

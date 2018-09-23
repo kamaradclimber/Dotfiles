@@ -120,7 +120,6 @@ _repo_complete() {
 complete -o default -F _repo_complete repo
 rubygem () {
   gerrit ruby-gems/$1
-#  add_gitlab_remote ruby-gems/$1
 }
 _gem_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
@@ -188,4 +187,21 @@ rack_vlan_info()
 chef_serial_from_nodename()
 {
  knife node show $1 -a dmi.system.serial_number | grep "^ " | awk '{ print $2 }'
+}
+
+export PATH=$PATH:/home/g_seux/ruby-gems/dirty-harry/bin
+
+diagl()
+{
+  diagnose_linux.sh $@
+}
+
+diagw()
+{
+  diagnose_windows.sh $@
+}
+
+gollum()
+{
+  go_lom.sh connect $@
 }

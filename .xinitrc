@@ -3,7 +3,7 @@
 # ~/.xinitrc
 #
 # Executed by startx (run your window manager from here)
-
+#
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
   for f in /etc/X11/xinit/xinitrc.d/*; do
     [ -x "$f" ] && . "$f"
@@ -30,6 +30,9 @@ case "$(uname -n)" in
     #setxkbmap fr -variant bepo
     setxkbmap us -variant intl
     nm-applet &
+    ;;
+  "churchill")
+    setxkbmap fr -variant bepo
     ;;
   "vasco")
     ~/.dotfiles/set_dualscreen_on.sh &
@@ -67,3 +70,4 @@ which synclient && synclient PalmDetect=1
 
 xsetroot -cursor_name left_ptr
 exec xmonad
+#exec xterm

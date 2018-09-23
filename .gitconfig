@@ -68,3 +68,5 @@
 
 [interactive]
     diffFilter = /usr/share/git/diff-highlight/diff-highlight
+[remote "origin"]
+	tagOpt = --tags
