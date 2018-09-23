@@ -11,7 +11,7 @@ SEP='^p(5;-2)^ro(2)^p()'
 DATE_PERIOD=3
 
 fdate() {
-  DATE=`TZ='Europe/Paris' date +'%H:%M'`
+  DATE=`date +'%H:%M'`
   PDATE="^fg(white)$DATE^fg()"
 }
 # }}}
@@ -98,6 +98,8 @@ battery() {
     (acpi | grep -q Discharging) && charge=" ^fg(red)↓^fg()" || charge=" ^fg(green)↑^fg()"
     BATTERY="$SEP B :^fg($color)$pc%^fg()$charge"
     acpi -a | grep 'on-line' && test $pc -gt 99 && unset BATTERY
+  else
+    BATTERY="$SEP Install acpi to have battery information"
   fi
 }
 
