@@ -122,8 +122,8 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,               xK_b),          sendMessage ToggleStruts),                             --toggle status bar gap
     ((modm,               xK_z),          withFocused toggleBorder ),                            --toggle window border
 
-    ((0,                  0x1008ff11),    spawn "amixer set Master 2-"),
-    ((0,                  0x1008ff13),    spawn "amixer set Master 2+"),
+    ((modm .|. shiftMask, 0x1008ff11),    spawn "amixer set Master 2%"),
+    ((modm .|. shiftMask, 0x1008ff13),    spawn "amixer set Master 2+"),
 
 
     -- xmonad lifecycle
