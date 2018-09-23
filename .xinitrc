@@ -70,4 +70,3 @@ which synclient && synclient PalmDetect=1
 
 xsetroot -cursor_name left_ptr
 exec xmonad
-#exec xterm
