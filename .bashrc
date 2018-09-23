@@ -46,8 +46,10 @@ function nc_until {
 function ssh_until {
   echo -n ping
   ping_until $1
-  echo -n ssh_port
+  echo ""
+  echo -n "ssh_port"
   nc_until $1 22
+  echo ""
 }
 
 function chef_until {
