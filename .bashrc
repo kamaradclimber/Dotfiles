@@ -7,7 +7,7 @@
 
 #standard editor variable
 export EDITOR=/usr/bin/vim
-export BROWSER=/usr/bin/conkeror
+export BROWSER="/usr/bin/firefox --new-window"
 
 # Add criteo related utilities
 if [ -f "$HOME/.bash_criteo" ] ; then

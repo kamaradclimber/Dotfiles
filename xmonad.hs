@@ -42,8 +42,8 @@ import System.Exit
 import System.IO
 
 myTerminal           = "urxvt"
-myBrowser            = "chromium"
-mySecondaryBrowser   = "chromium --enable-remote-extensions"
+myBrowser            = "firefox"
+mySecondaryBrowser   = "firefox"
 myWorkspaces         = map show [1..6] ++ ["CAL", "MAIL", "IM"] ++ map show [0]
 
 myBorderWidth        = 1
