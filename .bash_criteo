@@ -68,27 +68,18 @@ function j {
 
 export CRITEO_USER=g.seux
 
-function kitchenec2 {
-  source ~/.env
-  KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen $@
-}
+export KITCHEN_YAML=.kitchen.ec2.yml
+source ~/.env
 
 alias gogogo='ssh -D 1080 -Nn criteo'
 
 # Smart cd for criteo projects
-_gitlab_clone() {
-  project=$1
-  repo=$2
-  dir=$3
-  git clone git@gitlab.criteois.com:$project/$repo.git $dir
-}
-
 _gerrit_clone() {
   project=$1
   repo=$2
   dir=$3
-  echo git clone ssh://review.criteois.lan:29418/$project/$repo.git $dir
-  git clone ssh://review.criteois.lan:29418/$project/$repo.git $dir
+  echo git clone ssh://review.crto.in:29418/$project/$repo.git $dir
+  git clone ssh://review.crto.in:29418/$project/$repo.git $dir
 }
 
 gerrit() {
@@ -121,7 +112,6 @@ repo() {
   shortname=$(echo $1 | sed -re 's/^(chef-)?//')
   fullname=$(echo $1 | sed -re 's/^(chef-)?/chef-/')
   gerrit chef-repositories/$fullname
-  add_gitlab_remote chef-repositories/$fullname
 }
 _repo_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
@@ -130,13 +120,39 @@ _repo_complete() {
 complete -o default -F _repo_complete repo
 rubygem () {
   gerrit ruby-gems/$1
-  add_gitlab_remote ruby-gems/$1
+#  add_gitlab_remote ruby-gems/$1
 }
 _gem_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
   COMPREPLY=( $(compgen -W "$(command ls ~/ruby-gems/)" -- $cur) )
 }
 complete -o default -F _gem_complete rubygem
+rpmpackage () {
+  gerrit rpm-packages/$1
+  add_gitlab_remote rpm-packages/$1
+}
+_rpmpackage_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/rpm-packages/)" -- $cur) )
+}
+complete -o default -F _rpmpackage_complete rpmpackage
+
+policy() {
+  gerrit configuration/chef-configuration
+   if [[ ! -z  "$1"  ]]; then
+     if [[ -d policies/$1 ]]; then
+       cd policies/$1
+     else
+       cd policies/*/$1
+     fi
+   fi
+   true
+}
+_policy_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command find ~/configuration/chef-configuration/policies -mindepth 2 -maxdepth 2 -type d | sed -re 's|.*configuration/chef-configuration/policies/[^/]+/||')" -- $cur) )
+}
+complete -o default -F _policy_complete policy
 # end of smart
 
 

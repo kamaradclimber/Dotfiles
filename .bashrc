@@ -28,7 +28,7 @@ alias cp="cp -v -R"
 alias dict="cat /usr/share/dict/words"
 
 alias b='bundle install'
-alias bb='mv Gemfile.lock{,$(date +%s)}; bundle install'
+alias bb='mv Gemfile.lock .Gemfile.lock.$(date +%s); bundle install'
 
 alias js="mosespa search"
 
@@ -46,6 +46,16 @@ function ssh_until {
   ping_until $1
   echo -n ssh_port
   nc_until $1 22
+}
+
+function chef_until {
+  now=$(date +%s)
+  res=0
+  while [ "$res" -eq 0 ]; do
+    res=$(bundle exec knife search "fqdn:$1 AND NOT ohai_time:[0 TO $now]" 2> /dev/null| wc -l)
+    echo -n .
+    sleep 2
+  done
 }
 
 
@@ -133,19 +143,6 @@ comp=$(ls $GEM_HOME/gems/mosespa-*/bin/completion_mosespa 2> /dev/null)
 [[ $PS1 && -f $comp ]] && \
   source $comp
 
-#colored reading of log files
-logview()
-{
-    ccze -A < $1 | less -R
-}
-
-#same colored reading with tail
-logtail()
-{
-    tail -f $1 | ccze
-}
-
-
 man() {
     env \
         LESS_TERMCAP_mb=$(printf "\e[1;31m") \
@@ -231,6 +228,7 @@ function prompt_command {
 
 PROMPT_COMMAND=prompt_command
 
+
 export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:$PATH
 
 export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
@@ -251,14 +249,6 @@ else
   export EMAIL="kamaradclimber@gmail.com"
 fi
 
-
-if [ -d "$HOME/perl5" ] ; then
-  export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/perl5";
-  export PERL_MB_OPT="--install_base $HOME/perl5";
-  export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5";
-  export PERL5LIB="$HOME/perl5/lib/perl5:$PERL5LIB";
-  export PATH="$HOME/perl5/bin:$PATH"
-fi
 
 if [ -d "/opt/chefdk/bin" ]; then
   export PATH="/opt/chefdk/bin:$PATH"
