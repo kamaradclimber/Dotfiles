@@ -73,8 +73,9 @@ myModMask = mod4Mask
 --
 
 -- all key config unions
--- myKeys c = bepoKeys c `M.union` qwertyKeys c `M.union` azertyKeys c `M.union` generalKeys c
-myKeys c = bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c
+-- NOT A GOOD IDEA TO ACTIVATE azertyKeys since it steals xK_z, xK_e, xK_r shortcut (for screens related shortcuts)
+--myKeys c = bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c
+myKeys c = bepoKeys c `M.union` generalKeys c
 
 
 workspace conf modm keys = M.fromList [
@@ -99,12 +100,13 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm .|. shiftMask, xK_c),          spawn mySecondaryBrowser),                             -- secondary browser
     ((modm, xK_o),          spawn "dmenu_run"),                             -- any command
     ((modm,               xK_l),          spawn "~/img/lock.sh"),                                --lock screen
+    ((modm,               xK_v),          spawn "/usr/bin/vim-anywhere vim urxvt"),                        -- launch vim-anywhere
     ((modm,               xK_F4),         kill),                                                 --kill current window
     -- Layouts
     ((modm,               xK_space),      sendMessage NextLayout),                               --next Layout
     ((modm .|. shiftMask, xK_space),      setLayout $ XMonad.layoutHook conf),                   --reset layout
-    ((modm,               xK_e),          viewScreen 0),
-    ((modm,               xK_t),          viewScreen 1),
+    ((modm,               xK_e),          viewScreen XMonad.Actions.PhysicalScreens.verticalScreenOrderer 0),
+    ((modm,               xK_t),          viewScreen XMonad.Actions.PhysicalScreens.verticalScreenOrderer 1),
     -- Focus
     ((modm,               xK_Tab),        windows W.focusDown),                                  --the famous alt-tab equivalent
     ((modm,               xK_u),          focusUrgent),                                          --go to the (last?) urgent windows
