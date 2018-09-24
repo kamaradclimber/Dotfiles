@@ -240,6 +240,9 @@ trap 'timer_start' DEBUG # TODO consider using $PS0 (http://stromberg.dnsalias.o
 function prompt_command {
  last=$?
  timer_stop
+ if [ "$(id -u)" -ne 0 ]; then
+   echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $(history 1)" >> ~/.bash-history-$(date "+%Y-%m-%d").log
+ fi
 }
 
 PROMPT_COMMAND=prompt_command
