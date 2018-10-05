@@ -77,6 +77,8 @@ myModMask = mod4Mask
 --myKeys c = bepoKeys c `M.union` azertyKeys c `M.union` generalKeys c
 myKeys c = bepoKeys c `M.union` generalKeys c
 
+-- TODO: make scratchpad size work
+scratchpads = [ NS "todo" "urxvt -e vim -c ':normal Go' ~/.todos" (title =? "VIM") (customFloating $ W.RationalRect 0.4 0.60 (2/3) (2/3)) ]
 
 workspace conf modm keys = M.fromList [
   ((m .|. modm, k), windows $ f i) | (i, k) <- zip (workspaces conf) keys,
@@ -95,6 +97,7 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     ((modm,               xK_F1),         spawn "~/.dotfiles/keybinding_recall.sh"),             --the famous help
     ((modm,               xK_Return),     spawn $ XMonad.terminal conf),                         --new terminal
     ((modm,               xK_a),          scratchpadSpawnActionTerminal $ XMonad.terminal conf), --scratchpad
+    ((modm,               xK_d),          namedScratchpadAction scratchpads "todo"),             -- todo scratchpad
     ((modm, xK_backslash), withFocused (sendMessage . maximizeRestore)),
     ((modm,               xK_c),          spawn myBrowser),                                      --browser
     ((modm .|. shiftMask, xK_c),          spawn mySecondaryBrowser),                             -- secondary browser
@@ -105,8 +108,8 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     -- Layouts
     ((modm,               xK_space),      sendMessage NextLayout),                               --next Layout
     ((modm .|. shiftMask, xK_space),      setLayout $ XMonad.layoutHook conf),                   --reset layout
-    ((modm,               xK_e),          viewScreen XMonad.Actions.PhysicalScreens.verticalScreenOrderer 0),
-    ((modm,               xK_t),          viewScreen XMonad.Actions.PhysicalScreens.verticalScreenOrderer 1),
+    ((modm,               xK_e),          viewScreen 0),
+    ((modm,               xK_t),          viewScreen 1),
     -- Focus
     ((modm,               xK_Tab),        windows W.focusDown),                                  --the famous alt-tab equivalent
     ((modm,               xK_u),          focusUrgent),                                          --go to the (last?) urgent windows
@@ -211,8 +214,12 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
     t = 1 - h       -- distance from top edge
     l = (1 - w)/2   -- distance from left edge
 
+namedScratch :: ManageHook
+namedScratch = namedScratchpadManageHook scratchpads
+
 onNewWindow =
     manageDocks <+>
+    namedScratch <+>
     floatingWindows <+>
     nonFloatingWindows <+>
     ignoredWindows <+>
@@ -280,7 +287,7 @@ main = do
     spawn "~/.dotfiles/dzen.sh | dzen2 -dock -xs 1 -x 500 -p  -ta r -expand \"r\""
     dzenPipe <- spawnPipe "dzen2 -dock -xs 1 -ta \"l\" -w 480 "
     _ <- spawn myTerminal
-    xmonad $ docks $ myUrgencyHook $ defaults dzenPipe
+    xmonad $ myUrgencyHook $ defaults dzenPipe
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will

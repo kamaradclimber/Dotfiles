@@ -1,5 +1,6 @@
 [user]
-    name = Grégoire Seux
+	name = Grégoire Seux
+	email = kamaradclimber@gmail.com
 [core]
     autocrlf = false
     safecrlf = false
@@ -62,9 +63,9 @@
     verbose = true
 
 [pager]
-    show = /usr/share/git/diff-highlight/diff-highlight | less
-    log  = /usr/share/git/diff-highlight/diff-highlight | less
-    diff = /usr/share/git/diff-highlight/diff-highlight | less
+#    show = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
+#    log  = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
+#    diff = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
 
 [interactive]
     diffFilter = /usr/share/git/diff-highlight/diff-highlight
