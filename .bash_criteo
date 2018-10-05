@@ -69,7 +69,9 @@ function j {
 export CRITEO_USER=g.seux
 
 export KITCHEN_YAML=.kitchen.ec2.yml
-source ~/.env
+if test -f .env; then
+  source ~/.env
+fi
 
 alias gogogo='ssh -D 1080 -Nn criteo'
 
