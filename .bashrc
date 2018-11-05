@@ -322,6 +322,7 @@ function my_private_ipaddress() {
 export my_ip=$(my_private_ipaddress)
 
 function webserver() {
+  pkill python3
   python3 -m http.server 8000 > /dev/null &
   echo "server accessible on http://$my_ip:8000/"
   echo "you can kill it with:"
