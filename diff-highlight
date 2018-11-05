@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+if which /usr/share/git/diff-highlight/diff-highlight 2> /dev/null; then
+  /usr/share/git/diff-highlight/diff-highlight $@
+elif which /usr/share/doc/git/contrib/diff-highlight/diff-highlight 2> /dev/null; then
+  /usr/share/doc/git/contrib/diff-highlight/diff-highlight $@
+else
+  echo "No path found to diff-higlight script!"
+  # TODO: use regular pager/diff
+  exit 1
+fi
