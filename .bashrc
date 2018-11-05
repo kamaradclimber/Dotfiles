@@ -248,11 +248,11 @@ function prompt_command {
 PROMPT_COMMAND=prompt_command
 
 
-export PATH=~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin:$PATH
+export PATH=$PATH:~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin
 
 export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 RUBY_PATH=$GEM_HOME/bin
-export PATH="$RUBY_PATH:$PATH"
+export PATH="$PATH:$RUBY_PATH"
 
 
 #Workstation or personnal desktop?
@@ -270,7 +270,7 @@ fi
 
 
 if [ -d "/opt/chefdk/bin" ]; then
-  export PATH="/opt/chefdk/bin:$PATH"
+  export PATH="$PATH:/opt/chefdk/bin"
 fi
 
 if [ -d "$HOME/.local/bin/" ]; then
