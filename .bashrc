@@ -197,7 +197,7 @@ HOST=""
 USER_=""
 LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
 BELL="\[\a\]"
-LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 10 ]]; then echo "${timer_show}s "; fi)'
+LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; fi)'
 
 if [ -f ~/.git-prompt.sh ]; then
   . ~/.git-prompt.sh
