@@ -90,14 +90,17 @@ wifi() {
 
 BATTERY_PERIOD=1
 battery() {
-  if [ `which acpi` ]
-  then
-    pc=`acpi | grep Battery | cut -d ',' -f 2 | sed 's/ \|%//g'`
-    color=green
-    test $pc -lt 21 && color=red
-    (acpi | grep -q Discharging) && charge=" ^fg(red)↓^fg()" || charge=" ^fg(green)↑^fg()"
-    BATTERY="$SEP B :^fg($color)$pc%^fg()$charge"
-    acpi -a | grep 'on-line' && test $pc -gt 99 && unset BATTERY
+  if [ `which acpi` ]; then
+    if [[ "$(acpi 2>&1)" == "No support for device type: power_supply" ]]; then
+      unset BATTERY
+    else
+      pc=`acpi | grep Battery | cut -d ',' -f 2 | sed 's/ \|%//g'`
+      color=green
+      test $pc -lt 21 && color=red
+      (acpi | grep -q Discharging) && charge=" ^fg(red)↓^fg()" || charge=" ^fg(green)↑^fg()"
+      BATTERY="$SEP B :^fg($color)$pc%^fg()$charge"
+      acpi -a | grep 'on-line' && test $pc -gt 99 && unset BATTERY
+    fi
   else
     BATTERY="$SEP Install acpi to have battery information"
   fi
