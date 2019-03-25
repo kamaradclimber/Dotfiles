@@ -108,8 +108,8 @@ generalKeys conf@(XConfig {XMonad.modMask = modm }) = M.fromList [
     -- Layouts
     ((modm,               xK_space),      sendMessage NextLayout),                               --next Layout
     ((modm .|. shiftMask, xK_space),      setLayout $ XMonad.layoutHook conf),                   --reset layout
-    ((modm,               xK_e),          viewScreen 0),
-    ((modm,               xK_t),          viewScreen 1),
+    ((modm,               xK_e),          viewScreen def 0),
+    ((modm,               xK_t),          viewScreen def 1),
     -- Focus
     ((modm,               xK_Tab),        windows W.focusDown),                                  --the famous alt-tab equivalent
     ((modm,               xK_u),          focusUrgent),                                          --go to the (last?) urgent windows
