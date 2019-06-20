@@ -22,6 +22,21 @@ alias grep='grep --color=auto'
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
 
+test_helper() {
+  binary=$1
+  package_name=$2
+  which $binary > /dev/null 2>&1
+  res=$?
+  if [[ "$res" -eq 0 ]]; then
+    return 0
+  else
+    if [[ ! -z "$package_name" ]]; then
+      echo "$binary is not present, install it using $package_name"
+    fi
+    return 1
+  fi
+}
+
 which gti >/dev/null 2>&1 || alias gti='git'                     # alias because of frequent typo
 alias m='mutt'
 alias ssh="TERM=xterm ssh"
@@ -286,24 +301,21 @@ fi
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
 
-if hash ag 2>/dev/null; then
-  if which tag >/dev/null; then
+if test_helper "ag" "the_silver_searcher"; then
+  if test_helper "tag" "tag-ag"; then
     tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null; }
     alias ag=tag
   fi
 fi
 
 # added by travis gem
-[ -f /home/grego/.travis/travis.sh ] && source /home/grego/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 true # finish with a correct exit code
 
-# added by travis gem
-[ -f /home/g_seux/.travis/travis.sh ] && source /home/g_seux/.travis/travis.sh
 
-
-if which fzf &> /dev/null; then
-  which fzf &> /dev/null && source /usr/share/fzf/key-bindings.bash
+if test_helper "fzf" "fzf"; then
+  source /usr/share/fzf/key-bindings.bash
   # see https://github.com/junegunn/fzf/issues/1203 we can reuse this on fzf 0.17.4
   if grep -q 0.17.4 <(fzf --version); then
     source /usr/share/fzf/completion.bash
