@@ -26,24 +26,11 @@ xrdb -merge ~/.Xresources
 xset -b
 
 case "$(uname -n)" in
-  "vargas")
-    #setxkbmap fr -variant bepo
-    setxkbmap us -variant intl
-    nm-applet &
-    ;;
   "churchill")
     setxkbmap fr -variant bepo
     ;;
-  "vasco")
-    ~/.dotfiles/set_dualscreen_on.sh &
-    ;;
-  "criteo-scalasto")
-    export ALSA_CARD=Creative # this sets the default card in alsamixer
-    ~/.dotfiles/dual_screen_criteo.sh &
-    ;;
-  "soksabai")
-    setxkbmap -device 9 fr
-    setxkbmap -device 11 fr -variant bepo
+  "gagarine")
+    setxkbmap fr -variant bepo
     ;;
 esac
 
