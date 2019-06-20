@@ -156,7 +156,7 @@ threeColumns = ThreeCol 1 (3/100) (1/2)
 threeLines   = Mirror (ThreeCol 1 (3/100) (1/3))
 
 
-defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Mirror tiled ||| Grid |||     Full ||| myTabLayout  ||| threeColumns ||| threeLines
+defaultLayout  = avoidStruts . smartBorders . windowNavigation $ tiled ||| Grid |||     Full ||| simpleTabbedRight
 
 
 myLayout = maximize $ defaultLayout
