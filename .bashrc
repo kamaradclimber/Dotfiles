@@ -337,9 +337,18 @@ function webserver() {
   pkill python3
   python3 -m http.server 8000 > /dev/null &
   echo "server accessible on http://$my_ip:8000/"
-  echo "you can kill it with:"
-  echo "kill $(jobs -p)"
-  wait
+  fg > /dev/null 2>&1
 }
 
 alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# sadly there are too many warnings when using ruby 2.6
+export RUBYOPT="-W0"
+
+function yaourt() {
+  echo "Use yay instead!"
+}
