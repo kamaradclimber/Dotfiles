@@ -5,7 +5,7 @@ URxvt.keysym.Shift-Down: command:\033]721;1\007
 
 
 URxvt*termName:rxvt-unicode
-URxvt*transparent: true
+URxvt*transparent: false
 ! scrollbar style - rxvt (default), plain (most compact), next, or xterm
  URxvt*scrollstyle:plain
 
