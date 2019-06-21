@@ -249,6 +249,7 @@ globalkeys = gears.table.join(
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+    awful.key({ modkey,           }, "l", function() awful.spawn{ ".dotfiles/lock.sh" } end),
 
     awful.key({ modkey,           }, "j",
         function ()
