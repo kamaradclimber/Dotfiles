@@ -191,7 +191,12 @@ chef_serial_from_nodename()
  knife node show $1 -a dmi.system.serial_number | grep "^ " | awk '{ print $2 }'
 }
 
-export PATH=/home/g_seux/ruby-gems/dirty-harry/bin:$PATH
+#if ! grep -q dirty-harry <(echo $PATH); then
+#  export PATH=/home/g_seux/ruby-gems/dirty-harry/bin:$PATH
+#fi
+alias diagnose='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec diagnose'
+alias wimpi.sh='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec ~/ruby-gems/dirty-harry/bin/wimpi.sh'
+alias harryd='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec harryd'
 
 d() {
   diagnose $@
