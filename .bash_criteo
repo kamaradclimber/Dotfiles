@@ -162,7 +162,7 @@ function rdesktop() {
   dc=$(echo $1 | sed -re 's/[^\.]+\.([^\.]+)\..+/\1/')
   if [ ! -z "$dc" ]; then
     echo "Inserting '$dc' as domain name"
-    password=$(cat ~/.watson_env | grep SSH_PERSONAL_PASSWORD | cut -d"'" -f2)
+    password=$(cat ~/.watson_env | grep 'export SSH_PERSONAL_PASSWORD' | cut -d"'" -f2)
     $rdesktop_base -d $dc -u $CRITEO_USER -p "$password" $1
   else
     echo "No dc found, fallback to normal rdesktop"
