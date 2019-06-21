@@ -10,6 +10,7 @@ Plugin 'janko-m/vim-test' "test for ruby
 Plugin 'derekwyatt/vim-scala' "scala stuff
 Plugin 'bogado/file-line' "allow to open filename:line
 Plugin 'w0rp/ale' " linting
+Plugin 'sheerun/vim-polyglot' " correct indentation for ruby and other languages
 " all plugins should be set above
 call vundle#end()
 
