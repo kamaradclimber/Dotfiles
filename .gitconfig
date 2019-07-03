@@ -62,11 +62,11 @@
     verbose = true
 
 [pager]
-    show = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
-    log  = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
-    diff = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
+    show = $HOME/.dotfiles/diff-highlight | less
+    log  = $HOME/.dotfiles/diff-highlight | less
+    diff = $HOME/.dotfiles/diff-highlight | less
 
 [interactive]
-    diffFilter = /usr/share/git/diff-highlight/diff-highlight
+    diffFilter = $HOME/.dotfiles/diff-highlight 
 [remote "origin"]
 	tagOpt = --tags
