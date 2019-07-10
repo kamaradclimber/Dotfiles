@@ -293,6 +293,24 @@ globalkeys = gears.table.join(
               {description = "select next", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
+    awful.key({ modkey,           }, "n", function ()
+        local t = client.focus and client.focus.first_tag or nil
+        if t then
+            local screen = awful.screen.focused()
+            local tags = screen.tags -- only take tags from current screen, is it a good idea?
+            for i = 0, #tags do
+              local tag_candidate = awful.screen.focused().tags[(i + t.index)% #tags + 1]
+              if #tag_candidate:clients() == 0 then
+                  sharedtags.viewonly(tag_candidate, screen)
+                  break
+              end
+            end
+        else -- nothing we are already on a tag with no focused client
+            -- TODO(g.seux): maybe we should find a better way to have tag
+              gears.debug.dump("no client focused")
+        end
+        end,
+        {description = "move to next empty tag", group = "client"}),
 
     awful.key({ modkey, "Control" }, "n",
               function ()
@@ -342,13 +360,6 @@ clientkeys = gears.table.join(
               {description = "move to screen", group = "client"}),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),
-    --awful.key({ modkey,           }, "n",
-    --    function (c)
-    --        -- The client currently has the input focus, so it cannot be
-    --        -- minimized, since minimized clients can't have the focus.
-    --        c.minimized = true
-    --    end ,
-    --    {description = "minimize", group = "client"}),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized = not c.maximized
