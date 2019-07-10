@@ -352,3 +352,8 @@ export RUBYOPT="-W0"
 function yaourt() {
   echo "Use yay instead!"
 }
+
+if [ $(tty) = /dev/tty1 ]; then
+  startx
+  exit 0
+fi
