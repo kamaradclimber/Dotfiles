@@ -311,9 +311,6 @@ fi
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
-true # finish with a correct exit code
-
-
 if test_helper "fzf" "fzf"; then
   source /usr/share/fzf/key-bindings.bash
   # see https://github.com/junegunn/fzf/issues/1203 we can reuse this on fzf 0.17.4
@@ -361,3 +358,6 @@ if [ $(tty) = /dev/tty1 ]; then
   startx
   exit 0
 fi
+
+
+true # finish with a correct exit code
