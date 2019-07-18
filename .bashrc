@@ -340,6 +340,10 @@ function webserver() {
   fg > /dev/null 2>&1
 }
 
+if test_helper "bat" "bat"; then
+  alias cat='bat --paging=never'
+fi
+
 alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
 
 export NVM_DIR="$HOME/.nvm"
