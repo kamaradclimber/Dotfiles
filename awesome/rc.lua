@@ -251,9 +251,9 @@ globalkeys = gears.table.join(
               {description = "go back", group = "tag"}),
     awful.key({ modkey,           }, "l", function() awful.spawn{ ".dotfiles/lock.sh" } end),
 
-    awful.key({ modkey,           }, "e", function () awful.screen.focus_relative(-1)    end,
+    awful.key({ modkey,           }, "e", function () awful.screen.focus_bydirection("left")   end,
               {description = "focus left screen", group = "screen"}),
-    awful.key({ modkey,           }, "t", function () awful.screen.focus_relative( 1)    end,
+    awful.key({ modkey,           }, "t", function () awful.screen.focus_bydirection("right")  end,
               {description = "focus right screen", group = "screen"}),
 
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
