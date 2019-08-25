@@ -359,5 +359,8 @@ if [ $(tty) = /dev/tty1 ]; then
   exit 0
 fi
 
+# image display with kitty
+alias icat="kitty +kitten icat"
+
 
 true # finish with a correct exit code
