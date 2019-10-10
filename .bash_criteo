@@ -90,20 +90,14 @@ gerrit() {
   mkdir -p ~/$project
   [[ ! -d ~/$1 ]] && _gerrit_clone "$project" "$repo" "$HOME/$1"
   cd ~/$1
-}
-
-add_gitlab_remote() {
-  path=$1
-  if git remote -v | grep -q review; then
-    (git remote -v | grep -q gitlab) || git remote add gitlab git@gitlab.criteois.com:$path.git
-  elif git remote -v | grep -q gitlab; then
-    git remote -v | grep gitlab | awk '{print $1}' | xargs -n1 git remote remove
+  if git remote get-url origin | grep -q review.criteois.lan; then
+    echo "Changing remote origin to use review.crto.in"
+    git remote set-url origin ssh://review.crto.in:29418/$project/$repo.git
   fi
 }
 
 ck() {
   gerrit chef-cookbooks/$1
-  add_gitlab_remote chef-cookbooks/$1
 }
 _ck_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
@@ -130,7 +124,6 @@ _gem_complete() {
 complete -o default -F _gem_complete rubygem
 rpmpackage () {
   gerrit rpm-packages/$1
-  add_gitlab_remote rpm-packages/$1
 }
 _rpmpackage_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
