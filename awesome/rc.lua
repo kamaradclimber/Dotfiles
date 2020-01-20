@@ -297,9 +297,14 @@ globalkeys = gears.table.join(
         local t = client.focus and client.focus.first_tag or nil
         if t then
             local screen = awful.screen.focused()
-            local tags = screen.tags -- only take tags from current screen, is it a good idea?
+            local tags = root.tags()
             for i = 0, #tags do
-              local tag_candidate = awful.screen.focused().tags[(i + t.index)% #tags + 1]
+              local tag_candidate = tags[(i + t.index)% #tags + 1]
+              gears.debug.dump("Testing tag")
+              gears.debug.dump((i + t.index)% #tags + 1)
+              gears.debug.dump(tag_candidate)
+              gears.debug.dump("client")
+              gears.debug.dump(#tag_candidate:clients())
               if #tag_candidate:clients() == 0 then
                   sharedtags.viewonly(tag_candidate, screen)
                   break
