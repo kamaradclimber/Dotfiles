@@ -333,9 +333,8 @@ function my_private_ipaddress() {
   ip addr | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' | grep 192.168 | sort | head -n1
 }
 
-export my_ip=$(my_private_ipaddress)
-
 function webserver() {
+  my_ip=$(my_private_ipaddress)
   pkill python3
   python3 -m http.server 8000 > /dev/null &
   echo "server accessible on http://$my_ip:8000/"
