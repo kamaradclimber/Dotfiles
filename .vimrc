@@ -11,6 +11,7 @@ Plugin 'derekwyatt/vim-scala' "scala stuff
 Plugin 'bogado/file-line' "allow to open filename:line
 Plugin 'w0rp/ale' " linting
 Plugin 'sheerun/vim-polyglot' " correct indentation for ruby and other languages
+Plugin 'neoclide/coc.nvim', {'pinned': 1 }
 " all plugins should be set above
 call vundle#end()
 
@@ -128,3 +129,14 @@ au FileType qf call AdjustWindowHeight(1, 4)
 function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()

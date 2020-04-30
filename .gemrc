@@ -1,1 +1,1 @@
-gem: --no-document --no-post-install-message # No documentation increases gem install speed by a lot
+gem: --source  https://filer-rubygems.prod.crto.in/ --no-document --no-post-install-message # No documentation increases gem install speed by a lot

@@ -190,22 +190,83 @@ chef_serial_from_nodename()
 alias diagnose='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec diagnose'
 alias wimpi.sh='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec ~/ruby-gems/dirty-harry/bin/wimpi.sh'
 alias harryd='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec harryd'
+alias cleaning-shell='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec cleaning_shell'
 
 d() {
   diagnose $@
 }
 
-diagl()
-{
-  diagnose $@
+marathon-post() {
+    local app_conf=$1
+    local dc=${CRITEO_DC:-par}
+    local env=${CRITEO_ENV:-preprod}
+    local marathon_service=${MARATHON_SERVICE:-mesos-marathon}
+
+    set -x
+    cat $app_conf | http POST https://$marathon_service.$dc.$env.crto.in/v2/apps
 }
 
-diagw()
-{
-  diagnose_windows.sh $@
+marathon-edit() {
+    local app_query=$1
+    local marathon=${MARATHON_SERVICE:-mesos-marathon}
+    local marathon_url="https://$marathon.$CRITEO_DC.$CRITEO_ENV.crto.in"
+    echo $marathon_url
+    local app_id=$(curl -sn $marathon_url/v2/apps | jq '.apps[].id' -r | fzf --prompt "marathon app> " -q $app_query)
+    if [[ -z $app_id ]]; then return; fi
+    conf_file=$(mktemp "/tmp/${app_id//\//_}_XXXXX.json")
+    echo $conf_file
+    curl -sn "$marathon_url/v2/apps/$app_id" | \
+        jq '.app | del(.lastTaskFailure, .tasks, .tasksStaged, .tasksRunning, .tasksHealthy, .tasksUnhealthy, .deployments, .version, .versionInfo)' >> $conf_file
+    $EDITOR $conf_file
+    marathon-put $conf_file
+    rm $conf_file
 }
 
+marathon-put() {
+    local app_conf=$1
+    local dc=${CRITEO_DC:-par}
+    local env=${CRITEO_ENV:-preprod}
+    local marathon_service=${MARATHON_SERVICE:-mesos-marathon}
+    local app_id=$(jq -r '.id' $app_conf)
+
+    set -x
+    cat $app_conf | http PUT https://$marathon_service.$dc.$env.crto.in/v2/apps/$app_id partialUpdate==false
+}
+
+marathon-global-delete() {
+    local app=$1
+    echo "global delete $app"
+    for env in preprod prod
+    do
+        for dc in $(http https://consul-relay.par.$env.crto.in/v1/catalog/datacenters | jq '.[]' -r)
+        do
+            instances="$(http https://mesos-marathon.$dc.$env.crto.in/v2/apps/$app | jq '.app.instances')"
+            if [ $instances = "0" ]
+            then
+                echo "delete $app in $dc $env ($instances instances)"
+                # http DELETE https://mesos-marathon.$dc.$env.crto.in/v2/apps/$app
+            else
+                echo "not deleting $app in $dc $env ($instances instances)"
+            fi
+        done
+    done
+}
+
+marathon_compare_version() {
+    local marathon_url="https://mesos-marathon.$CRITEO_DC.$CRITEO_ENV.crto.in"
+    local app_id=$(curl -sn $marathon_url/v2/apps | jq '.apps[].id' -r | fzf --prompt "marathon app> ")
+    if [[ -z $app_id ]]; then return; fi
+    local version1=$(curl -ns $marathon_url/v2/apps/$app_id/versions | jq '.versions[]' -r | sort -r | fzf --prompt "choose a first version> ")
+    local version2=$(curl -ns $marathon_url/v2/apps/$app_id/versions | jq '.versions[]' -r | sort -r | fzf --prompt "choose a second version> ")
+    if [[ ! -z $version1 && ! -z $version2 ]]; then
+        vimdiff -c 'windo set ft=json' \
+            <(curl -sn $marathon_url/v2/apps/$app_id/versions/$version1 | jq '.') \
+            <(curl -sn $marathon_url/v2/apps/$app_id/versions/$version2 | jq '.')
+                fi
+}
 gollum()
 {
   go_lom.sh connect $@
 }
+
+

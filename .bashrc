@@ -330,7 +330,7 @@ function gotmp() {
 }
 
 function my_private_ipaddress() {
-  ip addr | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' | grep 192.168 | sort | head -n1
+  ip addr | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' | grep -e 192.168 -e ^172 | sort | head -n1
 }
 
 function webserver() {
@@ -347,11 +347,8 @@ fi
 
 alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # sadly there are too many warnings when using ruby 2.6
+# DONT ENABLE THIS since it blocks all programs that use "warn" in ruby code
 export RUBYOPT="-W0"
 
 function yaourt() {
@@ -366,5 +363,26 @@ fi
 # image display with kitty
 alias icat="kitty +kitten icat"
 
+fzf_git_log() {
+  local commits=$(
+  git ll --color=always "$@" |
+    fzf --ansi --no-sort --height 100% # \
+#    --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+#    xargs -I@ sh -c 'git show --color=always @'"
+  )
+  if [[ -n $commits ]]; then
+    local hashes=$(printf "$commits" | cut -d' ' -f2 | tr '\n' ' ')
+    git show $hashes
+  fi
+}
+
+alias last='fzf_git_log'
+
+
+if test_helper "nvim" "neovim"; then
+  alias vim=nvim
+fi
+
 
 true # finish with a correct exit code
+
