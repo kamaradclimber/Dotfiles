@@ -8,7 +8,7 @@ shopt -s globstar
 [[ $- != *i* ]] && return
 
 #standard editor variable
-export EDITOR=/usr/bin/vim
+export EDITOR=/usr/bin/nvim
 export BROWSER="/usr/bin/firefox --new-window"
 
 # Add criteo related utilities
