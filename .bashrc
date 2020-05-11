@@ -86,16 +86,6 @@ alias irb="pry"
 if [ $UID -ne 0 ]; then
   alias sudo='sudo '
   alias suvim='sudoedit'
-  if [ -n "$SSH_CLIENT" ]; then
-    alias halt='echo "No you do not want to do that. Otherwise please use /usr/bin/halt"'
-    alias reboot='echo "No you do not want to do that. Otherwise please use /usr/bin/reboot"'
-    alias shutdown='echo "No you do not want to do that. Otherwise please use /usr/bin/shutdown"'
-    alias poweroff='echo "No you do not want to do that. Otherwise please use /usr/bin/poweroff"'
-  else
-    alias reboot='sudo reboot'
-    alias halt='sudo halt'
-    alias poweroff='sudo poweroff'
-  fi
 fi
 
 # ls
@@ -107,9 +97,6 @@ alias la='ll -A'
 if [ -f ~/.dircolors ]; then
   eval `dircolors ~/.dircolors`
 fi
-
-#Archlinux specific
-alias pacman='pacmatic'
 
 #Completion
 complete -cf sudo
@@ -157,10 +144,6 @@ fi
 # Use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
   . /usr/share/bash-completion/bash_completion
-
-comp=$(ls $GEM_HOME/gems/mosespa-*/bin/completion_mosespa 2> /dev/null)
-[[ $PS1 && -f $comp ]] && \
-  source $comp
 
 man() {
     env \
@@ -283,10 +266,6 @@ else
   export EMAIL="kamaradclimber@gmail.com"
 fi
 
-
-if [ -d "/opt/chefdk/bin" ]; then
-  export PATH="$PATH:/opt/chefdk/bin"
-fi
 
 if [ -d "$HOME/.local/bin/" ]; then
   export PATH=$PATH:$HOME/.local/bin/
