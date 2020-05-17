@@ -299,8 +299,8 @@ if test_helper "fzf" "fzf"; then
 fi
 
 # load history from custom files and use fzf
-if test -f .dotfiles/custom_history.sh; then
-  source .dotfiles/custom_history.sh
+if test -f $HOME/.dotfiles/custom_history.sh; then
+  source $HOME/.dotfiles/custom_history.sh
 fi
 
 function gotmp() {
