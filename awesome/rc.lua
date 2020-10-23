@@ -272,8 +272,10 @@ globalkeys = gears.table.join(
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey,           }, "c", function () awful.spawn(browser) end,
               {description = "open a browser", group = "launcher"}),
-    awful.key({ modkey,           }, "j", function () awful.spawn('rofimoji') end,
-              {description = "open a browser", group = "launcher"}),
+    awful.key({ modkey,           }, "r", function () awful.spawn('rofimoji') end,
+              {description = "open a picker for emojis", group = "launcher"}),
+    awful.key({ modkey,           }, "j", function () awful.spawn('rofi-jira') end,
+              {description = "open a picker for jira tickets", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -330,10 +332,6 @@ globalkeys = gears.table.join(
                   end
               end,
               {description = "restore minimized", group = "client"}),
-
-    -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -494,6 +492,7 @@ awful.rules.rules = {
         -- and the name shown there might not match defined rules here.
         name = {
           "Event Tester",  -- xev.
+          "zoom", -- zoom are pop-ups while "Zoom" is the main zoom window
         },
         role = {
           "AlarmWindow",  -- Thunderbird's calendar.
