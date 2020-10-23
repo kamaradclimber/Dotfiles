@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+if ip link | grep -q tun0; then
+  if ps auxf | grep -q "openconnect.*criteois.com"; then
+    echo "Will connect to criteo workstation. If this does not work, you can always ctrl+c"
+    ssh g_seux@churchill.criteois.lan
+  fi
+fi

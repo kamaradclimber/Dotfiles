@@ -370,5 +370,10 @@ if test_helper "grc" "grc"; then
 fi
 
 
+# Add criteo related utilities
+if [ -f "$HOME/.bash_vpn" ] ; then
+  . $HOME/.bash_vpn
+fi
+
 true # finish with a correct exit code
 
