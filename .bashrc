@@ -197,8 +197,6 @@ LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]];
 BELL="\[\a\]"
 LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; fi)'
 
-RUBY_REPO='$(if test -f Gemfile; then echo "💎 ";fi)'
-
 if [ -f ~/.git-prompt.sh ]; then
   . ~/.git-prompt.sh
   export GIT_BRANCH="\$(__git_ps1 \" $UWhite%.3s\")${NORM}"
@@ -222,7 +220,7 @@ case $TERM in
     ;;
 esac
 
-export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${RUBY_REPO}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT $BELL"
+export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT $BELL"
 
 # Measure how long commands last
 # the result can be called using `echo $timer_show`
