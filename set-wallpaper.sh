@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-source=https://www.reddit.com/r/EarthPorn+ImaginaryLandscapes+ImaginaryTechnology+futureporn.json
+source=https://www.reddit.com/r/EarthPorn+ImaginaryLandscapes+ImaginaryTechnology+futureporn+spaceporn.json
 
 curl -s -L -H 'User-Agent: custom-timer' "$source" | jq '.data.children' > children.json
 
