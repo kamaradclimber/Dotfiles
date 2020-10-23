@@ -363,5 +363,12 @@ if test_helper "nvim" "neovim"; then
 fi
 
 
+
+
+if test_helper "grc" "grc"; then
+  source /etc/profile.d/grc.bashrc
+fi
+
+
 true # finish with a correct exit code
 
