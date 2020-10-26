@@ -1,7 +1,11 @@
 #!/usr/bin/bash
 
-if ip link | grep -q tun0; then
-  if ps auxf | grep -q "openconnect.*criteois.com"; then
+if ip link | grep -q -e tun0: -e vpn0:; then
+  if ps auxf | grep -v 'grep'| grep -q "openconnect.*criteois.com"; then
+    echo "Will connect to criteo workstation. If this does not work, you can always ctrl+c"
+    ssh g_seux@churchill.criteois.lan
+  fi
+  if which nmcli > /dev/null 2>&1 && nmcli | grep -q "IIT Criteo"; then
     echo "Will connect to criteo workstation. If this does not work, you can always ctrl+c"
     ssh g_seux@churchill.criteois.lan
   fi
