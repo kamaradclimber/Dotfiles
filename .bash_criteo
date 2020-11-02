@@ -67,6 +67,7 @@ function j {
 }
 
 export CRITEO_USER=g.seux
+export PUBLISH_USER=g_seux
 
 export KITCHEN_YAML=.kitchen.ec2.yml
 if test -f .env; then
@@ -268,5 +269,3 @@ gollum()
 {
   go_lom.sh connect $@
 }
-
-
