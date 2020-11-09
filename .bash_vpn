@@ -4,9 +4,7 @@ if ip link | grep -q -e tun0: -e vpn0:; then
   vpn_connected=$(which nmcli > /dev/null 2>&1 && nmcli | grep -q "IIT Criteo"; echo $?)
   vpn_connected2=$(ps auxf | grep -q "openconnect.*criteois.com"; echo $?)
   if [[ "$vpn_connected" -eq 0 ]] || [[ "$vpn_connected2" -eq 0 ]]; then
-    if test -f /run/user/1000/no_ssh; then
-      echo "Disabling ssh because /run/user/1000/no_ssh file is set"
-    else
+    if test -f /run/user/1000/auto_ssh; then
       echo "Will connect to criteo workstation. If this does not work, you can always ctrl+c"
       ssh g_seux@churchill.criteois.lan
     fi
