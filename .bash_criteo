@@ -88,21 +88,49 @@ _gerrit_clone() {
 gerrit() {
   local project=$(dirname $1)
   local repo=$(basename $1)
-  mkdir -p ~/$project
-  [[ ! -d ~/$1 ]] && _gerrit_clone "$project" "$repo" "$HOME/$1"
-  cd ~/$1
-  if git remote get-url origin | grep -q review.criteois.lan; then
-    echo "Changing remote origin to use review.crto.in"
-    git remote set-url origin ssh://review.crto.in:29418/$project/$repo.git
-  fi
+  mkdir -p $HOME/criteo/$project
+  dst="$HOME/criteo/$1"
+  [[ ! -d "$dst" ]] && _gerrit_clone "$project" "$repo" "$dst"
+  cd "$dst"
 }
+_gerrit_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command find ~/criteo/ -maxdepth 2 -type d | sed s@$HOME/criteo/@@)" -- $cur) )
+}
+complete -o default -F _gerrit_complete gerrit
+
+_github_clone() {
+  org=$1
+  repo=$2
+  dir=$3
+  echo git clone ssh://git@github.com/$org/$repo.git $dir
+  git clone ssh://git@github.com/$org/$repo.git $dir
+}
+
+github() {
+  local org=$(dirname $1)
+  local repo=$(basename $1)
+  mkdir -p ~/$org
+  dst="$HOME/criteo/$1"
+  [[ ! -d "$dst" ]] && _github_clone "$org" "$repo" "$dst"
+  cd "$dst"
+}
+
+forks() {
+  github criteo-forks/$1
+}
+_forks_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command ls ~/criteo/criteo-forks/)" -- $cur) )
+}
+complete -o default -F _forks_complete forks
 
 ck() {
   gerrit chef-cookbooks/$1
 }
 _ck_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command ls ~/chef-cookbooks/)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(command ls ~/criteo/chef-cookbooks/)" -- $cur) )
 }
 complete -o default -F _ck_complete ck
 repo() {
@@ -112,7 +140,7 @@ repo() {
 }
 _repo_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command ls ~/chef-repositories/)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(command ls ~/criteo/chef-repositories/)" -- $cur) )
 }
 complete -o default -F _repo_complete repo
 rubygem () {
@@ -120,7 +148,7 @@ rubygem () {
 }
 _gem_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command ls ~/ruby-gems/)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(command ls ~/criteo/ruby-gems/)" -- $cur) )
 }
 complete -o default -F _gem_complete rubygem
 rpmpackage () {
@@ -128,7 +156,7 @@ rpmpackage () {
 }
 _rpmpackage_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command ls ~/rpm-packages/)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(command ls ~/criteo/rpm-packages/)" -- $cur) )
 }
 complete -o default -F _rpmpackage_complete rpmpackage
 
@@ -145,7 +173,7 @@ policy() {
 }
 _policy_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command find ~/configuration/chef-configuration/policies -mindepth 2 -maxdepth 2 -type d | sed -re 's|.*configuration/chef-configuration/policies/[^/]+/||')" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(command find ~/criteo/configuration/chef-configuration/policies -mindepth 2 -maxdepth 2 -type d | sed -re 's|.*configuration/chef-configuration/policies/[^/]+/||')" -- $cur) )
 }
 complete -o default -F _policy_complete policy
 # end of smart
@@ -188,10 +216,9 @@ chef_serial_from_nodename()
 #if ! grep -q dirty-harry <(echo $PATH); then
 #  export PATH=/home/g_seux/ruby-gems/dirty-harry/bin:$PATH
 #fi
-alias diagnose='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec diagnose'
-alias wimpi.sh='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec ~/ruby-gems/dirty-harry/bin/wimpi.sh'
-alias harryd='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec harryd'
-alias cleaning-shell='BUNDLE_GEMFILE=~/ruby-gems/dirty-harry/Gemfile bundle exec cleaning_shell'
+alias diagnose='BUNDLE_GEMFILE=~/criteo/ruby-gems/dirty-harry/Gemfile bundle exec diagnose'
+alias wimpi.sh='BUNDLE_GEMFILE=~/criteo/ruby-gems/dirty-harry/Gemfile bundle exec ~/criteo/ruby-gems/dirty-harry/bin/wimpi.sh'
+alias cleaning-shell='BUNDLE_GEMFILE=~/criteo/ruby-gems/dirty-harry/Gemfile bundle exec cleaning_shell'
 
 d() {
   diagnose $@
