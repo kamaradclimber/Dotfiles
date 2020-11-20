@@ -1,13 +1,9 @@
 #!/bin/bash
 
-newfile=$(mktemp jiradump.XXXX)
-file=/tmp/jira-dump.txt
-ssh g_seux@churchill.criteois.lan "cat .jira-dump.txt" > $newfile
+file=/run/user/1000/jira-dump.txt
 
-if [ -s $newfile ]; then
-  mv $newfile $file
+if [[ ! -e $file ]]; then
+  echo "jira dump has not ran yet" >> $file
 fi
-
-echo $file
 
 rofi-generic --input-files $file
