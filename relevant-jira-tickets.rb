@@ -41,7 +41,15 @@ end
 
 def compare_key(issue)
   status = status_value(issue.status.name)
-  [issue.assignee&.name || 'zzzz', status, issue.updated, issue.created]
+  assignee_key = case issue.assignee&.name
+                 when ENV['CRITEO_USER']
+                   10
+                 when nil
+                   0
+                 else
+                   1
+                 end
+  [assignee_key, status, issue.updated, issue.created]
 end
 
 output = issues
