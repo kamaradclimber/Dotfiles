@@ -75,7 +75,7 @@ if test -f .env; then
   source ~/.env
 fi
 
-alias gogogo='ssh -D 1080 -Nn criteo'
+alias kibana="BUNDLE_GEMFILE=$HOME/criteo/ruby-gems/mesos-tools/Gemfile bundle exec kibana"
 
 # Smart cd for criteo projects
 _gerrit_clone() {
