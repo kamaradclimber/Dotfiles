@@ -68,6 +68,7 @@ function j {
 
 export CRITEO_USER=g.seux
 export PUBLISH_USER=g_seux
+export AWS_JENKINS_PRIVATE_KEY=$HOME/.ssh/id_rsa.criteo
 
 export KITCHEN_YAML=.kitchen.ec2.yml
 if test -f .env; then
