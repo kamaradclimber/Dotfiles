@@ -96,7 +96,7 @@ gerrit() {
 }
 _gerrit_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command find ~/criteo/ -maxdepth 2 -type d | sed s@$HOME/criteo/@@)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(command find ~/criteo/ -mindepth 2 -maxdepth 2 -type d | sed s@$HOME/criteo/@@)" -- $cur) )
 }
 complete -o default -F _gerrit_complete gerrit
 
