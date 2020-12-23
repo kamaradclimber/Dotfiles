@@ -20,6 +20,9 @@ require("awful.hotkeys_popup.keys")
 
 local sharedtags = require("awesome-sharedtags")
 
+-- volume control
+local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -54,6 +57,11 @@ terminal = "kitty"
 browser  = "firefox"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
+get_volume_cmd = 'pamixer --get-volume-human'
+tog_volume_cmd = 'pamixer --toggle-mute'
+inc_volume_cmd = 'pamixer --increase 5'
+dec_volume_cmd = 'pamixer --decrease 5'
+
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -173,7 +181,7 @@ local tags = sharedtags({
         { name = "5", layout = awful.layout.layouts[1] },
         { name = "6", layout = awful.layout.layouts[1] },
         { name = "7", layout = awful.layout.layouts[1] },
-        { name = "MAIL", layout = awful.layout.layouts[1] },
+        { name = "8", layout = awful.layout.layouts[1] },
         { name = "IM", layout = awful.layout.layouts[1] },
         { layout = awful.layout.layouts[1] },
         { screen = 2, layout = awful.layout.layouts[1] }
@@ -210,6 +218,19 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
+    s.volume_widget = volumebar_widget({
+      main_color = '#af13f7',
+      mute_color = '#ff0000',
+      width = 80,
+      shape = 'rounded_bar',
+      margins = 3,
+      timeout = 0.5,
+      get_volume_cmd = get_volume_cmd,
+      tog_volume_cmd = tog_volume_cmd,
+      inc_volume_cmd = inc_volume_cmd,
+      dec_volume_cmd = dec_volume_cmd
+    })
+
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -223,7 +244,9 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
+            require("battery-widget") {},
             s.mylayoutbox,
+            s.volume_widget,
             mytextclock,
             utc_clock,
         },
@@ -266,6 +289,10 @@ globalkeys = gears.table.join(
             end
         end,
         {description = "go back", group = "client"}),
+    -- sound control
+    awful.key({}, "XF86AudioMute", function () awful.util.spawn(tog_volume_cmd, false) end),
+    awful.key({}, "XF86AudioLowerVolume", function () awful.util.spawn(dec_volume_cmd, false) end),
+    awful.key({}, "XF86AudioRaiseVolume", function () awful.util.spawn(inc_volume_cmd, false) end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
