@@ -181,7 +181,7 @@ local tags = sharedtags({
         { name = "5", layout = awful.layout.layouts[1] },
         { name = "6", layout = awful.layout.layouts[1] },
         { name = "7", layout = awful.layout.layouts[1] },
-        { name = "MAIL", layout = awful.layout.layouts[1] },
+        { name = "8", layout = awful.layout.layouts[1] },
         { name = "IM", layout = awful.layout.layouts[1] },
         { layout = awful.layout.layouts[1] },
         { screen = 2, layout = awful.layout.layouts[1] }
