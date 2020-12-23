@@ -52,13 +52,19 @@ def compare_key(issue)
   [assignee_key, status, issue.updated, issue.created]
 end
 
+def emoji(issue)
+  return '🏰' if issue.issuetype&.name == 'Epic'
+  return '🐛' if issue.issuetype&.name == 'Bug'
+end
+
 output = issues
   .reject { |issue| reject(issue) }
   .sort { |a, b| compare_key(a) <=> compare_key(b) }.reverse
   .map do |issue|
   labels = []
   labels << issue.status.name
-  "#{issue.key} #{issue.summary} (#{labels.join(',')})"
+  emji = emoji(issue)
+  "#{issue.key} #{issue.summary} (#{labels.join(',')}) #{emji}".strip
 end.join("\n")
 
 File.write("/var/run/user/1000/jira-dump.txt", output)
