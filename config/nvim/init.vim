@@ -9,7 +9,6 @@ Plug 'neomake/neomake'
 Plug 'janko-m/vim-test' "test for ruby
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'peitalin/vim-jsx-typescript' "typescript
-Plug 'ActivityWatch/aw-watcher-vim'
 
 " Initialize plugin system
 call plug#end()
