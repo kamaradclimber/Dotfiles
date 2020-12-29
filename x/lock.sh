@@ -2,7 +2,7 @@
 
 # to convert all jpg to png:
 # find . -name "*.jpg" -exec mogrify -format png {} \;
-file=$(ls $HOME/img/*png| sort -R| head -n1)
+file=$(ls $HOME/wallpapers/*png| sort -R| head -n1)
 
 revert() {
   xset dpms 0 0 3600

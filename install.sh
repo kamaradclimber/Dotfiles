@@ -8,10 +8,10 @@ fi
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
-find . -maxdepth 1 -mindepth 1 -type d -regex "\./[^.].+" |
+find . -maxdepth 1 -mindepth 1 -type d -regex "\./[^.].*" |
   grep -v -e misc$ |
   while read prog; do
   prog=$(echo $prog | cut -f2 -d/)
   echo "Will use stow on $prog"
-  stow --dotfiles $prog
+  stow --dotfiles $prog --verbose 2
 done
