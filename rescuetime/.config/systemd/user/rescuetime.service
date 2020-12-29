@@ -1,0 +1,10 @@
+[Unit]
+Description=Rescuetime
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/rescuetime
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=xsession.target

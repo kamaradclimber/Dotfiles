@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+systemctl --user daemon-reload
+systemctl --user start rescuetime.service
+systemctl --user enable rescuetime.service
