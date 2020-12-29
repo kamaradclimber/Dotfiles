@@ -32,6 +32,9 @@ case "$(uname -n)" in
   "gagarine")
     setxkbmap fr -variant bepo
     ;;
+  "pikpik")
+    setxkbmap us intl
+    ;;
 esac
 
 
