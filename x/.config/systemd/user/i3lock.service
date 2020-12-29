@@ -1,12 +1,8 @@
 [Unit]
 Description=Lock screen before suspend
-Before=sleep.target
 
 [Service]
 Type=forking
 Environment=DISPLAY=:0
-ExecStart=/home/grego/lock.sh
+ExecStart=%h/lock.sh
 ExecStartPost=/bin/sleep 1
-
-[Install]
-WantedBy=suspend.target

@@ -18,10 +18,17 @@ def extract_source(post)
   source['source']
 end
 
+def download(url)
+  dir = File.join(ENV['HOME'], 'wallpapers')
+  target_file = File.join(dir, File.basename(url))
+  \`curl '#{url}' -f -o '#{target_file}'\` unless File.exist?(target_file)
+end
+
 JSON
   .parse(File.read('children.json'))
   .select { |d| d['data']['preview'] }
   .select { |post| extract_source(post) && extract_source(post)['width'] > 1920 }
+  .each { |post| download(post['data']['url']) }
   .each { |post| puts post['data']['url'] }
 EOR
 
