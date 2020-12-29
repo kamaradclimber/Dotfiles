@@ -4,7 +4,7 @@ After=xorg.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/feh --no-fehbg --bg-scale %h/wallpapers/*
+ExecStart=%h/.set-wallpaper.sh
 Environment=DISPLAY=:0
 
 [Install]
