@@ -47,8 +47,6 @@ alias dict="cat /usr/share/dict/words"
 alias b='bundle install'
 alias bb='mv Gemfile.lock .Gemfile.lock.$(date +%s); bundle install'
 
-alias js="mosespa search"
-
 # will try ping until success. useful to wait for network to come back
 function ping_until {
   until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done
@@ -299,8 +297,8 @@ if test_helper "fzf" "fzf"; then
 fi
 
 # load history from custom files and use fzf
-if test -f $HOME/.bash_custom_history.sh; then
-  source $HOME/.bash_custom_history.sh
+if test -f $HOME/.custom_history.sh; then
+  source $HOME/.custom_history.sh
 fi
 
 function gotmp() {
