@@ -111,7 +111,7 @@ _github_clone() {
 github() {
   local org=$(dirname $1)
   local repo=$(basename $1)
-  mkdir -p ~/$org
+  mkdir -p "$HOME/criteo/$org"
   dst="$HOME/criteo/$1"
   [[ ! -d "$dst" ]] && _github_clone "$org" "$repo" "$dst"
   cd "$dst"
