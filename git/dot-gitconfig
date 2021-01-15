@@ -62,13 +62,6 @@
 [commit]
     verbose = true
 
-[pager]
-    show = $HOME/.dotfiles/diff-highlight | less
-    log  = $HOME/.dotfiles/diff-highlight | less
-    diff = $HOME/.dotfiles/diff-highlight | less
-
-[interactive]
-    diffFilter = $HOME/.dotfiles/diff-highlight 
 [remote "origin"]
 	tagOpt = --tags
 [rerere]
