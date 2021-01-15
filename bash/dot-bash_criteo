@@ -116,6 +116,11 @@ github() {
   [[ ! -d "$dst" ]] && _github_clone "$org" "$repo" "$dst"
   cd "$dst"
 }
+_github_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(command find ~/criteo/ -mindepth 2 -maxdepth 2 -type d | sed s@$HOME/criteo/@@)" -- $cur) )
+}
+complete -o default -F _github_complete github
 
 forks() {
   github criteo-forks/$1
