@@ -319,7 +319,7 @@ function webserver() {
 }
 
 if test_helper "bat" "bat"; then
-  alias cat='bat --paging=never'
+  alias cat='bat --paging=never --style=plain'
 fi
 
 alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
