@@ -1,0 +1,11 @@
+[Unit]
+Description = dump relevant tickets from jira
+After = network.target auditd.service
+
+[Service]
+Type = simple
+WorkingDirectory=/var/run/user
+ExecStart = /home/grego/.dump-jira-tickets.sh
+
+[Install]
+WantedBy = multi-user.target

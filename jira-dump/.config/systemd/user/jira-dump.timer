@@ -1,0 +1,10 @@
+[Unit]
+Description = period dump from jira
+
+[Install]
+WantedBy = timers.target
+
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=1800
+Persistent=true

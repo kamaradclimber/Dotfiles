@@ -7,4 +7,4 @@ export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 RUBY_PATH=$GEM_HOME/bin
 export PATH="$PATH:$RUBY_PATH"
 
-ruby $HOME/.dotfiles/relevant-jira-tickets.rb
+ruby $HOME/.relevant-jira-tickets.rb
