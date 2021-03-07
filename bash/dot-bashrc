@@ -364,7 +364,7 @@ fi
 
 
 if test_helper "grc" "grc"; then
-  source /etc/profile.d/grc.bashrc
+  source /etc/profile.d/grc.sh
 fi
 
 
