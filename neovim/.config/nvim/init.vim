@@ -37,3 +37,5 @@ set shiftwidth=2    " number of spaces to use for autoindent
 set expandtab       " tabs are space
 set autoindent
 set copyindent      " copy indent from the previous line
+
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
