@@ -10,7 +10,7 @@ echo "Current window is: $current_window, with class $current_window_class"
 
 function set_status {
   status=$1
-  ssh g_seux@churchill.criteois.lan ".dotfiles/work_from_home.sh $status"
+  $HOME/.dotfiles/misc/work_from_home.sh $status
 }
 
 if [[ "$current_window" == "Zoom Meeting" ]]; then

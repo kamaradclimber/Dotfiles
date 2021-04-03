@@ -1,49 +1,5 @@
 # /* vim: set filetype=sh : */
 
-
-__whereami() {
-  if grep 'search criteois.lan' /etc/resolv.conf > /dev/null ; then
-    echo "criteo"
-  # 78.194.186.226 is home fixed ipaddress
-  # 91.199.242.* is the address of criteo when using the vpn
-  elif curl -s icanhazip.com | grep -q -e 78.194.186.226 -e 91.199.242.; then
-    echo "home"
-  elif host 192.168.1.1 | grep -q -e neufbox; then
-    echo "SPDO"
-  else
-    echo "elsewhere"
-  fi
-}
-
-
-# use this method to get cached access to localization
-__cached_whereami() {
-  local tmp=/tmp/whereami.cache
-  if test -f $tmp; then
-    [[ -z "$(find $tmp -mmin +30)" ]] && cat $tmp && return 0
-  fi
-  __whereami | tee $tmp
-}
-
-__mothership() {
-  local home=familleseux.net
-  case $(__cached_whereami) in
-    mothership )
-      echo "ssh grego@capodimonte";;
-    *)
-      echo "ssh grego@$home";;
-  esac
-}
-
-__homepage() {
-  case $(__cached_whereami) in
-    criteo )
-      export HOMEPAGE='https://jira.criteois.com/secure/RapidBoard.jspa?rapidView=1829'
-  esac
-}
-
-__homepage
-
 function knife_until {
   if [ $# -ne 1 ]; then
     echo "USAGE: $0 <NODE_NAME>" >&2

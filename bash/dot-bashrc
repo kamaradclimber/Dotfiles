@@ -244,25 +244,15 @@ function prompt_command {
 PROMPT_COMMAND=prompt_command
 
 
-export PATH=$PATH:~/.dotfiles/scripts/:/usr/bin/vendor_perl:~/.cabal/bin
+export PATH=$PATH:~/.dotfiles/scripts/
 
 export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 RUBY_PATH=$GEM_HOME/bin
 export PATH="$PATH:$RUBY_PATH"
 
 
-#Workstation or personnal desktop?
-if [ $(uname -n) == "criteo-scalasto" ]; then
-  export MAILDIR=$HOME/Mail/Criteo
-  export EMAIL="g.seux@criteo.com"
-elif [ $(uname -n) == "vargas" ]; then
-  export EMAIL="g.seux@criteo.com"
-elif [ $(uname -n) == "churchill" ]; then
-  export EMAIL="g.seux@criteo.com"
-else
-  export MAILDIR=$HOME/Maildir
-  export EMAIL="kamaradclimber@gmail.com"
-fi
+export MAILDIR=$HOME/Maildir
+export EMAIL="kamaradclimber@gmail.com"
 
 
 if [ -d "$HOME/.local/bin/" ]; then
@@ -328,10 +318,6 @@ alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
 # DONT ENABLE THIS since it blocks all programs that use "warn" in ruby code
 export RUBYOPT="-W0"
 
-function yaourt() {
-  echo "Use yay instead!"
-}
-
 if [ $(tty) = /dev/tty1 ]; then
   startx
   exit 0
@@ -359,9 +345,6 @@ alias last='fzf_git_log'
 if test_helper "nvim" "neovim"; then
   alias vim=nvim
 fi
-
-
-
 
 if test_helper "grc" "grc"; then
   source /etc/profile.d/grc.sh
