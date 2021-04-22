@@ -258,3 +258,6 @@ gollum()
 {
   go_lom.sh connect $@
 }
+
+export PATH=$PATH:$HOME/.kube/bin
+
