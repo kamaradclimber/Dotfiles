@@ -261,3 +261,5 @@ gollum()
 
 export PATH=$PATH:$HOME/.kube/bin
 
+# allow to complete cd command with specific directories from anywhere. Example: `cd strategic[TAB] to complete cd criteo/ruby-gems/strategic-air-command`
+export CDPATH=.:$(find $HOME/criteo  -maxdepth 1 -type d | paste -sd:)
