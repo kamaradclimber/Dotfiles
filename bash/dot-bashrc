@@ -193,7 +193,7 @@ HOST=""
 USER_=""
 LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
 BELL="\[\a\]"
-LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; fi)'
+LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; if ! grep -q "^ vim" <(echo "$last_command"); then notify-send "command finished: _${last_command}_"; fi fi)'
 
 if [ -f ~/.git-prompt.sh ]; then
   . ~/.git-prompt.sh
@@ -237,7 +237,8 @@ function prompt_command {
  last=$?
  timer_stop
  if [ "$(id -u)" -ne 0 ]; then
-   echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $(history 1)" >> ~/.bash-history-$(date "+%Y-%m-%d").log
+   last_command=$(history 1| cut -d' ' -f2-)
+   echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $$ ${last_command}" >> ~/.bash-history-$(date "+%Y-%m-%d").log
  fi
 }
 
