@@ -12,6 +12,8 @@ require "paq" {
 
 vim.api.nvim_exec("call neomake#configure#automake('nrwi', 500)", false)
 
+vim.notify = require('notify') -- use nvim-notify plugin for notifications
+
 local map = vim.api.nvim_set_keymap
 
 -- map method takes 4 arguments: the mode for which the mapping will take effect, the key sequence, the command to execute and a table of options
