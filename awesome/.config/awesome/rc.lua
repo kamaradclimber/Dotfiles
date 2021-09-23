@@ -62,6 +62,12 @@ tog_volume_cmd = 'pamixer --toggle-mute'
 inc_volume_cmd = 'pamixer --increase 5'
 dec_volume_cmd = 'pamixer --decrease 5'
 
+get_brightness_cmd = 'bash -c "echo $(xbacklight | cut -d. -f1)%"'
+tog_brightness_cmd = ''
+inc_brightness_cmd = 'xbacklight -inc 10% -time 300'
+dec_brightness_cmd = 'xbacklight -dec 10% -time 300'
+
+
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -231,6 +237,19 @@ awful.screen.connect_for_each_screen(function(s)
       dec_volume_cmd = dec_volume_cmd
     })
 
+    s.brightness_widget = volumebar_widget({
+      main_color = '#af13f7',
+      mute_color = '#ff0000',
+      width = 80,
+      shape = 'rounded_bar',
+      margins = 3,
+      timeout = 0.5,
+      get_volume_cmd = get_brightness_cmd,
+      tog_volume_cmd = tog_brightness_cmd,
+      inc_volume_cmd = inc_brightness_cmd,
+      dec_volume_cmd = dec_brightness_cmd
+    })
+
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -245,6 +264,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             require("battery-widget") {},
+            s.brightness_widget,
             s.mylayoutbox,
             s.volume_widget,
             mytextclock,
