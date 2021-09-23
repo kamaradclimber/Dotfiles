@@ -363,5 +363,3 @@ if [ -f "$HOME/.bash_vpn" ] ; then
 fi
 
 true # finish with a correct exit code
-
-

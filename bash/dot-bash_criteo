@@ -259,7 +259,15 @@ gollum()
   go_lom.sh connect $@
 }
 
-export PATH=$PATH:$HOME/.kube/bin
 
 # allow to complete cd command with specific directories from anywhere. Example: `cd strategic[TAB] to complete cd criteo/ruby-gems/strategic-air-command`
 export CDPATH=.:$(find $HOME/criteo  -maxdepth 1 -type d | paste -sd:)
+
+export PUBLISH_KEY=/home/grego/.ssh/id_rsa.criteo
+
+export PATH=$PATH:$HOME/.kube/bin
+
+if which k9s > /dev/null; then
+  k9s completion bash > .bash_completion_k9s
+  source .bash_completion_k9s
+fi
