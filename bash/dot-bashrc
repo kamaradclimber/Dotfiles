@@ -7,6 +7,12 @@ shopt -s globstar
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+
+if [ $(tty) = /dev/tty2 ]; then
+  echo "TTY2: skipping all bashrc evaluation"
+  exit 0
+fi
+
 #standard editor variable
 export EDITOR=/usr/bin/nvim
 export BROWSER="/usr/bin/firefox --new-window"
