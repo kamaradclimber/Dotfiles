@@ -88,7 +88,12 @@ _forks_complete() {
 complete -o default -F _forks_complete forks
 
 ck() {
-  gerrit chef-cookbooks/$1
+  if ls ~/criteo/configuration/chef-cookbooks/cookbooks | grep -q $1; then
+    cd ~/criteo/configuration/chef-cookbooks/cookbooks/$1
+  else
+    echo "⚠ maybe this cookbook has migrated to configuration/chef-cookbooks"
+    gerrit chef-cookbooks/$1
+  fi
 }
 _ck_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
