@@ -1,4 +1,4 @@
--- Package manager, use PaqInstall to install :)
+-- Package manager, use PaqInstall to install
 require "paq" {
 	"savq/paq-nvim";                  -- Let Paq manage itself
 	'neomake/neomake'; --linting
@@ -8,6 +8,7 @@ require "paq" {
 	'nvim-treesitter/playground';
 	'neovim/nvim-lspconfig'; -- language server
 	'rcarriga/nvim-notify';
+  {'glacambre/firenvim', run = vim.fn['firenvim#install'] };
 }
 
 vim.api.nvim_exec("call neomake#configure#automake('nrwi', 500)", false)
@@ -86,3 +87,8 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+
+-- firenvim settings
+vim.g.firenvim_config = {localSettings = { ['.*'] = {} } , globalSettings = {}}
+vim.g.firenvim_config['globalSettings'] = { takeover = 'never', priority = 1 }
