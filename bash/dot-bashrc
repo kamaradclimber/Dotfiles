@@ -71,19 +71,6 @@ function ssh_until {
   echo ""
 }
 
-function chef_until {
-  now=$(date +%s)
-  res=0
-  while [ "$res" -eq 0 ]; do
-    res=$(bundle exec knife search "fqdn:$1 AND NOT ohai_time:[0 TO $now]" 2> /dev/null| wc -l)
-    echo -n .
-    sleep 2
-  done
-}
-
-
-
-
 alias irb="pry"
 
 # privileged access
