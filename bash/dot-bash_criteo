@@ -186,6 +186,7 @@ chef_serial_from_nodename()
 alias diagnose='BUNDLE_GEMFILE=~/criteo/ruby-gems/dirty-harry/Gemfile bundle exec diagnose'
 alias wimpi.sh='BUNDLE_GEMFILE=~/criteo/ruby-gems/dirty-harry/Gemfile bundle exec ~/criteo/ruby-gems/dirty-harry/bin/wimpi.sh'
 alias cleaning-shell='BUNDLE_GEMFILE=~/criteo/ruby-gems/dirty-harry/Gemfile bundle exec cleaning_shell'
+alias mesos-connect='BUNDLE_GEMFILE=~/criteo/ruby-gems/dirty-harry/Gemfile bundle exec mesos_connect'
 
 d() {
   diagnose $@
