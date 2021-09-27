@@ -1,0 +1,11 @@
+[Unit]
+Description = Expose my videconf status to home-assistant
+After = network.target auditd.service
+
+[Service]
+Type = simple
+WorkingDirectory=/var/run/user
+ExecStart = /home/grego/.videoconf-detection.sh
+
+[Install]
+WantedBy = xsession.target

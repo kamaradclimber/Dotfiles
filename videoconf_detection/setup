@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+DEST_DIR=$HOME/home-assistant-video-conf-detection
+git clone https://github.com/kamaradclimber/home-assistant-video-conf-detection $DEST_DIR
+cd $DEST_DIR
+bundle install
+
+systemctl --user start videoconf-detection
+systemctl --user enable videoconf-detection
