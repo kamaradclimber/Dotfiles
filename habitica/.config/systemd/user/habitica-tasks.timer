@@ -1,0 +1,10 @@
+[Unit]
+Description = periodic run of habitica-tasks binary
+
+[Install]
+WantedBy = timers.target
+
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=180
+Persistent=true

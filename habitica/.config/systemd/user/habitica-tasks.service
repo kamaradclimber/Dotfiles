@@ -1,0 +1,11 @@
+[Unit]
+Description = synchronize habitica tasks
+After = network.target auditd.service
+
+[Service]
+Type = simple
+WorkingDirectory=/var/run/user
+ExecStart = /home/grego/.sync-habitica-tasks.sh
+
+[Install]
+WantedBy = multi-user.target
