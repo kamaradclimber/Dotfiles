@@ -7,13 +7,9 @@ require "paq" {
 	{'nvim-treesitter/nvim-treesitter', run=':TSUpdate' };
 	'nvim-treesitter/playground';
 	'neovim/nvim-lspconfig'; -- language server
-	'rcarriga/nvim-notify';
-  {'glacambre/firenvim', run = vim.fn['firenvim#install'] };
 }
 
 vim.api.nvim_exec("call neomake#configure#automake('nrwi', 500)", false)
-
-vim.notify = require('notify') -- use nvim-notify plugin for notifications
 
 local map = vim.api.nvim_set_keymap
 
@@ -21,7 +17,7 @@ local map = vim.api.nvim_set_keymap
 map('n', ',', '', {})
 vim.g.mapleader = ','  -- 'vim.g' sets global variables
 
-local o = vim.o
+local o = vim.opt
 local wo = vim.wo
 local bo = vim.bo
 
