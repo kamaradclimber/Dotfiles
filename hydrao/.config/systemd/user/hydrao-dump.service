@@ -1,0 +1,13 @@
+[Unit]
+Description = Send hydrao shower head data to homeassistant
+After = network.target auditd.service
+
+[Service]
+# Type = simple # currently trying with exec since it waits for binary to be launched
+Type = exec
+WorkingDirectory=/var/run/user
+ExecStart = /home/grego/.hydrao-dump.sh
+Restart=on-failure
+
+[Install]
+WantedBy = xsession.target

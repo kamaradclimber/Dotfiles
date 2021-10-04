@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+DEST_DIR=$HOME/hydrao-dump
+git clone https://github.com/kamaradclimber/hydrao-dump $DEST_DIR
+cd $DEST_DIR
+
+systemctl --user start hydrao-dump
+systemctl --user enable hydrao-dump
