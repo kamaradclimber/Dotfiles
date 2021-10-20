@@ -15,6 +15,9 @@ fi
 
 #standard editor variable
 export EDITOR=/usr/bin/nvim
+if [[ -f /home/grego/.local/bin/lvim ]]; then
+  export EDITOR=/home/grego/.local/bin/lvim
+fi
 export BROWSER="/usr/bin/firefox --new-window"
 
 # Add criteo related utilities
@@ -351,6 +354,9 @@ alias last='fzf_git_log'
 if test_helper "nvim" "neovim"; then
   alias vim=nvim
 fi
+if test_helper "lvim" "lunarvim"; then
+  alias vim=lvim
+fi
 
 if test_helper "grc" "grc"; then
   source /etc/profile.d/grc.sh
@@ -361,5 +367,7 @@ fi
 if [ -f "$HOME/.bash_vpn" ] ; then
   . $HOME/.bash_vpn
 fi
+
+export NPM_CONFIG_PREFIX=~/.npm-global
 
 true # finish with a correct exit code
