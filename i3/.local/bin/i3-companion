@@ -820,10 +820,38 @@ async def dunst_status_check(i3, event):
     paused = await dunst.paused
     return icons[paused and "notifications-disabled" or "notifications-enabled"]
 
+COLUMNS = 2
+def move_container (con1, con2):
+    con2.command("mark __column-layout");
+    con1.command("move window to mark __column-layout")
+    con2.command("unmark __column-layout");
+
+
+# from https://aduros.com/blog/hacking-i3-automatic-layout/
+@on(I3Event.WINDOW_NEW, I3Event.WINDOW_CLOSE, I3Event.WINDOW_MOVE)
+async def update_layout(i3, event):
+    if event.change == "close":
+        workspaces = await i3.get_workspaces()
+        for reply in workspaces:
+            if reply.focused:
+                tree = await i3.get_tree()
+                workspace = tree.find_by_id(reply.ipc_data["id"]).workspace()
+
+                if len(workspace.nodes) == 1 and len(workspace.nodes(0).nodes) == 1:
+                    child = workspace.nodes[0].nodes[0]
+                    move_container(child, workspace)
+    else:
+        tree = await i3.get_tree()
+        window = tree.find_by_id(event.container.id)
+        if window is not None:
+            workspace = window.workspace()
+            if workspace is not None and len(workspace.nodes) >= COLUMNS:
+                for node in workspace.nodes:
+                    if node.layout != "splitv":
+                        await node.command("splitv")
+
 
 # Main function
-
-
 async def main(options):
     i3 = await Connection(auto_reconnect=True).connect()
     i3.session_bus = await ravel.session_bus_async()
