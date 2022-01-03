@@ -41,17 +41,17 @@ class MicrophoneStatus < I3StatusPlugin
     mute_status = Mixlib::ShellOut.new('pactl get-source-mute @DEFAULT_SOURCE@', timeout: 1)
     mute_status.run_command
     status = if mute_status.error?
-                  { full_text: '🎤💥', name: '🎤' }
-                else
-                  case mute_status.stdout
-                  when /Mute: yes/
-                    { full_text: '🎤❌', name: '🎤' }
-                  when /Mute: no/
-                    { full_text: '🎤', name: '🎤' }
-                  else
-                    { full_text: '🎤❓', name: '🎤' }
-                  end
-                end
+               { full_text: '🎤💥', name: '🎤' }
+             else
+               case mute_status.stdout
+               when /Mute: yes/
+                 { full_text: '🎤🔇', name: '🎤' }
+               when /Mute: no/
+                 { full_text: '🎤', name: '🎤' }
+               else
+                 { full_text: '🎤❓', name: '🎤' }
+               end
+             end
     insert_before_volume(statuses, status)
     statuses
   end
