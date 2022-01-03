@@ -15,7 +15,7 @@ options = {
 
 client = JIRA::Client.new(options)
 
-issues = client.Issue.jql('(project in (MESOS, LAKE) OR assignee = currentUser()) AND resolution is EMPTY', max_results: 500)
+issues = client.Issue.jql('(project in (MESOS, LAKE, KUBE) OR assignee = currentUser()) AND resolution is EMPTY', max_results: 500)
 
 def status_value(status)
   case status
@@ -64,7 +64,8 @@ output = issues
   labels = []
   labels << issue.status.name
   emji = emoji(issue)
-  "#{issue.key} #{issue.summary} (#{labels.join(',')}) #{emji}".strip
+  summary = issue.summary.gsub('&', '_')
+  "#{issue.key} #{summary} (#{labels.join(',')}) #{emji}".strip
 end.join("\n")
 
 File.write("/var/run/user/1000/jira-dump.txt", output)
