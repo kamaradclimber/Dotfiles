@@ -41,6 +41,6 @@ tztime utc {
 }
 
 volume master {
-  format = "♪: %volume"
-  format_muted = "♪: muted (%volume)"
+  format = "🎶: %volume"
+  format_muted = "🎶:🔇(%volume)"
 }
