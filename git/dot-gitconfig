@@ -16,11 +16,11 @@
     showbranch = auto
     status = auto
 
-[pager]
-    diff = delta
-    log = delta
-    reflog = delta
-    show = delta
+# [pager]
+#     diff = delta
+#     log = delta
+#     reflog = delta
+#     show = delta
 
 [interactive]
     diffFilter = delta --color-only
@@ -53,7 +53,7 @@
     browse = !"f() { \
         DEFAULT_REMOTE=$(git remote |head -n1 );\
         REMOTE=$(git config remote.${1:-$DEFAULT_REMOTE}.url);\
-        URL=$(echo $REMOTE | sed -E 's/^(git@|https:\\/\\/)(.*):(.*)\\.git$/https:\\/\\/\\2\\/\\3/');\
+        URL=$(echo $REMOTE | sed -E 's#^((ssh://)?git@|https://)(.*)(:|/)(.*)\\.git$#https://\\3\\/\\4#');\
         $BROWSER $URL > /dev/null 2>&1 ;\
         };\
         f"

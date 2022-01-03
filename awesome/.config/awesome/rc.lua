@@ -62,6 +62,7 @@ tog_volume_cmd = 'pamixer --toggle-mute'
 inc_volume_cmd = 'pamixer --increase 5'
 dec_volume_cmd = 'pamixer --decrease 5'
 
+
 get_brightness_cmd = 'bash -c "echo $(xbacklight | cut -d. -f1)%"'
 tog_brightness_cmd = ''
 inc_brightness_cmd = 'xbacklight -inc 10% -time 300'

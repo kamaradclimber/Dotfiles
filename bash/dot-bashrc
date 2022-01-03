@@ -10,7 +10,7 @@ shopt -s globstar
 
 if [ $(tty) = /dev/tty2 ]; then
   echo "TTY2: skipping all bashrc evaluation"
-  exit 0
+  return
 fi
 
 #standard editor variable
@@ -373,5 +373,10 @@ if [ -f "$HOME/.bash_vpn" ] ; then
 fi
 
 export NPM_CONFIG_PREFIX=~/.npm-global
+
+fvim () 
+{ 
+vim $(ag "$@" | fzf --preview 'bat --color=always {}')
+}
 
 true # finish with a correct exit code
