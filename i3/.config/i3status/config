@@ -11,14 +11,14 @@ order += "volume master"
 order += "tztime local"
 order += "tztime utc"
 
-wireless wlan0 {
+wireless _first_ {
   format_up = "W: %essid, %bitrate"
   format_down = "no wifi"
 }
 
 battery 0 {
   format = "%status %percentage %remaining %emptytime"
-  format_down = "No battery"
+  format_down = "🔋❌"
   status_chr = "⚡ CHR"
   status_bat = "🔋 BAT"
   status_unk = "? UNK"
