@@ -56,8 +56,12 @@ fi
 which synclient && synclient TapButton1=1
 which synclient && synclient PalmDetect=1
 
-
-
 xsetroot -cursor_name left_ptr
+
 systemctl --no-block --user start xsession.target
-exec awesome
+if [ $(tty) = /dev/tty6 ]; then
+  dunst &
+  exec i3
+else
+  exec awesome
+fi

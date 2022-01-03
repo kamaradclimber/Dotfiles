@@ -1,0 +1,11 @@
+[Unit]
+Description=i3 companion
+PartOf=graphical-session.target
+
+[Service]
+Type=notify
+ExecStart=%h/.local/bin/i3-companion
+Restart=on-failure
+
+[Install]
+WantedBy=xsession.target

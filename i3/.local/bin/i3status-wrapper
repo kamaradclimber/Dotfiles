@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+
+# this script wraps i3status
+# To use it, ensure your ~/.i3status.conf contains this line:
+#     output_format = "i3bar"
+# in the 'general' section.
+# Then, in your ~/.i3/config, use:
+#     status_command i3status | i3status-wrapper
+# In the 'bar' section.
+#
+# this file is a ruby reimplementation of https://github.com/i3/i3status/blob/master/contrib/wrapper.py
+
+require 'json'
+require 'mixlib/shellout'
+
+# unbuffered output
+def print_line(message)
+  puts message
+  STDOUT.flush
+end
+
+def read_line
+  # try reading a line, removing any extra whitespace
+  line = gets.strip
+  exit(3) if line.nil? || line.empty?
+  line
+rescue SignalException
+  exit(0)
+end
+
+class I3StatusPlugin
+  # @param statuses [Array] a list of status from i3status
+  # @return [Array] the same list of status, possibly with additional elements or updated ones
+  def enrich(_statuses)
+    raise NotImplementedError, "#{self.class.name} does not implement enrich method"
+  end
+end
+
+class MicrophoneStatus < I3StatusPlugin
+  def enrich(statuses)
+    mute_status = Mixlib::ShellOut.new('pactl get-source-mute @DEFAULT_SOURCE@', timeout: 1)
+    mute_status.run_command
+    status = if mute_status.error?
+                  { full_text: '🎤💥', name: '🎤' }
+                else
+                  case mute_status.stdout
+                  when /Mute: yes/
+                    { full_text: '🎤❌', name: '🎤' }
+                  when /Mute: no/
+                    { full_text: '🎤', name: '🎤' }
+                  else
+                    { full_text: '🎤❓', name: '🎤' }
+                  end
+                end
+    insert_before_volume(statuses, status)
+    statuses
+  end
+
+  private
+
+  def insert_before_volume(statuses, status)
+    volume_index = statuses.find_index { |s| s['name'] == 'volume' } || 0
+    statuses.insert(volume_index, status)
+  end
+end
+
+def custom_status
+  additional_infos = []
+  MicrophoneStatus.new.enrich(additional_infos)
+end
+
+# first line contains the version header
+print_line(read_line)
+# second line contains start of the infinite array
+print_line(read_line)
+
+plugins = ObjectSpace.each_object(Class).select { |klass| klass < I3StatusPlugin }
+
+loop do
+  line = read_line
+  prefix = ''
+  if line[0] == ','
+    line = line.gsub(/^,/, '')
+    prefix = ','
+  end
+  statuses = JSON.parse(line)
+  # here we can insert any element we want
+  statuses = plugins.inject(statuses) do |in_progress_statuses, plugin|
+    plugin.new.enrich(in_progress_statuses)
+  end
+  print_line(prefix + statuses.to_json)
+end
