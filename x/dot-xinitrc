@@ -59,7 +59,7 @@ which synclient && synclient PalmDetect=1
 xsetroot -cursor_name left_ptr
 
 systemctl --no-block --user start xsession.target
-if [ $(tty) = /dev/tty6 ]; then
+if [ $(tty) = /dev/tty1 ]; then
   dunst &
   exec i3
 else
