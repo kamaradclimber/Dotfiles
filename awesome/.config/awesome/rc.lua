@@ -608,5 +608,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 --
 -- make notification more visible
-naughty.config.defaults.position = "bottom_middle"
+naughty.config.defaults.position = "bottom_right"
 beautiful.notification_bg = "#FF0000" -- red 😱
