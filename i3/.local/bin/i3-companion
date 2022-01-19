@@ -335,6 +335,29 @@ async def workspace_rename(i3, event):
             commands.append(command)
     await i3.command(";".join(commands))
 
+@on(CommandEvent("toggle-tabbed"))
+@static(tabbed_mode=collections.defaultdict(lambda: False))
+async def toggle_tabbed(i3, event):
+    """
+        This method switch between tabbed and "toggle split" layouts
+        FIXME: For now we send the layout to the currently focused element which can be a bit surprising
+    """
+    workspaces = await i3.get_workspaces()
+    visible_workspace = None
+    for workspace in workspaces:
+        if workspace.focused:
+            visible_workspace = workspace.name # name can be changed ⚠
+    if visible_workspace is None:
+        logger.error("No visible workspace? This is not supposed to happen")
+        return
+    current_tabbed_mode = toggle_tabbed.tabbed_mode[visible_workspace]
+    logger.info(f"tabbed mode for workspace {visible_workspace} was {current_tabbed_mode}")
+    toggle_tabbed.tabbed_mode[visible_workspace] = not current_tabbed_mode
+    if toggle_tabbed.tabbed_mode[visible_workspace]:
+        await i3.command("layout tabbed")
+    else:
+        await i3.command("layout toggle split")
+
 
 @on(CommandEvent("previous-workspace"), I3Event.WORKSPACE_FOCUS)
 @static(history=collections.defaultdict(list))
