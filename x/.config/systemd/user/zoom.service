@@ -1,0 +1,13 @@
+[Unit]
+Description=Launch zoom
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/zoom
+CPUQuota=80%
+AllowedCPUs=0-4
+MemoryHigh=6G
+
+[Install]
+WantedBy=xsession.target
