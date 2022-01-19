@@ -324,7 +324,6 @@ fi
 alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
 
 # sadly there are too many warnings when using ruby 2.6
-# DONT ENABLE THIS since it blocks all programs that use "warn" in ruby code
 export RUBYOPT="-W0"
 
 if [ $(tty) = /dev/tty1 ]; then
