@@ -1,0 +1,10 @@
+[Unit]
+Description=xflux daemon
+
+[Service]
+Type=forking
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/xflux -l 48.44 -g 1.5
+
+[Install]
+WantedBy=graphical.target

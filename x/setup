@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+set -x
+set -e
+
+systemctl --user daemon-reload
+
+systemctl start --user xflux
+systemctl enable --user xflux
+systemctl start --user zoom
+
+# not necessary on laptop due to battery concerns!
+# systemctl enable --user zoom
