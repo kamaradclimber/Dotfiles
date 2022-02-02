@@ -6,9 +6,9 @@ raise 'Must set CRITEO_USER env var' unless ENV['CRITEO_USER']
 raise 'Most set CRITEO_PASSWORD env var' unless ENV['CRITEO_PASSWORD']
 
 options = {
-  username:     ENV['CRITEO_USER'],
-  password:     ENV['CRITEO_PASSWORD'],
-  site:         'http://jira.criteois.com:443/',
+  username:     ENV['JIRA_USER'] || "#{ENV['CRITEO_USER']}@criteo.com",
+  password:     ENV['JIRA_PASSWORD'] || ENV['CRITEO_PASSWORD'],
+  site:         'https://criteo.atlassian.net:443',
   context_path: '',
   auth_type:    :basic
 }
@@ -41,7 +41,7 @@ end
 
 def compare_key(issue)
   status = status_value(issue.status.name)
-  assignee_key = case issue.assignee&.name
+  assignee_key = case issue.assignee&.emailAddress
                  when ENV['CRITEO_USER']
                    10
                  when nil
