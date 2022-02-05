@@ -335,6 +335,37 @@ async def workspace_rename(i3, event):
             commands.append(command)
     await i3.command(";".join(commands))
 
+async def current_workspace(i3):
+    workspaces = await i3.get_workspaces()
+    for workspace in workspaces:
+        if workspace.focused:
+            return workspace
+    logger.error("No visible workspace? This is not supposed to happen")
+    return
+
+
+@on(CommandEvent("alt-tab"), CommandEvent("alt-tab-reverse"))
+async def alt_tab(i3, event):
+    """
+        This method implements a simple alt+tab behavior
+    """
+    logger.info(f"Starting alt+tab behavior for event {event}")
+    if event == 'alt-tab':
+        offset = 1
+    else:
+        offset = -1
+    visible_workspace = await current_workspace(i3)
+    tree = await i3.get_tree()
+    current_workspace_windows = [window for window in tree.leaves() if window.workspace().name == visible_workspace.name]
+
+    focused_window_index = 0
+    for index, window in enumerate(current_workspace_windows):
+        if window.focused:
+            focused_window_index = index
+    to_focus = current_workspace_windows[(focused_window_index + offset) % len(current_workspace_windows)]
+    logger.info(f"Will now focus {to_focus.name}")
+    await to_focus.command('focus')
+
 @on(CommandEvent("toggle-tabbed"))
 @static(tabbed_mode=collections.defaultdict(lambda: False))
 async def toggle_tabbed(i3, event):

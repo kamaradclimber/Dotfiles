@@ -99,6 +99,10 @@ bindsym $mod+eacute layout tabbed
 bindsym $mod+space nop "toggle-tabbed"
 # bindsym $mod+p layout toggle split
 
+# alt+tab behavior
+bindsym $mod+Tab nop "alt-tab"
+bindsym $mod+Shift+Tab nop "alt-tab-reverse"
+
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
