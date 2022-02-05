@@ -15,7 +15,7 @@ options = {
 
 client = JIRA::Client.new(options)
 
-issues = client.Issue.jql('(project in (MESOS, LAKE, KUBE) OR assignee = currentUser()) AND resolution is EMPTY', max_results: 500)
+issues = client.Issue.jql('(project in (MESOS, LAKE, KUBE) OR assignee = currentUser()) AND resolution is EMPTY ORDER BY updated DESC', max_results: 500)
 
 def status_value(status)
   case status
