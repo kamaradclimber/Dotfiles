@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+set -e
+
+yay -S wmctrl rofi
