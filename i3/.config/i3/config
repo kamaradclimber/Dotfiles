@@ -64,6 +64,9 @@ force_display_urgency_hint 500 ms
 # kill focused window
 bindsym $mod+Shift+b kill
 
+# open window switcher
+bindsym $mod+w exec --no-startup-id rofi -show window
+
 # start dmenu (a program launcher)
 bindsym $mod+p exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
