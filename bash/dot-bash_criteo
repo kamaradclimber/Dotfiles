@@ -276,3 +276,5 @@ if which k9s > /dev/null; then
   k9s completion bash > .bash_completion_k9s
   source .bash_completion_k9s
 fi
+
+source ~/.watson_env

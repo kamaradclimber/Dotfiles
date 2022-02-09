@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 
-source=$(pamixer --list-sources | grep '"GoMic' | awk '{print $1}')
-pamixer --source $source -t
-pamixer --source $source --get-mute
-pamixer --source $source --get-volume-human
+# FIXME: https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_requests/497/diffs
+# once the above is released (pulseaudio 0.16.0, it should be much easier to parse output of pactl)
+
+pactl  list sources | grep Name: | awk '{print $2}' | while read name; do
+  echo "Toggling $name"
+  pactl set-source-mute $name toggle;
+done
