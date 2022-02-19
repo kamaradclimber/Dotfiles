@@ -1,0 +1,14 @@
+[Unit]
+Description=autorandr execution hook
+After=sleep.target
+StartLimitIntervalSec=5
+StartLimitBurst=1
+
+[Service]
+ExecStart=/usr/bin/autorandr --change --default default
+Type=oneshot
+RemainAfterExit=false
+KillMode=process
+
+[Install]
+WantedBy=xsession.target
