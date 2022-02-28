@@ -187,14 +187,11 @@ NORM="\[\e[00m\]"
 
 HOST=""
 USER_=""
+# FIXME: for some reason it's hard to make this multiline, I should try to fix this
 LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
 BELL="\[\a\]"
-LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then
-  echo "${timer_show}s ";
-  if ! grep -q "^ \(vim\|git\|e[0-9]\+\)" <(echo "$last_command"); then
-    notify-send "command finished: ${last_command}";
-  fi
-fi)'
+LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; if ! grep -q "^ \(vim\|git\|e[0-9]\+\)" <(echo "$last_command"); then notify-send "command finished: ${last_command}"; fi fi)'
+
 
 if [ -f ~/.git-prompt.sh ]; then
   . ~/.git-prompt.sh
