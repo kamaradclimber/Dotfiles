@@ -3,8 +3,8 @@
 set -e
 
 if ! which rofi; then
-  yay -S rofi
+  yes Y | yay -S rofi
 fi
 if ! which wmctrl;then
-  yay -S wmctrl
+  yes Y | yay -S wmctrl
 fi

@@ -12,7 +12,7 @@ systemctl start --user zoom
 # not necessary on laptop due to battery concerns!
 # systemctl enable --user zoom
 
-yay -S autorandr
+yes Y | yay -S autorandr
 
 systemctl enable --user autorandr
 systemctl start --user autorandr
