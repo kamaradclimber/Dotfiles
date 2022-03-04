@@ -42,7 +42,7 @@ end
 def compare_key(issue)
   status = status_value(issue.status.name)
   assignee_key = case issue.assignee&.emailAddress
-                 when ENV['CRITEO_USER']
+                 when /^#{ENV['CRITEO_USER']}/
                    10
                  when nil
                    0
