@@ -69,3 +69,5 @@
 	tagOpt = --tags
 [rerere]
 	enabled = true
+[pull]
+	rebase = true
