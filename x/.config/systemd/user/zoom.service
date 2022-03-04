@@ -1,9 +1,12 @@
 [Unit]
 Description=Launch zoom
+# it's better to start zoom after screen layout has been created
+After=autorandr.service
 
 [Service]
-Type=simple
-Environment=DISPLAY=:0
+#Type=simple
+#Environment=DISPLAY=:0
+ExecStartPre=-/usr/bin/rm -f /home/grego/.zoom/data/zoommeeting.enc.db
 ExecStart=/usr/bin/zoom
 CPUQuota=80%
 AllowedCPUs=0-4
