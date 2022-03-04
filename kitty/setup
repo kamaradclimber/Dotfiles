@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+if ! yay -Ql | grep ttf-consolas-ligaturized; then
+  yes Y | yay -S ttf-consolas-ligaturized
+fi
