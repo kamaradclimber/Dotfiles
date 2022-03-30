@@ -354,9 +354,6 @@ alias last='fzf_git_log'
 if test_helper "nvim" "neovim"; then
   alias vim=nvim
 fi
-if test_helper "lvim" "lunarvim"; then
-  alias vim=lvim
-fi
 
 if test_helper "grc" "grc"; then
   source /etc/profile.d/grc.sh
