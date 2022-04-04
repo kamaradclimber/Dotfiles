@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-
-systemctl --user daemon-reload
-systemctl --user start habitica-tasks.timer
-systemctl --user enable habitica-tasks.timer
