@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+# dunst related configuration
+
+echo Make sure we have only a single notification server
+if [[ "$(grep -r Notifications /usr/share/dbus-1/services/ | grep -v dunst)" -ne "0" ]]; then
+  echo There are several notification systems in addition to dunst, please uninstall them
+fi
+
+yay -S dunst
