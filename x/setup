@@ -16,3 +16,12 @@ yes Y | yay -S autorandr
 
 systemctl enable --user autorandr
 systemctl start --user autorandr
+
+yes Y | yay -S bluetooth-autoconnect
+sudo systemctl enable bluetooth-autoconnect
+sudo systemctl start bluetooth-autoconnect
+# following command might fail. The only workaround is
+# > mkdir $HOME/.config/systemd/user/pulseaudio.service.wants
+# but it's not clear if why we would need this (nor if this is useful)
+systemctl --user enable pulseaudio-bluetooth-autoconnect
+systemctl --user start pulseaudio-bluetooth-autoconnect
