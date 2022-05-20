@@ -44,9 +44,10 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = {},  -- list of language that will be disabled
+    additional_vim_regex_highlighting = true, -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1501
   },
   indent = {
-    enable = true
+    -- enable = true
   }
 }
 
@@ -88,3 +89,4 @@ end
 -- firenvim settings
 vim.g.firenvim_config = {localSettings = { ['.*'] = {} } , globalSettings = {}}
 vim.g.firenvim_config['globalSettings'] = { takeover = 'never', priority = 1 }
+
