@@ -5,7 +5,7 @@ general {
 }
 
 order += "battery 0"
-order += "wireless wlan0"
+order += "wireless _first_"
 order += "path_exists Criteo"
 order += "volume master"
 order += "tztime local"
