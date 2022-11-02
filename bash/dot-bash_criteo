@@ -278,3 +278,5 @@ if which k9s > /dev/null; then
 fi
 
 source ~/.watson_env
+
+export GRADLE_USER_HOME=$HOME/.gradle
