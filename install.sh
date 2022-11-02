@@ -21,3 +21,8 @@ find . -maxdepth 1 -mindepth 1 -type d -regex "\./[^.].*" |
     popd
   fi
 done
+
+# also deal with general interest packages
+
+# a nice pacman hook to make sure I've read the latest news. Nothing to configure
+sudo pacman -S informant
