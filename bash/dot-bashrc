@@ -383,4 +383,8 @@ fvim ()
 vim $(ag "$@" | fzf --preview 'bat --color=always {}')
 }
 
+if test_helper "cola"; then
+  source <(cola completion bash | sed 's/cdt/cola/g')
+fi
+
 true # finish with a correct exit code
