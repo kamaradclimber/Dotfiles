@@ -58,6 +58,7 @@
 [rebase]
     autosquash = true
     autostash = true # do all the manual work for me
+	abbreviateCommands = true
 [fetch]
     recurseSubmodules=true
     prune=true
