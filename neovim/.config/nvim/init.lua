@@ -7,6 +7,8 @@ require "paq" {
 	{'nvim-treesitter/nvim-treesitter', run=':TSUpdate' };
 	'nvim-treesitter/playground';
 	'neovim/nvim-lspconfig'; -- language server
+  	'junegunn/fzf'; -- built-in fzf plugin
+	'junegunn/fzf.vim'; -- more advanced plugin built on top of built-in one
 }
 
 vim.api.nvim_exec("call neomake#configure#automake('nrwi', 500)", false)
@@ -37,6 +39,11 @@ cmd("command W w !sudo tee % > /dev/null")
 options = { noremap = true }
 map('n', '<leader>t', ':TestNearest<cr>', options)
 map('n', '<leader>T', ':TestFile<cr>', options)
+
+-- fzf special config
+map('n', ';', ':Buffers<cr>', options)
+map('n', '<leader>;', ':Files<cr>', options)
+-- end of fzf config
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {"ruby", "python"}, -- one of "all" or a list of languages
