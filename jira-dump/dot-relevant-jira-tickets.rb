@@ -7,7 +7,7 @@ raise 'Most set CRITEO_PASSWORD env var' unless ENV['CRITEO_PASSWORD']
 
 options = {
   username:     ENV['JIRA_USER'] || "#{ENV['CRITEO_USER']}@criteo.com",
-  password:     ENV['JIRA_PASSWORD'] || ENV['CRITEO_PASSWORD'],
+  password:     ENV['JIRA_TOKEN'] || ENV['CRITEO_PASSWORD'],
   site:         'https://criteo.atlassian.net:443',
   context_path: '',
   auth_type:    :basic
