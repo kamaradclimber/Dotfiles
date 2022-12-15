@@ -12,7 +12,7 @@ order += "tztime local"
 order += "tztime utc"
 
 wireless _first_ {
-  format_up = "W: %essid, %bitrate"
+  format_up = "W: %essid"
   format_down = "no wifi"
 }
 
