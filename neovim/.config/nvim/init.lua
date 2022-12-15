@@ -9,6 +9,7 @@ require "paq" {
 	'neovim/nvim-lspconfig'; -- language server
   	'junegunn/fzf'; -- built-in fzf plugin
 	'junegunn/fzf.vim'; -- more advanced plugin built on top of built-in one
+	'simrat39/rust-tools.nvim'; -- advanced feature from rust-analyzser using the LSP
 }
 
 vim.api.nvim_exec("call neomake#configure#automake('nrwi', 500)", false)
@@ -78,7 +79,12 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+
+  vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, opts)
+  vim.keymap.set("n", "g]", vim.diagnostic.goto_next, opts)
 end
+
+
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -97,3 +103,15 @@ end
 vim.g.firenvim_config = {localSettings = { ['.*'] = {} } , globalSettings = {}}
 vim.g.firenvim_config['globalSettings'] = { takeover = 'never', priority = 1 }
 
+local rt = require("rust-tools")
+
+rt.setup({
+  server = {
+    on_attach = function(_, bufnr)
+      -- Hover actions
+      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+      -- Code action groups
+      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+    end,
+  },
+})
