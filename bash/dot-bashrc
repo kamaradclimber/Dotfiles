@@ -258,7 +258,7 @@ export PATH="$PATH:$RUBY_PATH"
 
 
 export MAILDIR=$HOME/Maildir
-export EMAIL="kamaradclimber@gmail.com"
+export EMAIL="grego_github@familleseux.net"
 
 
 if [ -d "$HOME/.local/bin/" ]; then
