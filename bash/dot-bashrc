@@ -238,14 +238,6 @@ function prompt_command {
    last_command=$(history 1| awk '{$1=""}1')
    echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $$ ${last_command}" >> ~/.bash_history_storage/$(date "+%Y-%m-%d").log
  fi
- if test -d .git; then
-   cwd=$(pwd)
-   cwd=${cwd##*/}
-   cwd=$(echo "$cwd" | sed -re "s/[^a-Z0-9]/_/g")
-   export EMAIL=grego_$cwd@familleseux.net
- else
-   export EMAIL=grego_from_dotfiles@familleseux.net
- fi
 }
 
 mkdir -p .bash_history_storage
@@ -266,6 +258,7 @@ export PATH="$PATH:$RUBY_PATH"
 
 
 export MAILDIR=$HOME/Maildir
+export EMAIL="grego_github@familleseux.net"
 
 
 if [ -d "$HOME/.local/bin/" ]; then
