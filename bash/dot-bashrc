@@ -314,7 +314,7 @@ function gotmp() {
 }
 
 function my_private_ipaddress() {
-  ip addr | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' | grep -e 192.168 -e ^172 | sort | head -n1
+  ip addr | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' | grep -e 192.168 -e ^172 | sort | tail -n1
 }
 
 function webserver() {
@@ -330,9 +330,6 @@ if test_helper "bat" "bat"; then
 fi
 
 alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
-
-# sadly there are too many warnings when using ruby 2.6
-export RUBYOPT="-W0"
 
 if [ $(tty) = /dev/tty1 ]; then
   startx
