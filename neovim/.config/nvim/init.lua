@@ -7,7 +7,7 @@ require "paq" {
 	{'nvim-treesitter/nvim-treesitter', run=':TSUpdate' };
 	'nvim-treesitter/playground';
 	'neovim/nvim-lspconfig'; -- language server
-  	'junegunn/fzf'; -- built-in fzf plugin
+ 	'junegunn/fzf'; -- built-in fzf plugin
 	'junegunn/fzf.vim'; -- more advanced plugin built on top of built-in one
 	'simrat39/rust-tools.nvim'; -- advanced feature from rust-analyzser using the LSP
 }
@@ -23,6 +23,9 @@ vim.g.mapleader = ','  -- 'vim.g' sets global variables
 local o = vim.opt
 local wo = vim.wo
 local bo = vim.bo
+
+o.mouse = "" -- neovim defaults to "nvi" (so activating mouse support everywhere)
+-- but it conflicts with the idea of using the mouse just to select code
 
 o.ignorecase = true -- when searching, ignore case
 o.number = true -- display line numbers

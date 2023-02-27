@@ -284,3 +284,5 @@ fi
 source ~/.watson_env
 
 export GRADLE_USER_HOME=$HOME/.gradle
+
+export CDT_REMOTE_CONFIG_URL=https://moab-filer.crto.in/.filer/cdt/remote-config.json
