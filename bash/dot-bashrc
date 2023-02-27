@@ -371,11 +371,6 @@ if test_helper "grc" "grc"; then
 fi
 
 
-# Add criteo related utilities
-if [ -f "$HOME/.bash_vpn" ] ; then
-  . $HOME/.bash_vpn
-fi
-
 export NPM_CONFIG_PREFIX=~/.npm-global
 
 fvim () 
