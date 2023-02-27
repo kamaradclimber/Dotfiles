@@ -382,4 +382,22 @@ if test_helper "cola"; then
   source <(cola completion bash | sed 's/cdt/cola/g')
 fi
 
+if test_helper "direnv" "direnv"; then
+  eval "$(direnv hook bash)"
+fi
+
+export PATH="/ssd/home/grego/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/:$PATH"
+
+function scrot() {
+  echo "Maybe use 'ksnip' instead, it allows to annotate easily"
+  /usr/bin/scrot $@
+}
+
+
+if command ls /usr/lib/dri/nvidia_drv_video.so > /dev/null; then
+  # this seems necessary to have vlc launching correctly with hardware decoding
+  export LIBVA_DRIVER_NAME=nvidia
+fi
+
+
 true # finish with a correct exit code

@@ -66,14 +66,18 @@ _github_clone() {
 github() {
   local org=$(dirname $1)
   local repo=$(basename $1)
-  mkdir -p "$HOME/criteo/$org"
-  dst="$HOME/criteo/$1"
+  mkdir -p "$HOME/github/$org"
+  dst="$HOME/github/$1"
+  old_dst="$HOME/criteo/$1"
+  if [[ -d "$old_dst" ]]; then
+    mv "$old_dst" "$dst"
+  fi
   [[ ! -d "$dst" ]] && _github_clone "$org" "$repo" "$dst"
   cd "$dst"
 }
 _github_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(command find ~/criteo/ -mindepth 2 -maxdepth 2 -type d | sed s@$HOME/criteo/@@)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$((command find ~/github/ -mindepth 2 -maxdepth 2 -type d; command find ~/criteo/ -mindepth 2 -maxdepth 2) | sed s@$HOME/github/@@ | sed s@$HOME/criteo/@@)" -- $cur) )
 }
 complete -o default -F _github_complete github
 
