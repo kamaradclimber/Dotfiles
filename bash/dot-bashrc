@@ -258,15 +258,11 @@ export PATH="$PATH:$RUBY_PATH"
 
 
 export MAILDIR=$HOME/Maildir
-export EMAIL="kamaradclimber@gmail.com"
+export EMAIL="grego_github@familleseux.net"
 
 
 if [ -d "$HOME/.local/bin/" ]; then
   export PATH=$PATH:$HOME/.local/bin/
-fi
-
-if [ -d "/var/lib/snapd/snap/bin" ]; then
-  export PATH=$PATH:/var/lib/snapd/snap/bin
 fi
 
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
@@ -287,9 +283,6 @@ if test_helper "viddy" "viddy"; then
   # - search
   alias watch=viddy
 fi
-
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 if test_helper "fzf" "fzf"; then
   source /usr/share/fzf/key-bindings.bash
