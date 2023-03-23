@@ -2,7 +2,7 @@
 Description=Periodically change wallpaper
 
 [Timer]
-OnBootSec=1min
+OnBootSec=15s
 OnUnitActiveSec=1h
 
 [Install]

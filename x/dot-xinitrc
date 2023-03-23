@@ -26,9 +26,6 @@ xrdb -merge ~/.Xresources
 xset -b
 
 case "$(uname -n)" in
-  "churchill")
-    setxkbmap fr -variant bepo
-    ;;
   "gagarine")
     setxkbmap fr -variant bepo
     ;;
@@ -47,10 +44,11 @@ if [ -f /usr/bin/numlockx ]; then
    numlockx &
 fi
 
-if [[ -d $HOME/.config/wallpapers ]]; then
-  feh --no-fehbg --bg-scale /home/grego/.config/wallpapers/*
+if [[ -d $HOME/wallpapers ]]; then
+  echo "Setting initial wallpaper"
+  ls $HOME/wallpapers/* | sort -R | head -n1 | xargs -n1 feh --no-fehbg --bg-scale
 else
-  echo "no wallpaper dir in $HOME/.config/wallpapers. Won't set any wallpaper"
+  echo "no wallpaper dir in $HOME/wallpapers. Won't set any wallpaper"
 fi
 
 which synclient && synclient TapButton1=1

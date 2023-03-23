@@ -389,5 +389,15 @@ if command ls /usr/lib/dri/nvidia_drv_video.so > /dev/null; then
   export LIBVA_DRIVER_NAME=nvidia
 fi
 
+function vlc() {
+  echo "Using a function wrapping vlc, see .bashrc file"
+  if echo "$@" | grep -q .part$; then
+    echo "🚧Trying to read an incomplete file (ending in part), this will likely cause issues"
+    echo "Sleeping 10s to make sure this warning has been read"
+    sleep 10
+  fi
+  command vlc $@
+}
+
 
 true # finish with a correct exit code

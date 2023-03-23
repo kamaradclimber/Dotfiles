@@ -4,7 +4,7 @@ echo "Detecting if running a zoom meeting"
 
 current_window=$(xdotool getactivewindow getwindowname)
 
-current_window_class=$(xprop -id $(xdotool getactivewindow) | grep -i class | cut -d = -f2  | awk '{print $1}' | sed -re 's/"(.*)".*/\1/')
+current_window_class=$(xprop -id $(xdotool getactivewindow) | grep ^WM_CLASS | cut -d = -f2  | awk '{print $1}' | sed -re 's/"(.*)".*/\1/')
 
 echo "Current window is: $current_window, with class $current_window_class"
 
