@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+switch-to-keymap fr-bepo

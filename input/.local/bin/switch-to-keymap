@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -x
+
+NEW_KEYMAP=$1
+
+echo "Switching keymap in /etc/vconsole.conf"
+sudo sed -i "s/KEYMAP=.*/KEYMAP=$NEW_KEYMAP/" /etc/vconsole.conf
+
+xkeymap=$(echo $NEW_KEYMAP | sed 's/-/ /g')
+
+echo "Switching keymap for x configuration. ⚠ This will likely touch a file tracked by git"
+sudo sed -i "s/setxkbmap .*/setxkbmap $xkeymap/" $HOME/.xinitrc
+
+# if we run in an X console, also update current keymap
+
+setxkbmap $xkeymap
