@@ -11,5 +11,6 @@ systemctl --user start geoclue-agent.service
 # for battery management
 yay -S upower
 systemctl --user daemon-reload
-systemctl --user enable upower.service
-systemctl --user start upower.service
+sudo systemctl enable upower.service
+sudo systemctl  start upower.service
+
