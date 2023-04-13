@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+set -e
+
+yay -S geoclue 
+systemctl --user daemon-reload
+systemctl --user enable geoclue-agent.service
+systemctl --user start geoclue-agent.service
