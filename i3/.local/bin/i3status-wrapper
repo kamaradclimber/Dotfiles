@@ -9,6 +9,19 @@
 # In the 'bar' section.
 #
 # this file is a ruby reimplementation of https://github.com/i3/i3status/blob/master/contrib/wrapper.py
+#
+
+at_exit do
+  if $!.nil? || ($!.is_a?(SystemExit) && $!.success?)
+    # success
+  else
+    File.open("/tmp/i3status-wrapper.log", "a+") do |f|
+      f.write("Something has failed: #{$!}\n")
+      f.write($!.inspect)
+    end
+  end
+end
+
 
 require 'json'
 require 'mixlib/shellout'
@@ -39,8 +52,13 @@ end
 class MicrophoneStatus < I3StatusPlugin
   def enrich(statuses)
     mute_status = Mixlib::ShellOut.new('pactl get-source-mute @DEFAULT_SOURCE@', timeout: 1)
-    mute_status.run_command
-    status = if mute_status.error?
+    error = false
+    begin
+      mute_status.run_command
+    rescue RuntimeError => e
+      error = true
+    end
+    status = if error || mute_status.error?
                { full_text: '🎤💥', name: '🎤' }
              else
                case mute_status.stdout
