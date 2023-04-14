@@ -1,0 +1,9 @@
+[Unit]
+Description=An agent to connect to home assistant from this computer
+
+[Service]
+ExecStart=/home/grego/github/joshuar/go-hass-agent/go-hass-agent
+Restart=always
+
+[Install]
+WantedBy=default.target
