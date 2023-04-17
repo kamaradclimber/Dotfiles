@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+
+if ! cd $HOME/github/bkbilly/lnxlink; then
+  mkdir $HOME/github/bkbilly -p
+  cd $HOME/github/bkbilly/
+  git clone ssh://git@github.com/bkbilly/lnxlink.git
+  cd lnxlink
+fi
+if ! git remote -v | grep -i upstream; then
+  git remote rename origin upstream
+  git remote add origin git@github.com:kamaradclimber/lnxlink.git
+fi
+
+echo "========================="
+echo "You now need to run lnxlink -c $HOME/.config/lnxlink/config.yaml to configure it for the first time"
+echo "Don't forget to setup the systemd unit to run it as user"
+echo "========================="
+
+
+go build
