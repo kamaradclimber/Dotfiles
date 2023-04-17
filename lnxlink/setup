@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# for battery management
+yay -S upower
+systemctl --user daemon-reload
+sudo systemctl enable upower.service
+sudo systemctl  start upower.service
 
 if ! cd $HOME/github/bkbilly/lnxlink; then
   mkdir $HOME/github/bkbilly -p
@@ -16,6 +21,3 @@ echo "========================="
 echo "You now need to run lnxlink -c $HOME/.config/lnxlink/config.yaml to configure it for the first time"
 echo "Don't forget to setup the systemd unit to run it as user"
 echo "========================="
-
-
-go build
