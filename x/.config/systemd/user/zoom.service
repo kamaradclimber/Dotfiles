@@ -9,6 +9,11 @@ After=autorandr.service
 # necessary to make sure screen sharing is working
 # see https://community.zoom.com/t5/Meetings/Linux-screen-sharing-broken-in-new-client/m-p/3067
 Environment=XDG_SESSION_TYPE=x11 
+# This is necessary to avoid:
+# > libva: vaGetDriverNameByIndex () failed with unknown libva error, driver_name = (null)
+# error.
+# See https://github.com/kamaradclimber/Dotfiles/commit/ff073fcb (not relevant commit message though) applied for vlc
+Environment=LIBVA_DRIVER_NAME=nvidia
 ExecStartPre=-/usr/bin/rm -f /home/grego/.zoom/data/zoommeeting.enc.db
 ExecStart=/usr/bin/zoom
 CPUQuota=80%
