@@ -141,6 +141,10 @@ bindsym $mod+Shift+o restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+p exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+# allow to see where the cursor is. mod+escape to display it, escape to make it disappear
+# highlight-pointer comes from https://github.com/swillner/highlight-pointer and has an AUR package
+bindsym $mod+Escape exec "highlight-pointer  -r 50 -o 25 --key-quit Escape"
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
