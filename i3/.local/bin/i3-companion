@@ -2,7 +2,7 @@
 
 """Personal i3 companion."""
 
-# requires following pip packages: systemd-python, dbussy (which include ravel), i3ipc xcffi
+# requires following pip packages: systemd-python, dbussy (which include ravel), i3ipc, xcffib
 
 import argparse
 import asyncio
