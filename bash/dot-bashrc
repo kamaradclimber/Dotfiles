@@ -399,5 +399,10 @@ function vlc() {
   command vlc $@
 }
 
+if [[ ! $(find $HOME/.cache/gnothi -daystart -mtime 0 -print) ]]; then
+  echo "We should launch gnothi"
+  ruby $HOME/.dotfiles/gnothi_form.rb && touch $HOME/.cache/gnothi
+fi
+
 
 true # finish with a correct exit code
