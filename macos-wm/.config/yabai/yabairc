@@ -1,0 +1,20 @@
+
+#### general config ####
+
+yabai -m config focus_follows_mouse autofocus
+
+BAR_HEIGHT=26
+yabai -m config external_bar all:0:$BAR_HEIGHT
+
+
+app_titles="(Preferences|About this Mac)"
+yabai -m rule --add title="${app_titles}" manage=off
+
+
+#### layout options ####
+
+
+yabai -m config layout bsp
+
+# first space is always "full screen"
+yabai -m config --space 1 layout stacked
