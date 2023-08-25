@@ -125,4 +125,4 @@ cmd + shift - space : yabai -m space --layout "$(yabai -m query --spaces --space
 
 
 # move current window to full screen temporarily
-cmd - f : yabai -m window --toggle zoom-fullscreen
+cmd +shift - f : yabai -m window --toggle zoom-fullscreen
