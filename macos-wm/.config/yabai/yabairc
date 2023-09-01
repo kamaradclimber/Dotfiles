@@ -10,6 +10,10 @@ yabai -m config external_bar all:0:$BAR_HEIGHT
 app_titles="(Preferences|About this Mac)"
 yabai -m rule --add title="${app_titles}" manage=off
 
+# force windows to appear in the display that has the focus
+# see https://github.com/koekeishiya/yabai/issues/1837#issuecomment-1701555818
+yabai -m config window_origin_display focused
+
 
 #### layout options ####
 
