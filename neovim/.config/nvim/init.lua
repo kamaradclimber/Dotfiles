@@ -10,6 +10,7 @@ require "paq" {
  	'junegunn/fzf'; -- built-in fzf plugin
 	'junegunn/fzf.vim'; -- more advanced plugin built on top of built-in one
 	'simrat39/rust-tools.nvim'; -- advanced feature from rust-analyzser using the LSP
+	'mileszs/ack.vim';
 }
 
 vim.api.nvim_exec("call neomake#configure#automake('nrwi', 500)", false)
@@ -118,3 +119,6 @@ rt.setup({
     end,
   },
 })
+
+
+vim.g.ackprg = 'ag --vimgrep'
