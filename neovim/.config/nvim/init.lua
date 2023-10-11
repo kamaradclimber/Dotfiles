@@ -45,6 +45,9 @@ options = { noremap = true }
 map('n', '<leader>t', ':TestNearest<cr>', options)
 map('n', '<leader>T', ':TestFile<cr>', options)
 
+-- open the full error view
+map('n', '<leader>e', ':lua vim.diagnostic.open_float({})<cr>', options)
+
 -- fzf special config
 map('n', ';', ':Buffers<cr>', options)
 map('n', '<leader>;', ':Files<cr>', options)
