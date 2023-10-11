@@ -126,3 +126,17 @@ cmd + shift - space : yabai -m space --layout "$(yabai -m query --spaces --space
 
 # move current window to full screen temporarily
 cmd +shift - f : yabai -m window --toggle zoom-fullscreen
+
+
+# for some reasons, we have to use keycodes to have proper numbers
+# see https://github.com/koekeishiya/skhd/issues/75
+lcmd + shift - 0x12: yabai -m window --space 1
+lcmd + shift - 0x13: yabai -m window --space 2
+lcmd + shift - 0x14: yabai -m window --space 3
+lcmd + shift - 0x15: yabai -m window --space 4
+lcmd + shift - 0x17: yabai -m window --space 5 # yes 17 instead of 16
+lcmd + shift - 0x16: yabai -m window --space 6
+lcmd + shift - 0x1A: yabai -m window --space 7
+lcmd + shift - 0x1C: yabai -m window --space 8
+lcmd + shift - 0x19: yabai -m window --space 9
+lcmd + shift - 0x1D: yabai -m window --space 10
