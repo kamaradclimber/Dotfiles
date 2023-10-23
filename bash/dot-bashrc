@@ -20,9 +20,9 @@ if [[ -f /home/grego/.local/bin/lvim ]]; then
 fi
 export BROWSER="/usr/bin/firefox --new-window"
 
-# Add criteo related utilities
-if [ -f "$HOME/.bash_criteo" ] ; then
-  . $HOME/.bash_criteo
+# Add work related utilities
+if [ -f "$HOME/.bash_work" ] ; then
+  . $HOME/.bash_work
 fi
 
 # modified commands
@@ -384,7 +384,7 @@ function scrot() {
 }
 
 
-if command ls /usr/lib/dri/nvidia_drv_video.so > /dev/null; then
+if command ls /usr/lib/dri/nvidia_drv_video.so > /dev/null 2>&1; then
   # this seems necessary to have vlc launching correctly with hardware decoding
   export LIBVA_DRIVER_NAME=nvidia
 fi
@@ -398,11 +398,6 @@ function vlc() {
   fi
   command vlc $@
 }
-
-if [[ ! $(find $HOME/.cache/gnothi -daystart -mtime 0 -print) ]]; then
-  echo "We should launch gnothi"
-  ruby $HOME/.dotfiles/gnothi_form.rb && touch $HOME/.cache/gnothi
-fi
 
 
 true # finish with a correct exit code

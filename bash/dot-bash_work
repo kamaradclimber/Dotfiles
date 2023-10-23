@@ -1,0 +1,2 @@
+export DD_REALM = datadoghq.com
+export EMAIL=gregoire.seux@$DD_REALM
