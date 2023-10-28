@@ -399,5 +399,6 @@ function vlc() {
   command vlc $@
 }
 
+alias rails="bundle exec rails"
 
 true # finish with a correct exit code
