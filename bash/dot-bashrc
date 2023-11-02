@@ -13,8 +13,18 @@ if [ $(tty) = /dev/tty2 ]; then
   return
 fi
 
+if [[ "$PROFILING_BASHRC" == "yes" ]]; then
+  PS4='+ $(date)\011 '
+  PS4='+ $EPOCHREALTIME\011 '
+  exec 3>&2 2>/tmp/bashstart.$$.log
+  set -x
+fi
+
 #standard editor variable
-export EDITOR=/usr/bin/nvim
+export EDITOR=/usr/bin/vim
+if [[ -f /usr/bin/nvim ]]; then
+  export EDITOR=/usr/bin/nvim
+fi
 if [[ -f /home/grego/.local/bin/lvim ]]; then
   export EDITOR=/home/grego/.local/bin/lvim
 fi
@@ -22,7 +32,7 @@ export BROWSER="/usr/bin/firefox --new-window"
 
 # Add work related utilities
 if [ -f "$HOME/.bash_work" ] ; then
-  . $HOME/.bash_work
+  . $HOME/.bash_work &
 fi
 
 # modified commands
@@ -130,6 +140,10 @@ complete -o bashdefault -o default -o nospace -F _ssh ssh 2>/dev/null \
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+# path on macos is a bit different
+if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+  source "/opt/homebrew/etc/profile.d/bash_completion.sh" &
+fi
 
 if [ -f $HOME/.bash_completion ]; then
     . $HOME/.bash_completion
@@ -188,14 +202,17 @@ NORM="\[\e[00m\]"
 HOST=""
 USER_=""
 # FIXME: for some reason it's hard to make this multiline, I should try to fix this
-LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${RED}\\\$?:\$last>\"; fi)${NORM}"
-BELL="\[\a\]"
+BELL="[\a]"
+LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${BELL}${RED}\\\$?:\$last>\"; fi)${NORM} "
+BELL='\[\a\]'
+# TODO: we should display the bell in last_command_timer as well
 LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; if ! grep -q "^ \(vim\|git\|e[0-9]\+\)" <(echo "$last_command"); then notify-send "command finished: ${last_command}"; fi fi)'
 
 
 if [ -f ~/.git-prompt.sh ]; then
   . ~/.git-prompt.sh
-  export GIT_BRANCH="\$(__git_ps1 \" $UWhite%.3s\")${NORM}"
+  export GIT_PS1_SHOWCONFLICTSTATE=yes
+  export GIT_BRANCH="\$(__git_ps1)${NORM}"
 fi
 
 
@@ -216,7 +233,7 @@ case $TERM in
     ;;
 esac
 
-export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT $BELL"
+export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT"
 
 # Measure how long commands last
 # the result can be called using `echo $timer_show`
@@ -285,7 +302,9 @@ if test_helper "viddy" "viddy"; then
 fi
 
 if test_helper "fzf" "fzf"; then
-  source /usr/share/fzf/key-bindings.bash
+  if test -r /usr/share/fzf/key-bindings.bash; then
+    source /usr/share/fzf/key-bindings.bash
+  fi
   # see https://github.com/junegunn/fzf/issues/1203 we can reuse this on fzf 0.17.4
   if grep -q 0.17.4 <(fzf --version); then
     source /usr/share/fzf/completion.bash
@@ -399,5 +418,12 @@ function vlc() {
   command vlc $@
 }
 
+wait $(jobs -p)
+
+if [[ "$PROFILING_BASHRC" == "yes" ]]; then
+  set +x
+  exec 2>&3 3>&-
+fi
 
 true # finish with a correct exit code
+
