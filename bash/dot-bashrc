@@ -417,6 +417,7 @@ function vlc() {
   fi
   command vlc $@
 }
+alias rails="bundle exec rails"
 
 wait $(jobs -p)
 
