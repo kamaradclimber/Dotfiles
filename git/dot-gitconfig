@@ -6,7 +6,6 @@
     preloadindex = true #should be faster on NFS (because of weak caching semantics)
     hideDotFiles = dotGitOnly
     whitespace = trailing-space,space-before-tab
-    hooksPath  = ~/git-hooks-common
 
 [color]
     branch = auto
@@ -16,8 +15,8 @@
     showbranch = auto
     status = auto
 
-[interactive]
-    diffFilter = delta --color-only
+#[interactive]
+#    diffFilter = delta --color-only
 
 [diff]
     renames = true #detect rename of files, default since 2.9
@@ -71,4 +70,4 @@
 [rerere]
 	enabled = true
 [pull]
-	rebase = true
+	rebase = false

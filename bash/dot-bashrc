@@ -20,6 +20,8 @@ if [[ "$PROFILING_BASHRC" == "yes" ]]; then
   set -x
 fi
 
+export EMAIL="grego_github@familleseux.net"
+
 #standard editor variable
 export EDITOR=/usr/bin/vim
 if [[ -f /usr/bin/nvim ]]; then
@@ -30,10 +32,6 @@ if [[ -f /home/grego/.local/bin/lvim ]]; then
 fi
 export BROWSER="/usr/bin/firefox --new-window"
 
-# Add work related utilities
-if [ -f "$HOME/.bash_work" ] ; then
-  . $HOME/.bash_work &
-fi
 
 # modified commands
 command -v colordiff >/dev/null 2>&1 && alias diff='colordiff'              # requires colordiff package
@@ -142,7 +140,7 @@ if [ -f /etc/bash_completion ]; then
 fi
 # path on macos is a bit different
 if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
-  source "/opt/homebrew/etc/profile.d/bash_completion.sh" &
+  source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 fi
 
 if [ -f $HOME/.bash_completion ]; then
@@ -253,7 +251,7 @@ function prompt_command {
  timer_stop
  if [ "$(id -u)" -ne 0 ]; then
    last_command=$(history 1| awk '{$1=""}1')
-   echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $$ ${last_command}" >> ~/.bash_history_storage/$(date "+%Y-%m-%d").log
+   echo "$(date "+%Y-%m-%d.%H:%M:%S") ${last_command}" >> ~/.bash_history_storage/$(date "+%Y-%m-%d").log
  fi
 }
 
@@ -275,7 +273,6 @@ export PATH="$PATH:$RUBY_PATH"
 
 
 export MAILDIR=$HOME/Maildir
-export EMAIL="grego_github@familleseux.net"
 
 
 if [ -d "$HOME/.local/bin/" ]; then
@@ -309,11 +306,14 @@ if test_helper "fzf" "fzf"; then
   if grep -q 0.17.4 <(fzf --version); then
     source /usr/share/fzf/completion.bash
   fi
+
+
   
   if test_helper "ag" "the_silver_searcher"; then
     export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
   fi
 fi
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # load history from custom files and use fzf
 if test -f $HOME/.custom_history.sh; then
@@ -376,7 +376,12 @@ if test_helper "nvim" "neovim"; then
 fi
 
 if test_helper "grc" "grc"; then
-  source /etc/profile.d/grc.sh
+  if test -f /opt/homebrew/Cellar/grc/1.13_1/.bottle/etc/grc.sh; then
+    source /opt/homebrew/Cellar/grc/1.13_1/.bottle/etc/grc.sh
+  fi
+  if test -f /etc/profile.d/grc.sh; then
+    source /etc/profile.d/grc.sh
+  fi
 fi
 
 
@@ -419,6 +424,25 @@ function vlc() {
 }
 alias rails="bundle exec rails"
 
+
+cat > $HOME/.local/bin/git-switch.sh <<EOF
+#!/usr/bin/env bash
+#
+# a custom switcher
+if [[ "\$#" -eq "0" ]]; then
+  command git switch \$(git branch --no-color | tr '*' ' ' | fzf)
+else
+  command git switch $@
+fi
+EOF
+chmod +x $HOME/.local/bin/git-switch.sh
+
+
+# Add work related utilities
+if [ -f "$HOME/.bash_work" ] ; then
+  . $HOME/.bash_work
+fi
+
 wait $(jobs -p)
 
 if [[ "$PROFILING_BASHRC" == "yes" ]]; then
@@ -426,5 +450,35 @@ if [[ "$PROFILING_BASHRC" == "yes" ]]; then
   exec 2>&3 3>&-
 fi
 
-true # finish with a correct exit code
+_github_clone() {
+  org=$1
+  repo=$2
+  dir=$3
+  echo git clone ssh://git@github.com/$org/$repo.git $dir
+  git clone ssh://git@github.com/$org/$repo.git $dir
+}
 
+github() {
+  local org=$(dirname $1)
+  local repo=$(basename $1)
+  mkdir -p "$HOME/github/$org"
+  dst="$HOME/github/$1"
+  old_dst="$HOME/criteo/$1"
+  if [[ -d "$old_dst" ]]; then
+    mv "$old_dst" "$dst"
+  fi
+  [[ ! -d "$dst" ]] && _github_clone "$org" "$repo" "$dst"
+  cd "$dst"
+}
+_github_complete() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$((command find ~/github/ -mindepth 2 -maxdepth 2 -type d) | sed s@$HOME/github//@@)" -- $cur) )
+}
+complete -o default -F _github_complete github
+
+# by default we complete ag with directory names. It’s better than nothing
+complete -o dirnames ag
+
+export PATH=$PATH:/opt/homebrew/bin
+
+true # finish with a correct exit code
