@@ -28,3 +28,8 @@ end
 
 usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
 usbWatcher:start()
+
+hs.loadSpoon("Emojis")
+spoon.Emojis:bindHotkeys({
+  toggle = {{"cmd"}, "r"}
+})
