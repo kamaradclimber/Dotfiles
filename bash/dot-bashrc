@@ -30,7 +30,8 @@ fi
 if [[ -f /home/grego/.local/bin/lvim ]]; then
   export EDITOR=/home/grego/.local/bin/lvim
 fi
-export BROWSER="/usr/bin/firefox --new-window"
+
+export BROWSER="$(which firefox) --new-window"
 
 
 # modified commands
