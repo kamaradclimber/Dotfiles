@@ -1,2 +1,124 @@
-export DD_REALM = datadoghq.com
+#!/usr/bin/env bash
+
+export DD_REALM=datadoghq.com
 export EMAIL=gregoire.seux@$DD_REALM
+
+export GIT_COMMITTER_NAME="Grégoire Seux"
+export GIT_AUTHOR_NAME="Grégoire Seux"
+export EDITOR=nvim
+
+# google-cloud-sdk brew caveat
+# source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+# source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+
+# eval "$(nodenv init -)"
+
+# Force certain more-secure behaviours from homebrew
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_CASK_OPTS=--require-sha
+export HOMEBREW_DIR=/opt/homebrew
+export HOMEBREW_BIN=/opt/homebrew/bin
+
+# Load python shims
+# eval "$(pyenv init -)"
+
+# Load ruby shims
+# eval "$(rbenv init -)"
+
+# Prefer GNU binaries to Macintosh binaries.
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:${PATH}"
+
+# Add AWS CLI to PATH
+export PATH="/opt/homebrew/opt/awscli@1/bin:$PATH"
+
+# Add datadog devtools binaries to the PATH
+export PATH="${HOME?}/dd/devtools/bin:${PATH?}"
+
+# Point GOPATH to our go sources
+export GOPATH="${HOME?}/go"
+
+# Add binaries that are go install-ed to PATH
+export PATH="${GOPATH?}/bin:${PATH?}"
+
+# Point DATADOG_ROOT to ~/dd symlink
+export DATADOG_ROOT="${HOME?}/dd"
+
+# Tell the devenv vm to mount $GOPATH/src rather than just dd-go
+export MOUNT_ALL_GO_SRC=1
+
+# store key in the login keychain instead of aws-vault managing a hidden keychain
+export AWS_VAULT_KEYCHAIN_NAME=login
+
+# tweak session times so you don't have to re-enter passwords every 5min
+export AWS_SESSION_TTL=24h
+export AWS_ASSUME_ROLE_TTL=1h
+
+# Helm switch from storing objects in kubernetes configmaps to
+# secrets by default, but we still use the old default.
+export HELM_DRIVER=configmap
+
+# Go 1.16+ sets GO111MODULE to off by default with the intention to
+# remove it in Go 1.18, which breaks projects using the dep tool.
+# https://blog.golang.org/go116-module-changes
+export GO111MODULE=auto
+export GOPRIVATE=github.com/DataDog
+export GOPROXY=binaries.ddbuild.io,https://proxy.golang.org,direct
+export GONOSUMDB=github.com/DataDog,go.ddbuild.io
+
+# Configure Go to pull go.ddbuild.io packages.
+export GOPROXY="binaries.ddbuild.io,proxy.golang.org,direct"
+export GONOSUMDB="github.com/DataDog,go.ddbuild.io"
+# END ANSIBLE MANAGED BLOCK
+
+
+export GITLAB_TOKEN=$(security find-generic-password -a ${USER} -s gitlab_token -w)
+
+# increase open file limit, it helps maven concurrent compilation
+# see https://datadoghq.atlassian.net/wiki/spaces/ENG/pages/2348189629/Maven+Too+many+open+files+during+build
+ulimit -n 32768
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export PATH=$PATH:~/go/bin
+
+function ag() {
+  local pattern=$1
+  shift
+  nvim +"Ack '$pattern' $*"
+}
+
+notify-send() {
+  terminal-notifier -group $$ -message "$@" > /dev/null 2>&1
+}
+
+
+alias ddsource="cd $DATADOG_ROOT/dd-source"
+alias logsbackend="cd $DATADOG_ROOT/logs-backend"
+
+# allows to cd from anywhere
+export CDPATH=.:$DATADOG_ROOT/
+
+# this method display the service catalog by going up in the hierarchy
+find_service_catalog() {
+  initial_dir=$1
+  if [[ "$initial_dir" == "" ]]; then
+    initial_dir=$(pwd)
+  fi
+  if [[ $(pwd) == "/" ]]; then
+    echo "No service catalog found" >&2
+    return
+  fi
+  if test -f $(pwd)/service.datadog.yaml; then
+    cat $(pwd)/service.datadog.yaml
+    echo "Found in $(pwd)" >&2
+  else
+    cd ..
+    echo "searching service catalog in $(pwd)" >&2
+    find_service_catalog "$initial_dir"
+    cd $initial_dir
+  fi
+}
+
+find_owner() {
+  find_service_catalog | yq '.dd-team, .contacts'
+}
