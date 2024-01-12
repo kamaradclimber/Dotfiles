@@ -2,6 +2,7 @@
 
 export DD_REALM=datadoghq.com
 export EMAIL=gregoire.seux@$DD_REALM
+export DATADOG_USERNAME=$EMAIL
 
 export GIT_COMMITTER_NAME="Grégoire Seux"
 export GIT_AUTHOR_NAME="Grégoire Seux"
