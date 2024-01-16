@@ -123,3 +123,20 @@ find_service_catalog() {
 find_owner() {
   find_service_catalog | yq '.dd-team, .contacts'
 }
+
+
+
+cancel_workflow() {
+  # url is of the form https://atlas.ddbuild.io/namespaces/default/workflows/babbb289-1297-42e6-9935-6eac676994c4_28/73329a9f-4e3f-4eda-8f79-6374ffa53422/history
+  url=$1
+  workflow_id=$(echo $url | sed -E 's|.*workflows/([^/]+)/.*|\1|')
+  run_id=$(echo $url | sed -E "s|.*workflows/$workflow_id/([^/]+)/.*|\1|")
+  echo "Will cancel wid: $workflow_id, rid: $run_id"
+  echo "Assuming this runs on prod (TODO: implement env detection)"
+  read -p "Reason: " reason
+  atlas workflow terminate -c prod --reason $reason --workflow-id $workflow_id --run-id $run_id
+}
+
+if test -f ~/.bash-todo-squash; then
+  source ~/.bash-todo-squash
+fi

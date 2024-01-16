@@ -1,0 +1,70 @@
+# vim: ft=bash:
+
+# This file defines a few helper to help me squash a list of todos.
+# It is meant to be sourced from a bash session.
+# The workflow is as such:
+# 1. Create a file with a list of todos (possibly files to edit)
+# 2. launch `todo_squash_start` with the file as argument
+# 3. do the todo, commit, push, ...
+# 4. use `next` to move to the next todo
+# ... repeat 3 and 4 until you are done
+# 5. use `todo_squash_end` to clean up
+
+function todo_squash_start() {
+  todo_list=$1
+  if ! test -f "$todo_list"; then
+    echo "File not found: $todo_list"
+    return 1
+  fi
+  export TODO_LIST="$todo_list"
+  export TODO_CURSOR=0
+  echo "Starting todo squash, with $todo_list as list of todos"
+  echo '* You can use `next` to move to the next todo'
+  echo '* If you are feeling tired, check progress with `todo_status`'
+}
+
+function todo_squash_end() {
+  unset TODO_LIST
+  unset TODO_CURSOR
+  echo "Finished!"
+}
+
+function next() {
+  export TODO_CURSOR=$((TODO_CURSOR+1))
+  count=$(cat "$TODO_LIST" | wc -l)
+  echo "Moving cursor to next line: $TODO_CURSOR/$count"
+  current_todo=$(sed "${TODO_CURSOR}q;d" "$TODO_LIST")
+  echo "Current todo: $current_todo"
+  next_one=$(sed "$((TODO_CURSOR+1))q;d" "$TODO_LIST")
+  echo  "Next one is: $next_one"
+  if test -f "$current_todo"; then
+    vim "$current_todo"
+  fi
+}
+
+function todo_status() {
+  count=$(cat "$TODO_LIST" | wc -l)
+  echo "Current todo: $TODO_CURSOR/$count"
+  # cat -n "$TODO_LIST" | awk "{if(NR<$TODO_CURSOR) print}"
+  _todo_short_display 0 $TODO_CURSOR
+  next_todo=$(sed "${TODO_CURSOR}q;d" "$TODO_LIST")
+  echo "-> $next_todo"
+  # cat -n "$TODO_LIST" | awk "{if(NR>$TODO_CURSOR) print}"
+  _todo_short_display $((TODO_CURSOR+1)) $count
+
+  echo -e "\nYou are getting closer!"
+}
+
+function _todo_short_display() {
+  local start_line=$1
+  local stop_line=$2
+  local size=$(expr $stop_line - $start_line)
+  if [[ $size -gt 7 ]]; then
+    local resume_line=$(expr $stop_line - 3)
+    _todo_short_display $start_line $(expr $start_line + 3)
+    echo "   [...truncated...]"
+    _todo_short_display $resume_line $stop_line
+  else
+    cat -n "$TODO_LIST" | awk "{if((NR<$stop_line) && (NR>=$start_line)) print}"
+  fi
+}
