@@ -26,14 +26,21 @@ function todo_squash_start() {
 function todo_squash_end() {
   unset TODO_LIST
   unset TODO_CURSOR
+  unset CURRENT_TODO
   echo "Finished!"
 }
 
 function next() {
   export TODO_CURSOR=$((TODO_CURSOR+1))
   count=$(cat "$TODO_LIST" | wc -l)
+  if [[ "$TODO_CURSOR" -ge "$count" ]]; then
+    echo "You are done!"
+    todo_squash_end
+    return 0
+  fi
   echo "Moving cursor to next line: $TODO_CURSOR/$count"
   current_todo=$(sed "${TODO_CURSOR}q;d" "$TODO_LIST")
+  export CURRENT_TODO="$current_todo" # allows to write generic command line
   echo "Current todo: $current_todo"
   next_one=$(sed "$((TODO_CURSOR+1))q;d" "$TODO_LIST")
   echo  "Next one is: $next_one"
