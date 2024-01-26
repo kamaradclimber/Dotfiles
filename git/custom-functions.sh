@@ -16,7 +16,9 @@ _git_ddco() {
     $(which echo) -n "Name: "
     read name
     if [[ ! -z "$name" ]]; then
-      name="/$name"
+      if [[ ! -z "$ticket" ]]; then
+        name="/$name"
+      fi
     fi
     suggested_branch="$ticket$name"
   fi
