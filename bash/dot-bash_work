@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export BROWSER=google-chrome
 export DD_REALM=datadoghq.com
 export EMAIL=gregoire.seux@$DD_REALM
 export DATADOG_USERNAME=$EMAIL
