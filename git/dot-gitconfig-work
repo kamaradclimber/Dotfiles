@@ -1,0 +1,28 @@
+[include]
+	path = ~/.dotfiles/git/dot-gitconfig
+
+[alias]
+  ddco = "!f() { source $HOME/.dotfiles/git/custom-functions.sh; _git_ddco; }; f"
+  # checkout on "main" branch
+  main = "!f() { git checkout $(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||'); }; f"
+  # rebase on "main" branch
+  rmain = "!f() { git pull --rebase origin $(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||'); }; f"
+
+
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+[core]
+	pager = less -F -+X
+	hooksPath = /usr/local/dd/global_hooks
+[machete "github"]
+	forceDescriptionFromCommitMessage = true
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh
+[user]
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMlmBIwk+ylmRJoMGjk4kPGeR8BfQFc3dFIE1sod++dS gregoire.seux+git-commit-signing@datadoghq.com
+[maintenance]
+	repo = /Users/gregoire.seux/go/src/github.com/DataDog/logs-backend
+	repo = /Users/gregoire.seux/go/src/github.com/DataDog/dd-source
