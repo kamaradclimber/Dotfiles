@@ -21,6 +21,7 @@ export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_DIR=/opt/homebrew
 export HOMEBREW_BIN=/opt/homebrew/bin
 
+
 # Load python shims
 # eval "$(pyenv init -)"
 
@@ -149,3 +150,16 @@ fi
 
 # https://datadoghq.atlassian.net/wiki/spaces/SECENG/pages/2610300092/Project+Iota+Git+Commit+Code+Signing+Setup+Guide#Signing-Commits-with-OpenSSH-(Recommended-for-MacOS)
 ssh-add -l | grep "+git-commit-signing@datadoghq.com" > /dev/null || ssh-add --apple-use-keychain /Users/gregoire.seux/.ssh/datadog_git_commit_signing 2> /dev/null
+
+
+# bazel helpers
+#
+function bzlw {
+  echo "Getting all workflows for $1"
+  bzl query "kind(_cnab_workflow_wrapper, $1)"
+}
+
+function bzlt {
+  echo "Getting all targets for $1"
+  bzl query "kind(cnab_action_invocation, $1)"
+}
