@@ -275,6 +275,8 @@ PROMPT_COMMAND=prompt_command
 
 export PATH=$PATH:~/.dotfiles/scripts/
 
+# put rbenv shims in front of system install for ruby
+export PATH="/Users/gregoire.seux/.rbenv/shims/:$PATH"
 export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 RUBY_PATH=$GEM_HOME/bin
 export PATH="$PATH:$RUBY_PATH"
