@@ -141,6 +141,13 @@ if [ -f /etc/bash_completion ]; then
 fi
 # path on macos is a bit different
 if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+
+  # docker bash completion can be very slow (up to 3.5s) so we disable it
+  if [ -f /opt/homebrew/etc/bash_completion.d/docker ]; then
+    echo "Disabling docker bash completion to speed up bash startup time"
+    rm /opt/homebrew/etc/bash_completion.d/docker
+  fi
+
   source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 fi
 
