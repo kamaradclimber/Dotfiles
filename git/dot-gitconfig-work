@@ -14,8 +14,12 @@
 [url "git@github.com:"]
     insteadOf = https://github.com/
 [core]
-	pager = less -F -+X
 	hooksPath = /usr/local/dd/global_hooks
+
+[pager]
+  # always display full diff in terminal. It leaves a trace in the terminal!
+  # this is better than changing core.pager option which changes all pager including for git log
+  diff = cat
 [machete "github"]
 	forceDescriptionFromCommitMessage = true
 [commit]
