@@ -296,7 +296,11 @@ export PATH=$PATH:$GOPATH/bin
 
 if test_helper "ag" "the_silver_searcher"; then
   if test_helper "tag" "tag-ag"; then
-    tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null; }
+    tag() {
+      export TAG_ALIAS_FILE=/tmp/tag_aliases.$$
+      command tag "$@";
+      source $TAG_ALIAS_FILE 2>/dev/null;
+    }
     alias ag=tag
   fi
 fi
