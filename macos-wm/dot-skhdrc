@@ -140,3 +140,7 @@ lcmd + shift - 0x1A: yabai -m window --space 7
 lcmd + shift - 0x1C: yabai -m window --space 8
 lcmd + shift - 0x19: yabai -m window --space 9
 lcmd + shift - 0x1D: yabai -m window --space 10
+
+# hack to have a key to space 10: we find any window there and focus it
+# FIXME: the native macos shortcut for this should work  (it used) but does not anymore, why?
+lcmd - 0x1D: yabai -m query --spaces --space 10 | jq -r '.windows[0] // empty' | xargs yabai -m window --focus
