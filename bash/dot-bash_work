@@ -163,3 +163,9 @@ function bzlt {
   echo "Getting all targets for $1"
   bzl query "kind(cnab_action_invocation, $1)"
 }
+
+function kubectx {
+  # dctx is better because it refresh list of contexts
+  echo "Using dctx instead of kubectx"
+  dctx $@
+}
