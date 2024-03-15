@@ -8,6 +8,7 @@
   # rebase on "main" branch
   rmain = "!f() { git pull --rebase origin $(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||'); }; f"
   s = "!git-switch.sh"
+  files = "!git-files.sh"
 
 
 
