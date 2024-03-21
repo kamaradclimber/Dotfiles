@@ -503,11 +503,15 @@ open-in-github() {
   url=https://github.com/$repo/blob/$main_branch/$fqdn_path
   echo "Opening $url"
   if [[ -n $BROWSER ]]; then
-    $BROWSER $url
-  else
-    xdg-open $url || open $url
+    if which $BROWSER 2> /dev/null; then
+      $BROWSER $url && return
+    fi
   fi
-  xdg-open $url 2>&1 || open $url
+  if which xdg-open 2> /dev/null; then
+    xdg-open $url
+  else # macos case
+    open $url
+  fi
 }
 
 
