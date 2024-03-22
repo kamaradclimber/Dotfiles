@@ -2,7 +2,7 @@
 	path = ~/.dotfiles/git/dot-gitconfig
 
 [alias]
-  ddco = "!f() { source $HOME/.dotfiles/git/custom-functions.sh; _git_ddco; }; f"
+  ddco = "!git-ddco.sh"
   # checkout on "main" branch
   main = "!f() { git checkout $(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||'); }; f"
   # rebase on "main" branch
