@@ -11,6 +11,16 @@
   files = "!git-files.sh"
 
 
+[diff]
+  tool = difftastic
+  external = difft
+
+[difftool]
+  prompt = false
+
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+
 
 [url "git@github.com:"]
     insteadOf = https://github.com/
@@ -21,6 +31,7 @@
   # always display full diff in terminal. It leaves a trace in the terminal!
   # this is better than changing core.pager option which changes all pager including for git log
   diff = cat
+  difftool = true
 [machete "github"]
 	forceDescriptionFromCommitMessage = true
 [commit]
