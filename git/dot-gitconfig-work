@@ -1,5 +1,6 @@
 [include]
 	path = ~/.dotfiles/git/dot-gitconfig
+	path = ~/.git-maintenance-config
 
 [alias]
   ddco = "!git-ddco.sh"
@@ -40,6 +41,3 @@
 	format = ssh
 [user]
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMlmBIwk+ylmRJoMGjk4kPGeR8BfQFc3dFIE1sod++dS gregoire.seux+git-commit-signing@datadoghq.com
-[maintenance]
-	repo = /Users/gregoire.seux/go/src/github.com/DataDog/logs-backend
-	repo = /Users/gregoire.seux/go/src/github.com/DataDog/dd-source
