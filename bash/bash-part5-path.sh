@@ -7,7 +7,7 @@ export PATH="/Users/gregoire.seux/.rbenv/shims/:$PATH"
 # however, invocation of ruby costs 100ms on macos, so let’s find a better technique
 LIKELY_RUBY_HOME=$HOME/.gem/ruby/
 if [ -d $LIKELY_RUBY_HOME ]; then
-  RUBY_VERSION=$(ls -d $LIKELY_RUBY_HOME/*/bin/ | sort | tail -n 1)
+  RUBY_VERSION=$(command ls -d $LIKELY_RUBY_HOME/*/bin/ | sort | tail -n 1)
   export GEM_HOME=$LIKELY_RUBY_HOME/RUBY_VERSION
 else
   export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
