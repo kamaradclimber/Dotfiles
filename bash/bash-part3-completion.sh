@@ -45,6 +45,7 @@ if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
     rm /opt/homebrew/etc/bash_completion.d/docker
   fi
 
+  # This takes around 150ms on my mac because it loads sequentially ~250 files (most of those are pretty fast)
   source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 fi
 
