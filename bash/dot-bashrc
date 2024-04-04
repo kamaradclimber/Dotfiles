@@ -20,166 +20,19 @@ if [[ "$PROFILING_BASHRC" == "yes" ]]; then
   set -x
 fi
 
-export EMAIL="grego_github@familleseux.net"
-
-#standard editor variable
-export EDITOR=/usr/bin/vim
-if [[ -f /usr/bin/nvim ]]; then
-  export EDITOR=/usr/bin/nvim
-fi
-if [[ -f /home/grego/.local/bin/lvim ]]; then
-  export EDITOR=/home/grego/.local/bin/lvim
-fi
-
-export BROWSER="$(which firefox) --new-window"
 
 
-# modified commands
-command -v colordiff >/dev/null 2>&1 && alias diff='colordiff'              # requires colordiff package
-alias grep='grep --color=auto'
-alias mkdir='mkdir -p -v'
-alias ..='cd ..'
-
-test_helper() {
-  binary=$1
-  package_name=$2
-  which $binary > /dev/null 2>&1
-  res=$?
-  if [[ "$res" -eq 0 ]]; then
-    return 0
-  else
-    if [[ ! -z "$package_name" ]]; then
-      echo "$binary is not present, install it using $package_name"
-    fi
-    return 1
-  fi
-}
-
-which gti >/dev/null 2>&1 || alias gti='git'                     # alias because of frequent typo
-alias m='mutt'
-alias ssh="TERM=xterm ssh"
-alias cp="cp -v -R"
-
-alias dict="cat /usr/share/dict/words"
-
-alias b='bundle install'
-alias bb='mv Gemfile.lock .Gemfile.lock.$(date +%s); bundle install'
-
-# will try ping until success. useful to wait for network to come back
-function ping_until {
-  until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done
-}
-
-function nc_until {
-  until (echo "" | nc -w 1 $1 $2) > /dev/null ; do echo -n .; sleep 0.4; done
-}
-
-function ssh_until {
-  echo -n ping
-  ping_until $1
-  echo ""
-  echo -n "ssh_port"
-  nc_until $1 22
-  echo ""
-}
-
-alias irb="pry"
-
-# privileged access
-if [ $UID -ne 0 ]; then
-  alias sudo='sudo '
-  alias suvim='sudoedit'
-fi
-
-# ls
-alias ls='ls --hyperlink=auto -hF --color=auto'
-alias ll='ls --hyperlink=auto -l'
-alias la='ll --hyperlink=auto -A'
-
-#use colors
-if [ -f ~/.dircolors ]; then
-  eval `dircolors ~/.dircolors`
-fi
-
-#Completion
-complete -cf sudo
-complete -cf pacman
-complete -cf man
-
-# Add bash completion for ssh: it tries to complete the host to which you
-# want to connect from the list of the ones contained in ~/.ssh/known_hosts
-
-__ssh_known_hosts() {
-  if [[ -f ~/.ssh/known_hosts ]]; then
-    cut -d " " -f1 ~/.ssh/known_hosts | cut -d "," -f1 |sed 's/\[\|\]\|\(:[0-9]*\)//g'
-  fi
-  if [[ -f ~/.ssh/config ]]; then
-    cat ~/.ssh/config | awk '/Host / {print $2}' | grep -v '*' | xargs -n1
-  fi
-}
-
-_ssh() {
-    local cur known_hosts
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    known_hosts="$(__ssh_known_hosts)"
-
-    if [[ ! ${cur} == -* ]] ; then
-        COMPREPLY=( $(compgen -W "${known_hosts}" -- ${cur}) )
-        return 0
-    fi
-}
-
-complete -o bashdefault -o default -o nospace -F _ssh ssh 2>/dev/null \
-    || complete -o default -o nospace -F _ssh ssh
-
-
-
-#if present, use bash completion specifics. TODO  : quid of bash_completion.d/ dir ?
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-# path on macos is a bit different
-if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
-
-  # docker bash completion can be very slow (up to 3.5s) so we disable it
-  if [ -f /opt/homebrew/etc/bash_completion.d/docker ]; then
-    echo "Disabling docker bash completion to speed up bash startup time"
-    rm /opt/homebrew/etc/bash_completion.d/docker
-  fi
-
-  source "/opt/homebrew/etc/profile.d/bash_completion.sh"
-fi
-
-if [ -f $HOME/.bash_completion ]; then
-    . $HOME/.bash_completion
-fi
-
-# Use bash-completion, if available
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-  . /usr/share/bash-completion/bash_completion
-
-man() {
-    env \
-        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-        LESS_TERMCAP_md=$(printf "\e[1;31m") \
-        LESS_TERMCAP_me=$(printf "\e[0m") \
-        LESS_TERMCAP_se=$(printf "\e[0m") \
-        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-        LESS_TERMCAP_ue=$(printf "\e[0m") \
-        LESS_TERMCAP_us=$(printf "\e[1;32m") \
-            man "$@"
-}
-
-
-#history management
-export HISTIGNORE="&:ls:[bf]g:exit:*halt:*reboot" # ignore bg,fg,exit, ls without arguments  + does not remember of commands starting with spaces
-export HISTFILESIZE=100000 #commands in the history file
-export HOSTSIZE=10000 #commands remembered by one shell
-export HISTCONTROL=ingorespace:erasedups
-shopt -s histappend
-#Most used commands
-alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
+export SIMPLE_PROFILING_BASHRC=1 # for now let’s always profile so we can catch slow parts
+# loading in various parts, which ease profiling
+for i in ~/.dotfiles/bash/bash-part*.sh; do
+	if [[ $SIMPLE_PROFILING_BASHRC ]]; then
+		TIMEFORMAT="{\"part\": \"$i\", \"time\": %R}"
+    time . "$i" 
+		unset TIMEFORMAT
+	else
+		. "$i"
+	fi
+done; unset i
 
 
 # make less more friendly for non-text input files, see lesspipe(1)
@@ -194,166 +47,19 @@ shopt -s no_empty_cmd_completion #no tab mistake
 shopt -s histverify #history expansion is displayed before execution
 
 
-BLACK="\[\e[01;30m\]"
-RED="\[\e[01;31m\]"
-GREEN="\[\e[01;32m\]"
-YELLOW="\[\e[01;33m\]"
-BLUE="\[\e[01;34m\]"
-MAGENTA="\[\e[01;35m\]"
-CYAN="\[\e[01;36m\]"
-BOLD="\[\e[01;39m\]"
-UWhite="\[\e[4;37m\]"
-NORM="\[\e[00m\]"
-
-HOST=""
-USER_=""
-# FIXME: for some reason it's hard to make this multiline, I should try to fix this
-BELL="[\a]"
-LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${BELL}${RED}\\\$?:\$last>\"; fi)${NORM} "
-BELL='\[\a\]'
-# TODO: we should display the bell in last_command_timer as well
-LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; if ! grep -q "^ \(vim\|git\|e[0-9]\+\)" <(echo "$last_command"); then notify-send "command finished: ${last_command}"; fi fi)'
 
 
-if [ -f ~/.git-prompt.sh ]; then
-  . ~/.git-prompt.sh
-  export GIT_PS1_SHOWCONFLICTSTATE=yes
-  export GIT_BRANCH="\$(__git_ps1)${NORM}"
-fi
 
-
-if [ -n "$SSH_CLIENT" ]; then
-  HOST="${CYAN}\h${NORM} "
-  USER_="${RED}\u${NORM}"
-fi
-
-case $TERM in
-  xterm*)
-    XTERM_TITLE='\[\033]0;\u@\h:\w\007\]'
-    ;;
-  rxvt-unicode)
-    XTERM_TITLE='\[\033]0;\u@\h:\w\007\]'
-    ;;
-  *)
-    XTERM_TITLE=''
-    ;;
-esac
-
-export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT"
-
-# Measure how long commands last
-# the result can be called using `echo $timer_show`
-function timer_start {
-  timer=${timer:-$SECONDS}
-}
-function timer_stop {
-  timer_show=$(($SECONDS - $timer))
-  unset timer
-}
-trap 'timer_start' DEBUG # TODO consider using $PS0 (http://stromberg.dnsalias.org/~strombrg/PS0-prompt/)
-
-# called before each prompt
-# use it for all dynamic settings
-function prompt_command {
- last=$?
- timer_stop
- if [ "$(id -u)" -ne 0 ]; then
-   last_command=$(history 1| awk '{$1=""}1')
-   echo "$(date "+%Y-%m-%d.%H:%M:%S") ${last_command}" >> ~/.bash_history_storage/$(date "+%Y-%m-%d").log
- fi
-}
-
-mkdir -p .bash_history_storage
-find . -maxdepth 1 -name ".bash-history-*.log" | while read file; do
-  echo One shot move of $file
-  new_name=$(echo $file | awk  -F "/" '{print $NF}' | sed 's/.bash-history-//')
-  mv $file .bash_history_storage/$new_name
-done
-
-PROMPT_COMMAND=prompt_command
-
-
-export PATH=$PATH:~/.dotfiles/scripts/
-
-# put rbenv shims in front of system install for ruby
-export PATH="/Users/gregoire.seux/.rbenv/shims/:$PATH"
-export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
-RUBY_PATH=$GEM_HOME/bin
-export PATH="$PATH:$RUBY_PATH"
 
 
 export MAILDIR=$HOME/Maildir
 
 
-if [ -d "$HOME/.local/bin/" ]; then
-  export PATH=$PATH:$HOME/.local/bin/
-fi
 
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 
-export GOPATH=~/go
-export PATH=$PATH:$GOPATH/bin
-
-if test_helper "ag" "the_silver_searcher"; then
-  if test_helper "tag" "tag-ag"; then
-    tag() {
-      export TAG_ALIAS_FILE=/tmp/tag_aliases.$$
-      command tag "$@";
-      source $TAG_ALIAS_FILE 2>/dev/null;
-    }
-    alias ag=tag
-  fi
-fi
-
-if test_helper "viddy" "viddy"; then
-  # viddy is a replacement (nearly drop-in) for watch which features:
-  # - back in time traveling
-  # - search
-  alias watch=viddy
-fi
-
-if test_helper "fzf" "fzf"; then
-  if test -r /usr/share/fzf/key-bindings.bash; then
-    source /usr/share/fzf/key-bindings.bash
-  fi
-  # see https://github.com/junegunn/fzf/issues/1203 we can reuse this on fzf 0.17.4
-  if grep -q 0.17.4 <(fzf --version); then
-    source /usr/share/fzf/completion.bash
-  fi
 
 
-  
-  if test_helper "ag" "the_silver_searcher"; then
-    export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
-  fi
-fi
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# load history from custom files and use fzf
-if test -f $HOME/.custom_history.sh; then
-  source $HOME/.custom_history.sh
-fi
-
-function gotmp() {
-  dir=$(mktemp -d)
-  cd $dir
-}
-
-function my_private_ipaddress() {
-  ip addr | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' | grep -e 192.168 -e ^172 | sort | tail -n1
-}
-
-function webserver() {
-  my_ip=$(my_private_ipaddress)
-  pkill python3
-  python3 -m http.server 8000 > /dev/null &
-  echo "server accessible on http://$my_ip:8000/"
-  fg > /dev/null 2>&1
-}
-
-if test_helper "bat" "bat"; then
-  alias cat='bat --paging=never --style=plain'
-fi
 
 alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
 
@@ -369,57 +75,7 @@ fi
 # image display with kitty
 alias icat="kitty +kitten icat"
 
-fzf_git_log() {
-  local commits=$(
-  git ll --color=always "$@" |
-    fzf --ansi --no-sort --height 100% # \
-#    --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-#    xargs -I@ sh -c 'git show --color=always @'"
-  )
-  if [[ -n $commits ]]; then
-    local hashes=$(printf "$commits" | cut -d' ' -f2 | tr '\n' ' ')
-    git show $hashes
-  fi
-}
-
-alias last='fzf_git_log'
-
-
-if test_helper "nvim" "neovim"; then
-  alias vim=nvim
-fi
-
-if test_helper "grc" "grc"; then
-  if test -f /opt/homebrew/Cellar/grc/1.13_1/.bottle/etc/grc.sh; then
-    source /opt/homebrew/Cellar/grc/1.13_1/.bottle/etc/grc.sh
-  fi
-  if test -f /etc/profile.d/grc.sh; then
-    source /etc/profile.d/grc.sh
-  fi
-fi
-
-
 export NPM_CONFIG_PREFIX=~/.npm-global
-
-fvim () 
-{ 
-vim $(ag "$@" | fzf --preview 'bat --color=always {}')
-}
-
-if test_helper "cola"; then
-  source <(cola completion bash | sed 's/cdt/cola/g')
-fi
-
-if test_helper "direnv" "direnv"; then
-  eval "$(direnv hook bash)"
-fi
-
-export PATH="/ssd/home/grego/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/:$PATH"
-
-function scrot() {
-  echo "Maybe use 'ksnip' instead, it allows to annotate easily"
-  /usr/bin/scrot $@
-}
 
 
 if command ls /usr/lib/dri/nvidia_drv_video.so > /dev/null 2>&1; then
@@ -427,94 +83,7 @@ if command ls /usr/lib/dri/nvidia_drv_video.so > /dev/null 2>&1; then
   export LIBVA_DRIVER_NAME=nvidia
 fi
 
-function vlc() {
-  echo "Using a function wrapping vlc, see .bashrc file"
-  if echo "$@" | grep -q .part$; then
-    echo "🚧Trying to read an incomplete file (ending in part), this will likely cause issues"
-    echo "Sleeping 10s to make sure this warning has been read"
-    sleep 10
-  fi
-  command vlc $@
-}
-alias rails="bundle exec rails"
-
-
-cat > $HOME/.local/bin/git-switch.sh <<EOF
-#!/usr/bin/env bash
-#
-# a custom switcher
-if [[ "\$#" -eq "0" ]]; then
-  command git switch \$(git branch --no-color | tr '*' ' ' | fzf)
-else
-  command git switch $@
-fi
-EOF
-chmod +x $HOME/.local/bin/git-switch.sh
-
-
-# Add work related utilities
-if [ -f "$HOME/.bash_work" ] ; then
-  . $HOME/.bash_work
-fi
 
 wait $(jobs -p)
-
-if [[ "$PROFILING_BASHRC" == "yes" ]]; then
-  set +x
-  exec 2>&3 3>&-
-fi
-
-_github_clone() {
-  org=$1
-  repo=$2
-  dir=$3
-  echo git clone ssh://git@github.com/$org/$repo.git $dir
-  git clone ssh://git@github.com/$org/$repo.git $dir
-}
-
-github() {
-  local org=$(dirname $1)
-  local repo=$(basename $1)
-  mkdir -p "$HOME/github/$org"
-  dst="$HOME/github/$1"
-  old_dst="$HOME/criteo/$1"
-  if [[ -d "$old_dst" ]]; then
-    mv "$old_dst" "$dst"
-  fi
-  [[ ! -d "$dst" ]] && _github_clone "$org" "$repo" "$dst"
-  cd "$dst"
-}
-_github_complete() {
-  local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$((command find ~/github/ -mindepth 2 -maxdepth 2 -type d) | sed s@$HOME/github//@@)" -- $cur) )
-}
-complete -o default -F _github_complete github
-
-# by default we complete ag with directory names. It’s better than nothing
-complete -o dirnames ag
-
-
-open-in-github() {
-  f=$1
-  git_root_dir=$(git rev-parse --show-toplevel)
-  fqdn_path=$(realpath --relative-to=$git_root_dir $f)
-  repo=$(git remote -v | awk '{print $2}' | sed -re "s/.+github.com://" | head -n 1)
-  main_branch=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
-  url=https://github.com/$repo/blob/$main_branch/$fqdn_path
-  echo "Opening $url"
-  if [[ -n $BROWSER ]]; then
-    if which $BROWSER 2> /dev/null; then
-      $BROWSER $url && return
-    fi
-  fi
-  if which xdg-open 2> /dev/null; then
-    xdg-open $url
-  else # macos case
-    open $url
-  fi
-}
-
-
-export PATH=$PATH:/opt/homebrew/bin
 
 true # finish with a correct exit code
