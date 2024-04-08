@@ -20,7 +20,7 @@ github() {
 }
 _github_complete() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$((command find ~/github/ -mindepth 2 -maxdepth 2 -type d) | sed s@$HOME/github//@@)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$((command find ~/github/ -mindepth 2 -maxdepth 2 -type d) | sed s@//@/@g | sed s@$HOME/github/@@)" -- $cur) )
 }
 complete -o default -F _github_complete github
 

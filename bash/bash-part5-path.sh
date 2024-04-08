@@ -8,7 +8,7 @@ export PATH="/Users/gregoire.seux/.rbenv/shims/:$PATH"
 LIKELY_RUBY_HOME=$HOME/.gem/ruby/
 if [ -d $LIKELY_RUBY_HOME ]; then
   RUBY_VERSION=$(command ls -d $LIKELY_RUBY_HOME/*/bin/ | sort | tail -n 1)
-  export GEM_HOME=$LIKELY_RUBY_HOME/RUBY_VERSION
+  export GEM_HOME=$RUBY_VERSION
 else
   export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 fi
