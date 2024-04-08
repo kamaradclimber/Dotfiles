@@ -28,7 +28,7 @@ open-in-github() {
   f=$1
   git_root_dir=$(git rev-parse --show-toplevel)
   fqdn_path=$(realpath --relative-to=$git_root_dir $f)
-  repo=$(git remote -v | awk '{print $2}' | sed -re "s/.+github.com://" | head -n 1)
+  repo=$(git remote -v | awk '{print $2}' | sed -re "s/.+github.com://" | sed -re "s/\.git$//"| head -n 1)
   main_branch=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
   url=https://github.com/$repo/blob/$main_branch/$fqdn_path
   echo "Opening $url"
