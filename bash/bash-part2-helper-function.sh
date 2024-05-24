@@ -47,3 +47,8 @@ function vlc() {
   fi
   command vlc $@
 }
+
+# yaml_flatten takes any input and transform it into a list of key/value pairs where keys is the full path to reach the value
+function yaml_flatten() {
+  cat $@ | yq eval '.. | select((tag == "!!map" or tag == "!!seq") | not) | (path | join(".")) + "=" + .'
+}
