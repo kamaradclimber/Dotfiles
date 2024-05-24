@@ -14,6 +14,8 @@
   # super simple alias to show files impacted by a commit. Defaults to HEAD
   # it makes it really simple to write `vim $(git files)` or make a sed to quickly rename a variable
   files = "!git-files.sh"
+  # super simple alias to show the top level directory. It allows to quickly cd to it
+  root = "!git rev-parse --show-toplevel"
 
 
 [diff]
