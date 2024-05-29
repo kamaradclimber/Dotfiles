@@ -56,3 +56,33 @@ open-in-github() {
     open $url
   fi
 }
+
+find-codeowner() {
+  f=$1
+  git_root_dir=$(git rev-parse --show-toplevel)
+  fqdn_path=$(realpath --relative-to=$git_root_dir $f)
+  code_owner_path=$git_root_dir/.github/CODEOWNERS
+  if ! test -f $code_owner_path; then
+    echo "No CODEOWNERS file found in $code_owner_path"
+    return 1
+  fi
+
+  owned_path=$fqdn_path
+  while true; do
+    # echo "Checking for mention of $owned_path"
+    if [[ -z $owned_path ]]; then
+      echo "No code owner found" >&2
+      return 1
+    fi
+    if [[ $owned_path == "." ]]; then
+      echo "No code owner found" >&2
+      return 1
+    fi
+    code_owner=$(grep -e "/$owned_path\s" $code_owner_path | awk '{print $2}')
+    if [[ -n $code_owner ]]; then
+      echo "$code_owner owns $owned_path"
+      return 0
+    fi
+    owned_path=$(dirname $owned_path)
+  done
+}
