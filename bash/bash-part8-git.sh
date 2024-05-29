@@ -27,10 +27,23 @@ complete -o default -F _github_complete github
 open-in-github() {
   f=$1
   git_root_dir=$(git rev-parse --show-toplevel)
-  fqdn_path=$(realpath --relative-to=$git_root_dir $f)
   repo=$(git remote -v | awk '{print $2}' | sed -re "s/.+github.com://" | sed -re "s/\.git$//"| head -n 1)
   main_branch=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
-  url=https://github.com/$repo/blob/$main_branch/$fqdn_path
+
+  if test -f $f; then
+    fqdn_path=$(realpath --relative-to=$git_root_dir $f)
+    url=https://github.com/$repo/blob/$main_branch/$fqdn_path
+  fi
+
+  # check if f looks like a commit hash
+  if [[ $f =~ ^[0-9a-f]{5,40}$ ]]; then
+    echo "Looks like a commit hash"
+    git show $f > /dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+      url=https://github.com/$repo/commit/$f
+    fi
+  fi
+
   echo "Opening $url"
   if [[ -n $BROWSER ]]; then
     if which $BROWSER 2> /dev/null; then
