@@ -97,6 +97,7 @@ notify-send() {
 
 alias ddsource="cd $DATADOG_ROOT/dd-source"
 alias logsbackend="cd $DATADOG_ROOT/logs-backend"
+alias dcc="cd $DATADOG_ROOT/datacenter-config"
 
 # allows to cd from anywhere
 export CDPATH=.:$DATADOG_ROOT/
