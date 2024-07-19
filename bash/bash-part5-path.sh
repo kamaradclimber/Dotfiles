@@ -26,3 +26,7 @@ export PATH=$PATH:$GOPATH/bin
 
 export PATH="/ssd/home/grego/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/:$PATH"
 export PATH=$PATH:/opt/homebrew/bin
+
+# volta is used to handle nodejs versions
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
