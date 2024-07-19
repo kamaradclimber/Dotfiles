@@ -1,7 +1,6 @@
 [include]
 	path = ~/.dotfiles/git/dot-gitconfig
 	path = ~/.git-maintenance-config
-	path = ~/.dotfiles/git/gitconfig-alias
 
 [alias]
   # interactive creation of a branch matching common naming pattern <name>/<stack>[/<topic>]
