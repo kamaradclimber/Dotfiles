@@ -16,7 +16,7 @@ fi
 __fzf_history__() {
   local line
   line=$(
-  HISTTIMEFORMAT= command cat ~/.bash_history_storage/* |
+  HISTTIMEFORMAT= command cat ~/.bash_history_storage/* | grep -v -e "atlas task-queue use" -e "atlas taskqueue use" |
     FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tac --sync -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd)) &&
     line=$(awk '{ print substr($0, index($0,$2)) }' <<< "$line")
 
