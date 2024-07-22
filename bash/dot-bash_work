@@ -170,3 +170,22 @@ function kubectx {
   echo "Using dctx instead of kubectx"
   dctx $@
 }
+
+
+_bzl_completion()
+{
+  export COMP_WORDS
+  export COMP_CWORD
+  export COMP_LINE
+  output=$(ruby $HOME/.dotfiles/bash/bzl-completion.rb)
+  readarray -t next_words < <(echo "$output" | jq -r .words)
+  completion_count=$(echo "$output" | jq -r .word_count)
+  if [[ $completion_count -gt 1 ]]; then
+    # let’s use fzf to select only one value
+    COMPREPLY=($(echo "$next_words" | sed "s/ /\n/g" | fzf --tac))
+  else
+    COMPREPLY=($(compgen -W "$next_words" "${COMP_WORDS[$COMP_CWORD]}"))
+  fi
+}
+
+complete -F _bzl_completion bzl
