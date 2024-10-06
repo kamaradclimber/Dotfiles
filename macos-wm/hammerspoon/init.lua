@@ -14,16 +14,19 @@ function usbDeviceCallback(data)
   local bepo_layout = "French NF (bépo)"
   local us_layout = "U.S. International – PC"
   if (data["vendorID"] == 7764 and data["productID"] == 8240) then
-        if (data["eventType"] == "added") then
-            print("added")
-            hs.keycodes.setLayout(bepo_layout)
-        elseif (data["eventType"] == "removed") then
-            print("removed")
-            hs.keycodes.setLayout(us_layout)
-        end
+    if (data["eventType"] == "added") then
+        print("added")
+        hs.keycodes.setLayout(bepo_layout)
+    elseif (data["eventType"] == "removed") then
+        print("removed")
+        hs.keycodes.setLayout(us_layout)
     end
-  local newlay = hs.keycodes.currentLayout()
-  hs.notify.new({title="Switched to", informativeText=newlay}):send()
+    local newlay = hs.keycodes.currentLayout()
+    hs.notify.new({title="Switched to", informativeText=newlay}):send()
+  else
+    print (data["vendorID"] .. " (" .. data["vendorName"] ..")" .. data["productID"] .. " (" .. data["productName"] .. ")")
+  end
+
 end
 
 usbWatcher = hs.usb.watcher.new(usbDeviceCallback)

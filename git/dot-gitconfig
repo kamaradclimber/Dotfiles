@@ -1,3 +1,6 @@
+[include]
+	path = ~/.dotfiles/git/gitconfig-alias
+
 [user]
 	name = Grégoire Seux
 [core]

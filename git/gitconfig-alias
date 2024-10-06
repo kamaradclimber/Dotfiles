@@ -1,0 +1,12 @@
+[alias]
+  # checkout on "main" branch
+  main = "!f() { git checkout $(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||'); }; f"
+  # rebase on "main" branch
+  rmain = "!f() { git pull --rebase origin $(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||'); }; f"
+  # interactive switch between branches with fzf
+  s = "!git-switch.sh"
+  # super simple alias to show files impacted by a commit. Defaults to HEAD
+  # it makes it really simple to write `vim $(git files)` or make a sed to quickly rename a variable
+  files = "!git-files.sh"
+  # super simple alias to show the top level directory. It allows to quickly cd to it
+  root = "!git rev-parse --show-toplevel"
