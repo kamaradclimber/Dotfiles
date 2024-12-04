@@ -5,11 +5,12 @@
 [alias]
   # interactive creation of a branch matching common naming pattern <name>/<stack>[/<topic>]
   ddco = "!git-ddco.sh"
+  readable-reflog = "!git log -g $(git branch --show-current)"
 
 
 [diff]
   tool = difftastic
-  external = difft
+  # external = difft
 
 [difftool]
   prompt = false
@@ -36,3 +37,5 @@
 	format = ssh
 [user]
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMlmBIwk+ylmRJoMGjk4kPGeR8BfQFc3dFIE1sod++dS gregoire.seux+git-commit-signing@datadoghq.com
+[merge]
+	conflictstyle = diff3

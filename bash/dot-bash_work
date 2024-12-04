@@ -23,9 +23,11 @@ export HOMEBREW_BIN=/opt/homebrew/bin
 
 
 # Load python shims
-# eval "$(pyenv init -)"
+# this step is take ~180ms
+# eval "$(pyenv init -)" 
 
 # Load ruby shims
+# this parts takes ~400ms
 # eval "$(rbenv init -)"
 
 # Prefer GNU binaries to Macintosh binaries.
@@ -181,11 +183,17 @@ _bzl_completion()
   readarray -t next_words < <(echo "$output" | jq -r .words)
   completion_count=$(echo "$output" | jq -r .word_count)
   if [[ $completion_count -gt 1 ]]; then
-    # let’s use fzf to select only one value
-    COMPREPLY=($(echo "$next_words" | sed "s/ /\n/g" | fzf --tac))
+    # let’s use fzf to select only one value.
+    # let’s make sure the ellispis is not the ... which has a special meaning in bazel
+    COMPREPLY=($(echo "$next_words" | sed "s/ /\n/g" | fzf --tac --ellipsis="»»»" --scheme=path))
   else
     COMPREPLY=($(compgen -W "$next_words" "${COMP_WORDS[$COMP_CWORD]}"))
   fi
 }
 
 complete -F _bzl_completion bzl
+
+# setup coterm test for kubectl wrapping
+export PATH="$HOME/.ddcoterm/overrides:$PATH"
+
+export PATH="$HOME/.ddcoterm/bin:$PATH"

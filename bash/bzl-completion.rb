@@ -50,7 +50,9 @@ if words[1] == 'query' && word_being_completed =~ %r{^//}
   # warn "Root: #{root}"
   current_target_path = last_word.gsub(%r{^//}, '')
   current_path = File.join(root, current_target_path)
-  possible_paths = `fd  --full-path #{current_path} --type d`.split("\n").map { |f| '//' + f + '...' }
+  possible_paths = `fd  --full-path #{current_path} --type d`.split("\n")
+    .map { |f| '//' + f + '...' }
+    .select { |f| f.start_with?(word_being_completed) }
   comp_reply = possible_paths.join(' ')
   results[:words] = comp_reply
   results[:word_count] = possible_paths.size

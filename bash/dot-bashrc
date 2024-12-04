@@ -22,7 +22,7 @@ fi
 
 
 # uncomment next line to start profiling:
-#export SIMPLE_PROFILING_BASHRC=1
+# export SIMPLE_PROFILING_BASHRC=1
 
 # loading in various parts, which ease profiling
 for i in ~/.dotfiles/bash/bash-part*.sh; do
@@ -35,47 +35,5 @@ for i in ~/.dotfiles/bash/bash-part*.sh; do
 	fi
 done; unset i
 
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-shopt -s autocd # allow to cd without typing cd :-)
-shopt -s cdspell # minor mistake for cd are corrected
-shopt -s no_empty_cmd_completion #no tab mistake
-shopt -s histverify #history expansion is displayed before execution
-
-
-export MAILDIR=$HOME/Maildir
-
-
-
-[ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
-
-alias idea="_JAVA_AWT_WM_NONREPARENTING=1 idea"
-
-if [ $(tty) = /dev/tty1 ]; then
-  startx
-  exit 0
-fi
-if [ $(tty) = /dev/tty6 ]; then
-  startx
-  exit 0
-fi
-
-# image display with kitty
-alias icat="kitty +kitten icat"
-
-export NPM_CONFIG_PREFIX=~/.npm-global
-
-if command ls /usr/lib/dri/nvidia_drv_video.so > /dev/null 2>&1; then
-  # this seems necessary to have vlc launching correctly with hardware decoding
-  export LIBVA_DRIVER_NAME=nvidia
-fi
-
-
 wait $(jobs -p)
-
 true # finish with a correct exit code
