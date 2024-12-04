@@ -8,3 +8,12 @@ if [[ "$(grep -r Notifications /usr/share/dbus-1/services/ | grep -v dunst)" -ne
 fi
 
 yay -S dunst
+
+
+# i3-companion
+#
+mkdir $HOME/.cache
+cd $HOME/.cache
+virtualenv i3-companion
+source i3-companion/bin/activate
+pip install dbussy i3ipc xcffib systemd-python

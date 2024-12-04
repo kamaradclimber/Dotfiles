@@ -4,7 +4,7 @@ PartOf=graphical-session.target
 
 [Service]
 Type=notify
-ExecStart=%h/.local/bin/i3-companion
+ExecStart=%h/.cache/i3-companion/bin/python %h/.local/bin/i3-companion
 Restart=on-failure
 
 [Install]

@@ -20,6 +20,11 @@ if [[ "$PROFILING_BASHRC" == "yes" ]]; then
   set -x
 fi
 
+# Add work related utilities
+if [ -f "$HOME/.bash_criteo" ] ; then
+  . $HOME/.bash_criteo
+fi
+
 
 # uncomment next line to start profiling:
 # export SIMPLE_PROFILING_BASHRC=1
