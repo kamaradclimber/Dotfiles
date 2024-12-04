@@ -1,7 +1,10 @@
 
 #### general config ####
 
-yabai -m config focus_follows_mouse autofocus
+# I suspect that the following line is what causes chrome to auto-raise when I move the mouse on the sketchybar.
+# If I had to guess I would say that chrome has a bug similar to https://bugzilla.mozilla.org/show_bug.cgi?id=1707379 and that sketchybar does not really hide the browser window behind it it.
+# The main reason I suspect this is that using "fn" (actually ctrl on my laptop) is supposed to disable autofocus feature and it actually allow to avoid this issue
+# yabai -m config focus_follows_mouse autofocus
 
 BAR_HEIGHT=26
 yabai -m config external_bar all:0:$BAR_HEIGHT

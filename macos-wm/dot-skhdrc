@@ -1,146 +1,62 @@
 #  NOTE(koekeishiya): A list of all built-in modifier and literal keywords can
 #                     be found at https://github.com/koekeishiya/skhd/issues/1
-#
-#                     A hotkey is written according to the following rules:
-#
-#                       hotkey       = <mode> '<' <action> | <action>
-#
-#                       mode         = 'name of mode' | <mode> ',' <mode>
-#
-#                       action       = <keysym> '[' <proc_map_lst> ']' | <keysym> '->' '[' <proc_map_lst> ']'
-#                                      <keysym> ':' <command>          | <keysym> '->' ':' <command>
-#                                      <keysym> ';' <mode>             | <keysym> '->' ';' <mode>
-#
-#                       keysym       = <mod> '-' <key> | <key>
-#
-#                       mod          = 'modifier keyword' | <mod> '+' <mod>
-#
-#                       key          = <literal> | <keycode>
-#
-#                       literal      = 'single letter or built-in keyword'
-#
-#                       keycode      = 'apple keyboard kVK_<Key> values (0x3C)'
-#
-#                       proc_map_lst = * <proc_map>
-#
-#                       proc_map     = <string> ':' <command> | <string>     '~' |
-#                                      '*'      ':' <command> | '*'          '~'
-#
-#                       string       = '"' 'sequence of characters' '"'
-#
-#                       command      = command is executed through '$SHELL -c' and
-#                                      follows valid shell syntax. if the $SHELL environment
-#                                      variable is not set, it will default to '/bin/bash'.
-#                                      when bash is used, the ';' delimeter can be specified
-#                                      to chain commands.
-#
-#                                      to allow a command to extend into multiple lines,
-#                                      prepend '\' at the end of the previous line.
-#
-#                                      an EOL character signifies the end of the bind.
-#
-#                       ->           = keypress is not consumed by skhd
-#
-#                       *            = matches every application not specified in <proc_map_lst>
-#
-#                       ~            = application is unbound and keypress is forwarded per usual, when specified in a <proc_map>
-#
-#  NOTE(koekeishiya): A mode is declared according to the following rules:
-#
-#                       mode_decl = '::' <name> '@' ':' <command> | '::' <name> ':' <command> |
-#                                   '::' <name> '@'               | '::' <name>
-#
-#                       name      = desired name for this mode,
-#
-#                       @         = capture keypresses regardless of being bound to an action
-#
-#                       command   = command is executed through '$SHELL -c' and
-#                                   follows valid shell syntax. if the $SHELL environment
-#                                   variable is not set, it will default to '/bin/bash'.
-#                                   when bash is used, the ';' delimeter can be specified
-#                                   to chain commands.
-#
-#                                   to allow a command to extend into multiple lines,
-#                                   prepend '\' at the end of the previous line.
-#
-#                                   an EOL character signifies the end of the bind.
-
-# add an on_enter command to the default mode
-# :: default : yabai -m config active_window_border_color 0xff775759
-#
-# defines a new mode 'test' with an on_enter command, that captures keypresses
-# :: test @ : yabai -m config active_window_border_color 0xff24ccaa
-#
-# from 'default' mode, activate mode 'test'
-# cmd - x ; test
-#
-# from 'test' mode, activate mode 'default'
-# test < cmd - x ; default
-#
-# launch a new terminal instance when in either 'default' or 'test' mode
-# default, test < cmd - return : open -na /Applications/Terminal.app
-
-# application specific bindings
-#
-# cmd - n [
-#     "kitty"       : echo "hello kitty"
-#     *             : echo "hello everyone"
-#     "qutebrowser" : echo "hello qutebrowser"
-#     "terminal"    ~
-#     "finder"      : false
-# ]
-
-# specify a file that should be included as an additional config-file.
-# treated as an absolutepath if the filename begins with '/' otherwise
-# the file is relative to the path of the config-file it was loaded from.
-#
-# .load "/Users/Koe/.config/partial_skhdrc"
-# .load "partial_skhdrc"
-
-# prevent skhd from monitoring events for specific applications.
-#
-# .blacklist [
-#    "kitty"
-#    "terminal"
-#    "qutebrowser"
-# ]
 
 # open terminal, blazingly fast compared to iTerm/Hyper
-cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+lalt - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
 
 # sadly this leads to open Chrome also when copy pasting
-# cmd - c : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
-cmd + shift - c : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
-
-
-# open qutebrowser
-# cmd + shift - return : ~/Scripts/qtb.sh
-
-# open mpv
-# cmd - m : open -na /Applications/mpv.app $(pbpaste)
-#
-
-
-cmd + shift - space : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "stack" else "bsp" end')"
-
-
-# move current window to full screen temporarily
-cmd +shift - f : yabai -m window --toggle zoom-fullscreen
+lalt - c : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 
 
 # for some reasons, we have to use keycodes to have proper numbers
 # see https://github.com/koekeishiya/skhd/issues/75
-lcmd + shift - 0x12: yabai -m window --space 1
-lcmd + shift - 0x13: yabai -m window --space 2
-lcmd + shift - 0x14: yabai -m window --space 3
-lcmd + shift - 0x15: yabai -m window --space 4
-lcmd + shift - 0x17: yabai -m window --space 5 # yes 17 instead of 16
-lcmd + shift - 0x16: yabai -m window --space 6
-lcmd + shift - 0x1A: yabai -m window --space 7
-lcmd + shift - 0x1C: yabai -m window --space 8
-lcmd + shift - 0x19: yabai -m window --space 9
-lcmd + shift - 0x1D: yabai -m window --space 10
+# lcmd + shift - 0x12: yabai -m window --space 1
+# lcmd + shift - 0x13: yabai -m window --space 2
+# lcmd + shift - 0x14: yabai -m window --space 3
+# lcmd + shift - 0x15: yabai -m window --space 4
+# lcmd + shift - 0x17: yabai -m window --space 5 # yes 17 instead of 16
+# lcmd + shift - 0x16: yabai -m window --space 6
+# lcmd + shift - 0x1A: yabai -m window --space 7
+# lcmd + shift - 0x1C: yabai -m window --space 8
+# lcmd + shift - 0x19: yabai -m window --space 9
+# lcmd + shift - 0x1D: yabai -m window --space 10
 
 # hack to have a key to space 10: we find any window there and focus it
 # FIXME: the native macos shortcut for this should work  (it used) but does not anymore, why?
-lcmd - 0x1D: yabai -m query --spaces --space 10 | jq -r '.windows[0] // empty' | xargs yabai -m window --focus
+# lcmd - 0x1D: yabai -m query --spaces --space 10 | jq -r '.windows[0] // empty' | xargs yabai -m window --focus
+#
+
+# we put shortcuts for aerospace here https://github.com/nikitabobko/AeroSpace/issues/587
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+#lalt - e: aerospace layout tiles horizontal vertical
+lctrl - 0x1C: aerospace resize smart -50
+lctrl - 0x1A: aerospace resize smart +50
+lalt - 0x12 : aerospace workspace 1
+lalt - 0x13 : aerospace workspace 2
+lalt - 0x14 : aerospace workspace 3
+lalt - 0x15 : aerospace workspace 4
+lalt - 0x17 : aerospace workspace 5
+lalt - 0x16 : aerospace workspace 6
+lalt - 0x1A : aerospace workspace 7
+lalt - 0x1C : aerospace workspace 8
+lalt - 0x19 : aerospace workspace 9
+lalt - 0x1D : aerospace workspace A
+lalt + shift - 0x12 : aerospace move-node-to-workspace 1
+lalt + shift - 0x13 : aerospace move-node-to-workspace 2
+lalt + shift - 0x14 : aerospace move-node-to-workspace 3
+lalt + shift - 0x15 : aerospace move-node-to-workspace 4
+lalt + shift - 0x17 : aerospace move-node-to-workspace 5
+lalt + shift - 0x16 : aerospace move-node-to-workspace 6
+lalt + shift - 0x1A : aerospace move-node-to-workspace 7
+lalt + shift - 0x1C : aerospace move-node-to-workspace 8
+lalt + shift - 0x19 : aerospace move-node-to-workspace 9
+lalt + shift - 0x1D : aerospace move-node-to-workspace A
+#
+#lalt + tab : aerospace workspace-back-and-forth
+lalt + shift - tab : aerospace move-workspace-to-monitor --wrap-around next
+#
+# 0x28 is s
+lalt + shift - 0x28: aerospace mode service
+
+# alternate between tiles and accordion
+lalt - space: aerospace layout accordion tiles
