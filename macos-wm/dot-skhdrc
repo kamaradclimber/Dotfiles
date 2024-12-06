@@ -60,3 +60,5 @@ lalt + shift - 0x28: aerospace mode service
 
 # alternate between tiles and accordion
 lalt - space: aerospace layout accordion tiles
+
+lalt - tab: /Users/gregoire.seux/.config/aerospace/alt-tab.sh
