@@ -24,6 +24,14 @@
 [core]
 	hooksPath = /usr/local/dd/global_hooks
 
+  # following options are especially useful on large repositories
+  untrackedCache = true
+  fsmonitor = true
+  untrackedCache = true
+  commitGraph = true
+
+
+
 [pager]
   # always display full diff in terminal. It leaves a trace in the terminal!
   # this is better than changing core.pager option which changes all pager including for git log
