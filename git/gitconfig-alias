@@ -11,3 +11,4 @@
   files = "!git-files.sh"
   # super simple alias to show the top level directory. It allows to quickly cd to it
   root = "!git rev-parse --show-toplevel"
+  edit-conflicts = "!git-edit-conflicts.rb"
