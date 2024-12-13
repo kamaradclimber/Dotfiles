@@ -26,7 +26,9 @@ export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
 
 export PATH="/ssd/home/grego/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/:$PATH"
-export PATH=$PATH:/opt/homebrew/bin
+
+# we want binaries from homebrew to take precedence over system binaries (this is important for having a recent git for instance)
+export PATH=/opt/homebrew/bin:$PATH
 
 # volta is used to handle nodejs versions
 export VOLTA_HOME="$HOME/.volta"
