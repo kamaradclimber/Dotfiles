@@ -1,6 +1,7 @@
 [include]
 	path = ~/.dotfiles/git/dot-gitconfig
 	path = ~/.git-maintenance-config
+	path = /Users/gregoire.seux/.config/gitsign/gitconfig
 
 [alias]
   # interactive creation of a branch matching common naming pattern <name>/<stack>[/<topic>]
@@ -39,11 +40,5 @@
   difftool = true
 [machete "github"]
 	forceDescriptionFromCommitMessage = true
-[commit]
-	gpgsign = true
-[gpg]
-	format = ssh
-[user]
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMlmBIwk+ylmRJoMGjk4kPGeR8BfQFc3dFIE1sod++dS gregoire.seux+git-commit-signing@datadoghq.com
 [merge]
 	conflictstyle = diff3

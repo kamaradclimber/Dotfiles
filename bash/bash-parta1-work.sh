@@ -5,3 +5,5 @@ fi
 
 export PATH="$HOME/.ddcoterm/bin:$PATH"
 export PATH="$HOME/.ddcoterm/overrides:$PATH"
+
+[ -f ~/.config/gitsign/include.sh ] && source ~/.config/gitsign/include.sh
