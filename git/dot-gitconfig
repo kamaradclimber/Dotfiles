@@ -1,3 +1,5 @@
+# vim: set syntax=gitconfig:
+
 [include]
 	path = ~/.dotfiles/git/gitconfig-alias
 
