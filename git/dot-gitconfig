@@ -28,6 +28,9 @@
     compactionHeuristic = true # new option in 2.9, better diff heuristic
     indentHeuristic = true # better heuristic for diff. should become default
     algorithm = histogram
+    # remove a/ & b/ prefixes in diff output for easier copy-paste
+    srcPrefix = ""
+    dstPrefix = ""
 
 [merge]
   summary=true
