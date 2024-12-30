@@ -6,5 +6,10 @@
 # https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
 
 if [ "$SENDER" = "front_app_switched" ]; then
-  sketchybar --set $NAME label="$INFO"
+  # default behavior (without aerospace):
+  # sketchybar --set $NAME label="$INFO"
+  #
+  # we prefer to list all apps instead:
+  list=$(aerospace list-windows --workspace focused --json | jq '.[]."app-name"' -r | grep -v "$INFO"| tr '\n' '|')
+  sketchybar --set $NAME label="$list *$INFO"
 fi
