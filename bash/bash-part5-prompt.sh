@@ -13,7 +13,7 @@ HOST=""
 USER_=""
 # FIXME: for some reason it's hard to make this multiline, I should try to fix this
 BELL="[\a]"
-LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${BELL}${RED}\\\$?:\$last>\"; fi)${NORM} "
+LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${BELL}${RED}\\\$?:\$last\"; fi)${NORM} "
 BELL='\[\a\]'
 # TODO: we should display the bell in last_command_timer as well
 LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; if ! grep -q "^ \(vim\|git\|e[0-9]\+\)" <(echo "$last_command"); then notify-send "command finished: ${last_command}"; fi fi)'
