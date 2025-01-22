@@ -23,6 +23,20 @@ if test_helper "ag" "the_silver_searcher"; then
     alias ag=tag
   fi
 fi
+if test_helper "rg" "ripgrep"; then
+  if test_helper "tag" "tag-rg"; then
+    tag() {
+      export TAG_ALIAS_FILE=/tmp/tag_aliases.$$
+      command tag "$@";
+      source $TAG_ALIAS_FILE 2>/dev/null;
+    }
+    export TAG_SEARCH_PROG=rg
+    alias rg="tag --hidden --glob !.git"
+    function ag() {
+      echo "You can use rg which is as fast and is maintained as opposed to ag (no commit in the last 5 years)"
+    }
+  fi
+fi
 
 if test_helper "viddy" "viddy"; then
   # viddy is a replacement (nearly drop-in) for watch which features:
