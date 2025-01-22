@@ -16,6 +16,7 @@ $verbose_prefix = "git hook: "
 regex_commit_issue_number = /^JIRA: ([A-Z]{2,4}\-\d+)/
 regex_branch_issue_number = /[.]*\/([\-\w]*?\-\d+)/
 regex_git_commit_messages = /(Merge\sbranch\s\'|\#\sRebase\s|This\sreverts\scommit\s|^fixup! )/
+REGEXP_INCIDENT_ID = /^incident-\d+$/i
 
 # colorize strings in console output
 class String
@@ -34,12 +35,6 @@ commit_file = ARGV[0]
 
 # read original commit message
 original_commit_message = File.read(commit_file)
-
-# check if original commit message contains issue number
-if original_commit_message.match(regex_commit_issue_number) != nil
-	puts_verbose("Current commit already contains an issue number.")
-	exit
-end
 
 # check if original commit message contains automatic git commits
 if original_commit_message.match(regex_git_commit_messages) != nil
@@ -70,7 +65,14 @@ def insert_trailer(full_message, issue_number)
   lines = full_message.split("\n")
   before = lines.take_while { |line| line !~ /^#/ }
   after = lines.drop_while { |line| line !~ /^#/ }
-  (before + ["JIRA: #{issue_number.upcase}"] + after).join("\n")
+  trailer = if issue_number =~ REGEXP_INCIDENT_ID
+              "Incident: #{issue_number}"
+            else
+              "JIRA: #{issue_number.upcase}"
+            end
+  return full_message if lines.any? { |line| line == trailer }
+  (before + [trailer] + after).join("\n")
+
 end
 
 # combine to new message
