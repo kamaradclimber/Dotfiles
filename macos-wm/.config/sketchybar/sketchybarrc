@@ -129,9 +129,6 @@ sketchybar --add item clock right                              \
            --set zoom script="$PLUGIN_DIR/zoom.sh"       \
                          update_freq=20                       \
                                                             \
-           --add item k8s right                            \
-           --set k8s script="$PLUGIN_DIR/k8s.sh"       \
-                         update_freq=20                       \
 
 
 ##### Finalizing Setup #####

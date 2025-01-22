@@ -5,15 +5,23 @@
 mic_status="$(timeout -k 10 5 osascript $HOME/.config/sketchybar/plugins/zoom-mute-status.applescript)"
 
 
-ICON="Zoom"
+LABEL="" # "Zoom"
+ICON=""
+COLOR="0x000000"
 
 case $mic_status in
   "on")
-    LABEL="🎙️"
+    ICON="🎙️"
     ;;
   "off")
-    LABEL=""
+    ICON=""
+    COLOR="0xfd6d00"
+    ;;
+  "not_running")
+    ICON="🙅"
+    LABEL="Zoom not running"
+    COLOR="0xfd6d00"
     ;;
 esac
 
-sketchybar --set $NAME icon="$ICON" label="$LABEL"
+sketchybar --set $NAME icon="$ICON" label="$LABEL" colo=$COLOR

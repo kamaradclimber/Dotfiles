@@ -11,7 +11,7 @@ if application "zoom.us" is running then
     end tell
   end tell
 else
-  set returnValue to ""
+  set returnValue to "not_running"
 end if
 
 return returnValue
