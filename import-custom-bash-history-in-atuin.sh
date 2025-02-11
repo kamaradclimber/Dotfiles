@@ -35,7 +35,7 @@ db_path=$(atuin info | grep "client db path" | cut -d '"' -f2)
 cat <<EOF > /tmp/parse_history.rb
 require "json"
 require "time"
-hostname = "`hostname`".strip
+hostname = "`hostnamectl hostname`".strip
 user="`whoami`".strip
 random = Random.new
 all_items = JSON.parse(File.read(ARGV.first))
@@ -46,18 +46,19 @@ all_items.each do |j|
   id = j["command"].hash + t_in_nanos
   # exclude things that clearly look like corrupted history
   next if j["command"].strip =~ %r{^/ \d+ }
-  next if j["command"].strip =~ %r{^/.+ \d{5} }
+  next if j["command"].strip =~ %r{^/[^ ]* \d{2,7} }
+  next if j["command"].strip =~ %r{^/[^ ]* \d{2,7}$}
   command = j["command"].strip.gsub(/'/, "''")
   puts <<~SQL
     INSERT INTO history VALUES(
-      "#{id.to_s}",
+      '#{id.to_s}',
       #{t_in_nanos},
       0,
       #{j["exit_code"].to_i},
       '#{command}',
-      "/tmp",
-      "unknown",
-      "#{hostname}:#{user}",
+      '/tmp',
+      'unknown',
+      '#{hostname}:#{user}',
       NULL
     );
   SQL
