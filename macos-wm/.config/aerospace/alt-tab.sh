@@ -12,4 +12,4 @@
 # # echo "Next window id: $next"
 # aerospace focus --window-id $next
 
-aerospace focus --window-id $(cat /tmp/next_window_id)
+aerospace focus --window-id $(cat /tmp/next_window_id | awk '{print $1}' | head -n1)
