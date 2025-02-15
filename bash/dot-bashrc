@@ -41,4 +41,10 @@ for i in ~/.dotfiles/bash/bash-part*.sh; do
 done; unset i
 
 wait $(jobs -p)
+
+if [ $(tty) = /dev/tty1 ]; then
+  startx
+  exit 0
+fi
+
 true # finish with a correct exit code
