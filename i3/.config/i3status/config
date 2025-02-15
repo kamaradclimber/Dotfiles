@@ -6,7 +6,6 @@ general {
 
 order += "battery 0"
 order += "wireless _first_"
-order += "path_exists Criteo"
 order += "volume master"
 order += "tztime local"
 order += "tztime utc"
@@ -25,10 +24,6 @@ battery 0 {
   status_full = "☻ FULL"
   path = "/sys/class/power_supply/BAT%d/uevent"
   low_threshold = 30
-}
-
-path_exists Criteo {
-  path = "/proc/sys/net/ipv4/conf/tun0"
 }
 
 tztime local {

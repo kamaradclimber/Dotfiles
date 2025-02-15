@@ -5,10 +5,13 @@ StartLimitIntervalSec=5
 StartLimitBurst=1
 
 [Service]
-ExecStart=/usr/bin/autorandr --change --default default
+ExecStart=/usr/bin/autorandr --change
 Type=oneshot
 RemainAfterExit=false
 KillMode=process
+Restart=on-failure
+RestartMaxDelaySec=30
+RestartSteps=5
 
 [Install]
 WantedBy=xsession.target

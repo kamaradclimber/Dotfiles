@@ -21,7 +21,7 @@ __fzf_history__() {
   line=$(
   for f in ~/.bash_history_storage/*.log; do
     command cat $f
-  done | grep -v -e "atlas task-queue use" -e "atlas taskqueue use" | $(__fzfcmd)) &&
+  done | grep -a -v -e "atlas task-queue use" -e "atlas taskqueue use" | $(__fzfcmd)) &&
     line=$(awk '{ print substr($0, index($0,$2)) }' <<< "$line")
 
   READLINE_LINE=${line#*$'\t'}
