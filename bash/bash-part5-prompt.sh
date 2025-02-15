@@ -61,12 +61,6 @@ trap 'timer_start' DEBUG # TODO consider using $PS0 (http://stromberg.dnsalias.o
 function prompt_command {
  last=$?
  timer_stop
- if [ "$(id -u)" -ne 0 ]; then
-   last_command=$(history 1| awk '{$1=""}1')
-   d="$(date "+%Y-%m-%d.%H:%M:%S")"
-   echo "${d} ${last_command}" >> ~/.bash_history_storage/$(date "+%Y-%m-%d").log
-   jq --compact-output --null-input --raw-output --arg DATE "$d" --arg EXITCODE "$last" --arg LASTCOMMAND "${last_command}" '{"date": $DATE, "exit_code": $EXITCODE, "command": $LASTCOMMAND }' >> ~/.bash_history_storage/$(date "+%Y-%m-%d").json
- fi
 }
 
 PROMPT_COMMAND=prompt_command

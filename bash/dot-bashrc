@@ -42,9 +42,14 @@ done; unset i
 
 wait $(jobs -p)
 
+# atuin setup
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
+
 if [ $(tty) = /dev/tty1 ]; then
   startx
   exit 0
 fi
 
 true # finish with a correct exit code
+

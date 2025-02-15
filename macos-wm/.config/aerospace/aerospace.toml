@@ -36,7 +36,9 @@ default-root-container-orientation = 'auto'
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+# (greg): this is a bit painful when openening many links in a row and that the browser is on teh "other" monitor. Let’s try to disable it and see if this more comfortable
+# on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
 
 on-focus-changed = ['exec-and-forget /Users/gregoire.seux/.config/aerospace/on-focus-changed.sh']
 
