@@ -12,11 +12,8 @@ NORM="\[\e[00m\]"
 HOST=""
 USER_=""
 # FIXME: for some reason it's hard to make this multiline, I should try to fix this
-BELL="[\a]"
+BELL="\a"
 LAST_COMMAND_RESULT="\$(if [[ \$last == 0 || (\$last == 130 || \$last == 141)]]; then echo \"${GREEN}>\"; else echo \"${BELL}${RED}\\\$?:\$last\"; fi)${NORM} "
-BELL='\[\a\]'
-# TODO: we should display the bell in last_command_timer as well
-LAST_COMMAND_TIMER='$(if [[ $timer_show -gt 6 ]]; then echo "${timer_show}s "; if ! grep -q "^ \(vim\|git\|e[0-9]\+\)" <(echo "$last_command"); then notify-send "command finished: ${last_command}"; fi fi)'
 
 
 if [ -f ~/.git-prompt.sh ]; then
@@ -43,24 +40,12 @@ case $TERM in
     ;;
 esac
 
-export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} ${LAST_COMMAND_TIMER}$LAST_COMMAND_RESULT"
-
-# Measure how long commands last
-# the result can be called using `echo $timer_show`
-function timer_start {
-  timer=${timer:-$SECONDS}
-}
-function timer_stop {
-  timer_show=$(($SECONDS - $timer))
-  unset timer
-}
-trap 'timer_start' DEBUG # TODO consider using $PS0 (http://stromberg.dnsalias.org/~strombrg/PS0-prompt/)
+export PS1="\t ${XTERM_TITLE}${USER_}${HOST}${YELLOW}\w${NORM}${GIT_BRANCH} $LAST_COMMAND_RESULT"
 
 # called before each prompt
 # use it for all dynamic settings
 function prompt_command {
  last=$?
- timer_stop
 }
 
 PROMPT_COMMAND=prompt_command
