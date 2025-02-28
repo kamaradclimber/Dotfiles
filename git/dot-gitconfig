@@ -20,6 +20,13 @@
     showbranch = auto
     status = auto
 
+[column]
+    # display more branches of many listing commands (git branch, git status, git tag, ...)
+    ui = auto
+
+[branch]
+    sort = -committerdate # sort branches by committer date
+
 #[interactive]
 #    diffFilter = delta --color-only
 
@@ -31,6 +38,7 @@
     # remove a/ & b/ prefixes in diff output for easier copy-paste
     srcPrefix = ""
     dstPrefix = ""
+    colorMoved = plain
 
 [merge]
   summary=true
@@ -68,7 +76,9 @@
 [rebase]
     autosquash = true
     autostash = true # do all the manual work for me
-	abbreviateCommands = true
+	  abbreviateCommands = true
+	  # this is the closest git can help with stacked pull-requests
+	  updateRefs = true
 [fetch]
     recurseSubmodules=true
     prune=true
@@ -85,3 +95,7 @@
 
 [log]
   date = iso
+
+[tag]
+  # will improve git tag sorting to be semantic versioning aware
+  sort = version:refname
