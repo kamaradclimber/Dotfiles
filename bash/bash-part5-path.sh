@@ -33,5 +33,3 @@ export PATH=/opt/homebrew/bin:$PATH
 # volta is used to handle nodejs versions
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
-
-export PATH="$PATH:$HOME/.ddcoterm/bin"
