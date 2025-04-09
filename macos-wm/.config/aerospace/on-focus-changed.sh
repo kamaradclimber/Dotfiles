@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# this script should no longer be necessary because I’ve replaced the alt-tab behavior with "context" app
+# but I’m keeping it for reference
+# the reason to replace it was that this script is often too slow to execute (especially when I have a bazel command running)
+exit 0
+
 # immediately empty the file to avoid the case where I switch to another workspace and immediately press alt-tab.
 # without this, it would switch me to the next window of the previous workspace leading to confusion
 # this happens because 1) the script is not called immediately and 2) it takes time to execute
