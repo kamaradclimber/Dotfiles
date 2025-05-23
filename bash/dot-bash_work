@@ -95,6 +95,7 @@ alias ddsource="cd $DATADOG_ROOT/dd-source"
 alias logsbackend="cd $DATADOG_ROOT/logs-backend"
 alias dcc="cd $DATADOG_ROOT/datacenter-config"
 alias logsops="cd $DATADOG_ROOT/logs-ops"
+alias k8sr="cd $DATADOG_ROOT/k8s-resources"
 
 # allows to cd from anywhere
 export CDPATH=.:$DATADOG_ROOT/
