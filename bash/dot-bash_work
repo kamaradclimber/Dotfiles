@@ -98,7 +98,8 @@ alias logsops="cd $DATADOG_ROOT/logs-ops"
 alias k8sr="cd $DATADOG_ROOT/k8s-resources"
 
 # allows to cd from anywhere
-export CDPATH=.:$DATADOG_ROOT/
+# export CDPATH=.:$DATADOG_ROOT/
+# CDPATH leads some cd commands to output the destination path in stdout which breaks many scripts
 
 # this method display the service catalog by going up in the hierarchy
 find_service_catalog() {
