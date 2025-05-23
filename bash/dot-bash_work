@@ -164,6 +164,11 @@ function bzlt {
   bzl query "kind(cnab_action_invocation, $1)"
 }
 
+function bzl-go-test {
+  echo "Alias: testing all go_test targets for $1"
+  bzl test $(bzl query "kind('go_test', $1)")
+}
+
 function kubectx {
   # dctx is better because it refresh list of contexts
   echo "Using dctx instead of kubectx"
