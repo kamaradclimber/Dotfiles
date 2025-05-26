@@ -11,7 +11,7 @@ cd $HOME
 sudo apt update
 sudo apt install stow
 
-ln -sf Dotfiles .dotfiles
+ln -sf dotfiles .dotfiles
 
 rm -f ~/.bashrc
 
