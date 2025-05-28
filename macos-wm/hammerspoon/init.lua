@@ -36,3 +36,43 @@ hs.loadSpoon("Emojis")
 spoon.Emojis:bindHotkeys({
   toggle = {{"cmd"}, "r"}
 })
+
+function configureAllCameraPropertyWatchers(arg1, arg2)
+  local allCameras = hs.camera.allCameras()
+  for k, camera in pairs(allCameras) do
+    print("camera: " .. camera:name())
+    if camera:isPropertyWatcherRunning() then
+      camera:stopPropertyWatcher()
+    end
+
+    camera:setPropertyWatcherCallback(function(camera, property, scope, element)
+      logCamera(camera)
+    end)
+    camera:startPropertyWatcher()
+  end
+end
+
+-- hs.camera.setWatcherCallback(configureAllCameraPropertyWatchers)
+-- hs.camera.startWatcher()
+-- the two line above should help to detect when a new webcame is plugged in/out but it’s simpler to to just call it when hammerspoon starts
+configureAllCameraPropertyWatchers(1, 2)
+
+function logCamera(camera)
+  print("camera: " .. camera:name())
+  local anyCameraInUse = false
+  local allCameras = hs.camera.allCameras()
+  for k, camera in pairs(allCameras) do
+    if camera:isInUse() then
+      anyCameraInUse = true
+    end
+  end
+
+  filename=os.date(os.getenv("HOME") .. '/.hammerspoon/camera-%Y-%m.log')
+  file = io.open(filename, "a")
+  if anyCameraInUse then
+    file:write(string.format('%s %s ON\n', os.date('%Y-%m-%dT%H:%M:%S'), camera:name()))
+  else
+    file:write(string.format('%s %s OFF\n', os.date('%Y-%m-%dT%H:%M:%S'), camera:name()))
+  end
+  file:close()
+end
