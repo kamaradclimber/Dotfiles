@@ -2,5 +2,9 @@
 
 # on debian based systems only
 if [ -f /etc/debian_version ]; then
-    apt install -y bat
+    sudo apt install -y bat
+
+    #eventually atuin will be part of debian (starting with trixie) but in the meantime
+    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 fi
+
