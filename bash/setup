@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# on debian based systems only
+if [ -f /etc/debian_version ]; then
+    apt install -y bat
+fi

@@ -26,3 +26,4 @@ for prog in bash git; do
     popd
   fi
 done
+
