@@ -46,3 +46,5 @@ alias la='ll --hyperlink=auto -A'
 alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
 alias rails="bundle exec rails"
+
+export RIPGREP_CONFIG_PATH=~/.dotfiles/bash/ripgrep.conf
