@@ -19,7 +19,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   [include]
     path = $SCRIPT_DIR/dot-gitconfig-work
 EOF
-else if grep -q "@datadoghq.com" .gitconfig; then
+elif grep -q "@datadoghq.com" .gitconfig; then
   echo "dd workspace"
   echo <<EOF >> .gitconfig
   [include]
