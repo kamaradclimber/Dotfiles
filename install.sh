@@ -18,7 +18,7 @@ ln -sf dotfiles .dotfiles
 rm -f ~/.bashrc
 
 cd .dotfiles
-for prog in bash git neovim; do
+for prog in nix bash git neovim; do
   echo "Will use stow on $prog"
   stow --dotfiles $prog --verbose 2 --ignore=setup
   if test -f $prog/setup; then
