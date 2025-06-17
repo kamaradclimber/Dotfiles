@@ -31,3 +31,10 @@ else
     path = $SCRIPT_DIR/dot-gitconfig-personal
 EOF
 fi
+
+# install github cli on dd workspaces
+if [[ "$IS_DATADOG_WORKSPACE" == "true" ]]; then
+  echo "Installing GitHub CLI on Datadog workspace"
+  # in theory the command auth already works thanks to GITHUB_TOKEN env variable
+  sudo apt install -y gh
+fi

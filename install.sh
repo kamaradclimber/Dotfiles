@@ -6,6 +6,8 @@ set -euo pipefail
 
 echo "Preparing my workspace"
 
+export IS_DATADOG_WORKSPACE=true
+
 cd $HOME
 
 sudo apt update
