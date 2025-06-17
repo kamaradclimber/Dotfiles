@@ -1,5 +1,5 @@
 [include]
-	path = ~/.dotfiles/git/dot-gitconfig
+	path = ~/.dotfiles/git/dot-gitconfig-main
 	path = ~/.git-maintenance-config
 	path = /Users/gregoire.seux/.config/gitsign/gitconfig
 
