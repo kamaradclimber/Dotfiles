@@ -35,8 +35,14 @@ if test_helper "viddy" "viddy"; then
   alias watch=viddy
 fi
 
-if test_helper "bat" "bat"; then
-  alias cat='bat --paging=never --style=plain'
+if test -f /etc/debian_version; then
+  if test_helper "batcat" "bat"; then
+    alias cat='batcat --paging=never --style=plain'
+  fi
+else
+  if test_helper "bat" "bat"; then
+    alias cat='bat --paging=never --style=plain'
+  fi
 fi
 
 if test_helper "nvim" "neovim"; then
