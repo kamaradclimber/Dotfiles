@@ -15,20 +15,21 @@ touch .gitconfig
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   echo "work laptop"
-  echo <<EOF >> .gitconfig
-  [include]
-    path = $SCRIPT_DIR/dot-gitconfig-work
+  cat <<EOF >> .gitconfig
+[include]
+  path = $SCRIPT_DIR/dot-gitconfig-work
 EOF
 elif grep -q "@datadoghq.com" .gitconfig; then
-  echo "dd workspace"
-  echo <<EOF >> .gitconfig
-  [include]
-    path = $SCRIPT_DIR/dot-gitconfig-work
+  echo "setup for a DD workspace"
+  cat <<EOF >> .gitconfig
+[include]
+  path = $SCRIPT_DIR/dot-gitconfig-work
+EOF
 else
   echo "linux"
-  echo <<EOF >> .gitconfig
-  [include]
-    path = $SCRIPT_DIR/dot-gitconfig-personal
+  cat <<EOF >> .gitconfig
+[include]
+  path = $SCRIPT_DIR/dot-gitconfig-personal
 EOF
 fi
 
