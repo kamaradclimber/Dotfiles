@@ -127,3 +127,7 @@ rt.setup({
 
 vim.g.ackprg = 'ag --vimgrep'
 
+vim.g.copilot_filetypes = {
+  ['*'] = true, -- enable copilot for all filetypes
+  ['dotenv'] = true, -- avoid sending passwords
+}
