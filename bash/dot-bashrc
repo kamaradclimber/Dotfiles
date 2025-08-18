@@ -52,3 +52,4 @@ if [ $(tty) = /dev/tty1 ]; then
 fi
 
 true # finish with a correct exit code
+
