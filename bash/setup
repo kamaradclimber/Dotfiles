@@ -8,5 +8,7 @@ if [ -f /etc/debian_version ]; then
     curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
     sudo apt install -y bash-completion
+
+    curl -sS https://starship.rs/install.sh | sh
 fi
 
