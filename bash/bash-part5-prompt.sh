@@ -7,4 +7,6 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     return 0
   fi
   eval -- "$(/opt/homebrew/bin/starship init bash --print-full-init)"
+elif [[ "$(uname -s)" == "Linux" ]]; then
+  eval "$(starship init bash)"
 fi
