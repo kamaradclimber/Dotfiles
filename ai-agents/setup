@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+
+volta install node
+npm install -g @anthropic-ai/claude-code

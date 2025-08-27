@@ -10,14 +10,14 @@
 
 
 [diff]
-  tool = difftastic
+  tool = diffsitter
   # external = difft
 
 [difftool]
   prompt = false
 
-[difftool "difftastic"]
-  cmd = difft "$LOCAL" "$REMOTE"
+[difftool "diffsitter"]
+  cmd = diffsitter "$LOCAL" "$REMOTE"
 
 
 [url "git@github.com:"]
