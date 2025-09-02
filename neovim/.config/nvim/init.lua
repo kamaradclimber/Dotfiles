@@ -11,7 +11,6 @@ require "paq" {
 	'junegunn/fzf.vim'; -- more advanced plugin built on top of built-in one
 	'simrat39/rust-tools.nvim'; -- advanced feature from rust-analyzser using the LSP
 	'mileszs/ack.vim';
-	'github/copilot.vim'; -- copilot setup
 }
 
 vim.api.nvim_exec("call neomake#configure#automake('nrwi', 500)", false)
@@ -126,8 +125,3 @@ rt.setup({
 
 
 vim.g.ackprg = 'ag --vimgrep'
-
-vim.g.copilot_filetypes = {
-  ['*'] = true, -- enable copilot for all filetypes
-  ['dotenv'] = true, -- avoid sending passwords
-}
