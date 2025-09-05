@@ -86,3 +86,15 @@ find-codeowner() {
     owned_path=$(dirname $owned_path)
   done
 }
+
+# push the local branch and create a pr with gh CLI
+pr() {
+  br=$(git branch --show-current)
+  echo "Will create a PR for ${br} branch"
+  main_br=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
+  if [[ "$br" == "$main_br" ]]; then
+    echo "❌ Will not push to the main branch"
+    return 1
+  fi
+  git push origin HEAD && gh pr create --fill-verbose --draft --head=$(git branch --show-current)
+}
