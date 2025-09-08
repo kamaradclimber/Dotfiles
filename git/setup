@@ -37,5 +37,11 @@ fi
 if [[ "$IS_DATADOG_WORKSPACE" == "true" ]]; then
   echo "Installing GitHub CLI on Datadog workspace"
   # in theory the command auth already works thanks to GITHUB_TOKEN env variable
-  sudo apt install -y gh
+  gh_bin_path=$(nix-shell -p gh --run "which gh")
+  gh_path=$(dirname "$gh_bin_path")
+  cat << EOF > $SCRIPT_DIR/../bash/bash-part0-gh-path.sh
+export PATH="\$PATH:$gh_path"
+EOF
+
+  chmod +x $SCRIPT_DIR/../bash/bash-part0-gh-path.sh
 fi
