@@ -96,5 +96,11 @@ pr() {
     echo "❌ Will not push to the main branch"
     return 1
   fi
-  git push origin HEAD && gh pr create --fill-verbose --draft --head=$(git branch --show-current)
+
+  if gh pr create --help | grep -q fill-verbose; then
+    git push origin HEAD && gh pr create --fill-verbose --draft --head=$(git branch --show-current)
+  else
+    git push origin HEAD && gh pr create --fill --draft --head=$(git branch --show-current)
+  fi
+
 }

@@ -47,4 +47,9 @@ alias muc='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 3
 
 alias rails="bundle exec rails"
 
-export RIPGREP_CONFIG_PATH=~/.dotfiles/bash/ripgrep.conf
+export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgrep.conf
+
+if which fdfind > /dev/null 2>&1; then
+  # on debian the binary is called fdfind to avoid conflict with another package
+  alias fd=fdfind
+fi
