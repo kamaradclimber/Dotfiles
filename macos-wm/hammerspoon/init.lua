@@ -76,3 +76,20 @@ function logCamera(camera)
   end
   file:close()
 end
+
+
+aerospace_switcher = require("aerospace_switch")
+switcher = aerospace_switcher.new({title_width = 1000, item_height = 32,})
+local function mapCmdTab(event)
+   local flags = event:getFlags()
+   local chars = event:getCharacters()
+   if chars == "\t" and flags:containExactly{'cmd'} then
+      switcher:next()
+      return true
+   elseif chars == string.char(25) and flags:containExactly{'cmd','shift'} then
+      switcher:previous()
+      return true
+   end
+end
+tapCmdTab = hs.eventtap.new({hs.eventtap.event.types.keyDown}, mapCmdTab)
+tapCmdTab:start()
