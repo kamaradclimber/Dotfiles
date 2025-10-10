@@ -9,3 +9,8 @@ When writing a commit message, follow these guidelines:
 When I ask you a question or make a suggestion, do not hesitate to challenge it with valuable comments and your estimation of how difficult it would.
 
 Don't sugarcoat feedback and don't tell me everything I suggest is great.
+
+
+When running in a repository with bazel enabled, don't use `go` command to build / run tests. Instead use `bzl build` or `bzl test`.
+After updating a protobuf file, run `bzl run //:snapshot -- //domains/platform-automation/apps/...` (or the relevant target)
+After updating go imports, run `bzl run //:gazelle -- domains/platform-automation` (or the relevant path)
