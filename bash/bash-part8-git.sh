@@ -26,6 +26,11 @@ complete -o default -F _github_complete github
 
 open-in-github() {
   f=$1
+  if echo "$f" | grep "^e[0-9]\+$"; then
+    g=$(alias $f | cut -d= -f2 | cut -d'"' -f4)
+    echo "Replacing $f with $g"
+    f=$g
+  fi
   git_root_dir=$(git rev-parse --show-toplevel)
   repo=$(git remote -v | awk '{print $2}' | sed -re "s/.+github.com:?//" | sed -re "s/\.git$//"| head -n 1)
   main_branch=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
@@ -85,6 +90,34 @@ find-codeowner() {
     fi
     owned_path=$(dirname $owned_path)
   done
+}
+
+all-my-prs() {
+  repo=$(git remote -v | awk '{print $2}' | sed -re "s/.+github.com:?//" | sed -re "s/\.git$//"| head -n 1)
+  if [[ -z $repo ]]; then
+    echo "❌ Not in a git repository with GitHub remote"
+    return 1
+  fi
+  
+  username=$(gh api user --jq '.login')
+  if [[ -z $username ]]; then
+    echo "❌ Unable to get GitHub username. Make sure gh CLI is authenticated."
+    return 1
+  fi
+  
+  url="https://github.com/$repo/pulls?q=is%3Apr+is%3Aopen+author%3A$username"
+  echo "Opening PRs for $username in $repo"
+  
+  if [[ -n $BROWSER ]]; then
+    if which $BROWSER 2> /dev/null; then
+      $BROWSER "$url" && return
+    fi
+  fi
+  if which xdg-open 2> /dev/null; then
+    xdg-open "$url"
+  else # macos case
+    open "$url"
+  fi
 }
 
 # push the local branch and create a pr with gh CLI
