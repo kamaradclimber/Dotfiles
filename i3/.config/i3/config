@@ -195,3 +195,6 @@ assign [title="zoom_linux_float_message_reminder"] → output primary
 
 include ~/.config/i3/`hostname`.conf
 exec --no-startup-id i3-msg 'workspace 1; exec /usr/bin/firefox'
+exec --no-startup-id i3-msg 'workspace 7; exec /usr/bin/beeper'
+exec --no-startup-id i3-msg 'workspace 2; exec /usr/bin/logseq'
+exec --no-startup-id i3-msg 'workspace 1; exec /home/grego/.screenlayout/default.sh'
