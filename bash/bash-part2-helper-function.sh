@@ -1,6 +1,6 @@
 # will try ping until success. useful to wait for network to come back
 function ping_until {
-  until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done
+  until ping -c 3 -W 1 -q $1 > /dev/null 2>&1; do echo -n .; sleep 0.4; done
 }
 
 function nc_until {
