@@ -1,0 +1,31 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# don’t insert a blank line between shell prompts
+add_newline = false
+
+# Replace the '❯' symbol in the prompt with '➜'
+[character] # The name of the module we are configuring is 'character'
+success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+
+# most modules are disabled because they only add version info in the prompt which I don’t need. If they were actually displaying useful/actionable info, I would probably reenable them
+[ruby]
+disabled = true
+
+[golang]
+disabled = true
+
+[python]
+disabled = true
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[rust]
+disabled = true
+
+[nodejs]
+disabled = true

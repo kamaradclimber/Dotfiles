@@ -6,10 +6,6 @@ if test_helper "fzf" "fzf"; then
   if grep -q 0.17.4 <(fzf --version); then
     source /usr/share/fzf/completion.bash
   fi
-  
-  if test_helper "ag" "the_silver_searcher"; then
-    export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
-  fi
 fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 

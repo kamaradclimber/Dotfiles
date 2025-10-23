@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# on debian based systems only
+if [ -f /etc/debian_version ]; then
+    sudo apt install -y bat
+
+    #eventually atuin will be part of debian (starting with trixie) but in the meantime
+    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+
+    sudo apt install -y bash-completion
+
+    curl -sS https://starship.rs/install.sh | sh
+
+    sudo apt install -y fd-find
+fi
+
+# remove extra symlinks put by stow
+rm ~/bash-part*.sh
