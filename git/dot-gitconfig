@@ -65,6 +65,7 @@
 	sslVerify = false
 [init]
 	templatedir = ~/.git_template
+	defaultBranch = main
 [rebase]
     autosquash = true
     autostash = true # do all the manual work for me
