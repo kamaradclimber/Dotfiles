@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# source: https://codeberg.org/EvanHahn/dotfiles/src/commit/843b9ee13d949d346a4a73ccee2a99351aed285b/home/bin/bin/pastas
+
+# continuously paste data from clipboard and pipe it to stdout
+# useful for ad-hoc automation
+
+set -e
+set -u
+set -o pipefail
+
+trap 'exit 0' SIGINT
+
+last_value=''
+
+while true
+do
+  value="$(pasta)"
+
+  if [ "$last_value" != "$value" ]; then
+    echo "$value"
+    last_value="$value"
+  fi
+
+  sleep 0.1
+done
+

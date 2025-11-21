@@ -29,8 +29,6 @@ alias dict="cat /usr/share/dict/words"
 alias b='bundle install'
 alias bb='mv Gemfile.lock .Gemfile.lock.$(date +%s); bundle install'
 
-alias irb="pry"
-
 # privileged access
 if [ $UID -ne 0 ]; then
   alias sudo='sudo '

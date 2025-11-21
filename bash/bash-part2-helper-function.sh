@@ -1,6 +1,6 @@
 # will try ping until success. useful to wait for network to come back
 function ping_until {
-  until ping -c 3 -W 1 -q $1 > /dev/null ; do echo -n .; sleep 0.4; done
+  until ping -c 3 -W 1 -q $1 > /dev/null 2>&1; do echo -n .; sleep 0.4; done
 }
 
 function nc_until {
@@ -16,9 +16,20 @@ function ssh_until {
   echo ""
 }
 
+function mksh() {
+  touch "$1"
+  chmod +x "$1"
+  $EDITOR "$1"
+}
+
 function gotmp() {
   dir=$(mktemp -d)
   cd $dir
+}
+
+function mkcd() {
+  mkdir -p "$1"
+  cd "$1"
 }
 
 function my_private_ipaddress() {
@@ -51,4 +62,10 @@ function vlc() {
 # yaml_flatten takes any input and transform it into a list of key/value pairs where keys is the full path to reach the value
 function yaml_flatten() {
   cat $@ | yq eval '.. | select((tag == "!!map" or tag == "!!seq") | not) | (path | join(".")) + "=" + .'
+}
+
+# display the n-th line of a file
+# because I always forget about the sed syntax
+function line {
+  sed "${1}q;d"
 }
