@@ -28,7 +28,9 @@ open-in-github() {
   f=$1
   if echo "$f" | grep "^e[0-9]\+$"; then
     g=$(alias $f | cut -d= -f2 | cut -d'"' -f4)
+    line=$(alias $f | cut -d= -f2 | sed -re "s/.*call cursor\(([0-9]+),.*/\1/")
     echo "Replacing $f with $g"
+    echo "Found line $line"
     f=$g
   fi
   git_root_dir=$(git rev-parse --show-toplevel)
@@ -38,6 +40,9 @@ open-in-github() {
   if test -f $f; then
     fqdn_path=$(realpath --relative-to=$git_root_dir $f)
     url=https://github.com/$repo/blob/$main_branch/$fqdn_path
+    if [[ ! -z "$line" ]]; then
+      url="${url}#L${line}"
+    fi
   fi
 
   # check if f looks like a commit hash
