@@ -40,7 +40,7 @@ default-root-container-orientation = 'auto'
 # on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 
-on-focus-changed = ['exec-and-forget /Users/gregoire.seux/.config/aerospace/on-focus-changed.sh']
+# on-focus-changed = ['exec-and-forget /Users/gregoire.seux/.config/aerospace/on-focus-changed.sh']
 
 # You can effectively turn off macOS "Hide application" (alt-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit alt-h or cmd-cmd-h key
