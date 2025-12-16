@@ -104,7 +104,9 @@ local function draw(windows, drawings)
    for i = 1,#windows do
       local win = windows[i]
       local dr = drawings[i]
-      dr.icon:setImage(getIcon(win:application():bundleID())):show()
+      local app = win:application()
+      local bundleID = app and app:bundleID() or nil
+      dr.icon:setImage(getIcon(bundleID)):show()
       local title = win:title() or ' '
       dr.title_text:setFrame(dr.title_frame)
       dr.title_text:setText(title):show()
@@ -218,6 +220,7 @@ local function refresh_current_workspace_windows()
    hs.task.new(
       "/opt/homebrew/bin/aerospace",
       function(exitCode, stdOut, _)
+         print("listing windows")
          if exitCode ~= 0 or not stdOut or stdOut == "" then
             return
          end
