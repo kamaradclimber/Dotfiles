@@ -30,10 +30,6 @@ export PATH="/ssd/home/grego/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/
 # we want binaries from homebrew to take precedence over system binaries (this is important for having a recent git for instance)
 export PATH=/opt/homebrew/bin:$PATH
 
-# volta is used to handle nodejs versions
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
 if test -d $HOME/.atuin/bin; then
   . "$HOME/.atuin/bin/env"
 fi
