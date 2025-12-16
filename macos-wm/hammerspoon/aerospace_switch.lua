@@ -246,7 +246,7 @@ local function refresh_current_workspace_windows()
             end
          end
       end,
-      {"list-monitors", "--format", "%{monitor-name}", "--focused"}
+      {"list-monitors", "--format", "%{monitor-id}-%{monitor-name}", "--focused"}
    ):start()
 end
 
