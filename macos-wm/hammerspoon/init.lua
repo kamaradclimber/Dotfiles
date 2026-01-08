@@ -15,16 +15,16 @@ function usbDeviceCallback(data)
   local us_layout = "U.S. International – PC"
   if (data["vendorID"] == 7764 and data["productID"] == 8240) then
     if (data["eventType"] == "added") then
-        print("added")
+        print("[init] bepo keyboard added")
         hs.keycodes.setLayout(bepo_layout)
     elseif (data["eventType"] == "removed") then
-        print("removed")
+        print("[init] bepo keyboard removed")
         hs.keycodes.setLayout(us_layout)
     end
     local newlay = hs.keycodes.currentLayout()
     hs.notify.new({title="Switched to", informativeText=newlay}):send()
   else
-    print (data["vendorID"] .. " (" .. data["vendorName"] ..")" .. data["productID"] .. " (" .. data["productName"] .. ")")
+    print ("[init] device:" .. data["vendorID"] .. " (" .. data["vendorName"] ..")" .. data["productID"] .. " (" .. data["productName"] .. "): " .. data["eventType"])
   end
 
 end
@@ -40,7 +40,7 @@ spoon.Emojis:bindHotkeys({
 function configureAllCameraPropertyWatchers(arg1, arg2)
   local allCameras = hs.camera.allCameras()
   for k, camera in pairs(allCameras) do
-    print("camera: " .. camera:name())
+    print("[init] camera detected: " .. camera:name())
     if camera:isPropertyWatcherRunning() then
       camera:stopPropertyWatcher()
     end
@@ -58,7 +58,7 @@ end
 configureAllCameraPropertyWatchers(1, 2)
 
 function logCamera(camera)
-  print("camera: " .. camera:name())
+  print("[init] camera detected: " .. camera:name())
   local anyCameraInUse = false
   local allCameras = hs.camera.allCameras()
   for k, camera in pairs(allCameras) do

@@ -220,7 +220,7 @@ local function refresh_current_workspace_windows()
    hs.task.new(
       "/opt/homebrew/bin/aerospace",
       function(exitCode, stdOut, _)
-         print("listing windows")
+         print("[aerospace] listing windows")
          if exitCode ~= 0 or not stdOut or stdOut == "" then
             return
          end
@@ -242,7 +242,7 @@ local function refresh_current_workspace_windows()
          for line in stdOut:gmatch("[^\r\n]+") do
             if line and line ~= "" then
                focused_monitor_name = line
-               print("focused monitor name is " .. focused_monitor_name)
+               print("[aerospace] focused monitor name is " .. focused_monitor_name)
             end
          end
       end,
