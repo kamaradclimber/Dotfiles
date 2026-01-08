@@ -11,10 +11,6 @@ github() {
   local repo=$(basename $1)
   mkdir -p "$HOME/github/$org"
   dst="$HOME/github/$1"
-  old_dst="$HOME/criteo/$1"
-  if [[ -d "$old_dst" ]]; then
-    mv "$old_dst" "$dst"
-  fi
   [[ ! -d "$dst" ]] && _github_clone "$org" "$repo" "$dst"
   cd "$dst"
 }
