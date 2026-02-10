@@ -138,3 +138,15 @@ pr() {
   fi
 
 }
+
+git() {
+  if [[ "$1" == "push" ]]; then 
+    # hide github messy output
+    RED='\033[0;31m'
+    NC='\033[0m' # No Color
+    printf "${RED}Hiding${NC} github messy output\n"
+    command git "$@" 2>&1 | grep -v -E "dependabot|Dependabot|security|vulnerable|scanning|(GitHub found \d+ vulnerabilities on)|(remote: $)"
+  else
+    command git "$@"
+  fi
+}
