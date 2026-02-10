@@ -2,8 +2,8 @@ if test_helper "fzf" "fzf"; then
   if test -r /usr/share/fzf/key-bindings.bash; then
     source /usr/share/fzf/key-bindings.bash
   fi
-  # see https://github.com/junegunn/fzf/issues/1203 we can reuse this on fzf 0.17.4
-  if grep -q 0.17.4 <(fzf --version); then
+  # Version check removed for performance - modern fzf doesn't need this
+  if test -r /usr/share/fzf/completion.bash; then
     source /usr/share/fzf/completion.bash
   fi
 fi
