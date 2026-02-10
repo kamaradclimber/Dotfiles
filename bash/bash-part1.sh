@@ -9,7 +9,7 @@ if [[ -f /home/grego/.local/bin/lvim ]]; then
   export EDITOR=/home/grego/.local/bin/lvim
 fi
 
-export BROWSER="$(which firefox) --new-window"
+export BROWSER="$(command -v firefox) --new-window"
 
 
 # modified commands
@@ -19,7 +19,7 @@ alias mkdir='mkdir -p -v'
 alias ..='cd ..'
 
 
-which gti >/dev/null 2>&1 || alias gti='git'                     # alias because of frequent typo
+command -v gti >/dev/null 2>&1 || alias gti='git'                     # alias because of frequent typo
 alias m='mutt'
 alias ssh="TERM=xterm ssh"
 alias cp="cp -v -R"
@@ -47,7 +47,7 @@ alias rails="bundle exec rails"
 
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgrep.conf
 
-if which fdfind > /dev/null 2>&1; then
+if command -v fdfind > /dev/null 2>&1; then
   # on debian the binary is called fdfind to avoid conflict with another package
   alias fd=fdfind
 fi

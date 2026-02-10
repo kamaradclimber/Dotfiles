@@ -13,6 +13,7 @@ if [ $(tty) = /dev/tty2 ]; then
   return
 fi
 
+
 if [[ "$PROFILING_BASHRC" == "yes" ]]; then
   PS4='+ $(date)\011 '
   PS4='+ $EPOCHREALTIME\011 '
