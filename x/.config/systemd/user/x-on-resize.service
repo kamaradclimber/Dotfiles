@@ -1,0 +1,13 @@
+[Unit]
+Description=Monitor for X display hotplug and reconfigure events
+Documentation=man:x-on-resize(1)
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/x-on-resize -a
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
