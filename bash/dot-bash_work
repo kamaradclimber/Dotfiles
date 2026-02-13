@@ -94,9 +94,14 @@ notify-send() {
 alias ddsource="cd $DATADOG_ROOT/dd-source"
 alias logsbackend="cd $DATADOG_ROOT/logs-backend"
 alias dcc="cd $DATADOG_ROOT/datacenter-config"
+alias logsops="cd $DATADOG_ROOT/logs-ops"
+alias k8sr="cd $DATADOG_ROOT/k8s-resources"
+alias ddgo="cd $DATADOG_ROOT/dd-go"
+alias exp="cd $DATADOG_ROOT/experimental/teams/event-platform-automation"
 
 # allows to cd from anywhere
-export CDPATH=.:$DATADOG_ROOT/
+# export CDPATH=.:$DATADOG_ROOT/
+# CDPATH leads some cd commands to output the destination path in stdout which breaks many scripts
 
 # this method display the service catalog by going up in the hierarchy
 find_service_catalog() {
@@ -159,6 +164,11 @@ function bzlw {
 function bzlt {
   echo "Getting all targets for $1"
   bzl query "kind(cnab_action_invocation, $1)"
+}
+
+function bzl-go-test {
+  echo "Alias: testing all go_test targets for $1"
+  bzl test $(bzl query "kind('go_test', $1)")
 }
 
 function kubectx {

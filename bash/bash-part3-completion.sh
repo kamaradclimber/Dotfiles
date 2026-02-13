@@ -36,17 +36,29 @@ complete -o bashdefault -o default -o nospace -F _ssh ssh 2>/dev/null \
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
-# path on macos is a bit different
-if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+# Selective bash completion loading
+# Instead of loading all 222 completion files (~150ms), only load what we actually use
+# Based on atuin stats of most frequently used commands
 
-  # docker bash completion can be very slow (up to 3.5s) so we disable it
-  if [ -f /opt/homebrew/etc/bash_completion.d/docker ]; then
-    echo "Disabling docker bash completion to speed up bash startup time"
-    rm /opt/homebrew/etc/bash_completion.d/docker
-  fi
-
-  # This takes around 150ms on my mac because it loads sequentially ~250 files (most of those are pretty fast)
-  source "/opt/homebrew/etc/profile.d/bash_completion.sh"
+if [[ -d "/opt/homebrew/etc/bash_completion.d" ]]; then
+  # Manually source only the completions we actually use
+  # Ordered by frequency: git, kubectl, ag, python, brew, make, npm, aws, gh, helm
+  for completion_file in \
+    git-completion.bash \
+    kubectl \
+    ag.bashcomp.sh \
+    python \
+    brew \
+    make \
+    npm \
+    aws_bash_completer \
+    gh \
+    helm \
+    docker-compose; do
+    if [[ -r "/opt/homebrew/etc/bash_completion.d/$completion_file" ]]; then
+      source "/opt/homebrew/etc/bash_completion.d/$completion_file" 2>/dev/null
+    fi
+  done
 fi
 
 if [ -f $HOME/.bash_completion ]; then

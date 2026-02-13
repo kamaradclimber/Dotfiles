@@ -1,12 +1,11 @@
 test_helper() {
   binary=$1
   package_name=$2
-  which $binary > /dev/null 2>&1
-  res=$?
-  if [[ "$res" -eq 0 ]]; then
+  # Use 'command -v' instead of 'which' for better performance (bash builtin)
+  if command -v "$binary" > /dev/null 2>&1; then
     return 0
   else
-    if [[ ! -z "$package_name" ]]; then
+    if [[ -n "$package_name" ]]; then
       echo "$binary is not present, install it using $package_name"
     fi
     return 1
@@ -35,8 +34,14 @@ if test_helper "viddy" "viddy"; then
   alias watch=viddy
 fi
 
-if test_helper "bat" "bat"; then
-  alias cat='bat --paging=never --style=plain'
+if test -f /etc/debian_version; then
+  if test_helper "batcat" "bat"; then
+    alias cat='batcat --paging=never --style=plain'
+  fi
+else
+  if test_helper "bat" "bat"; then
+    alias cat='bat --paging=never --style=plain'
+  fi
 fi
 
 if test_helper "nvim" "neovim"; then
@@ -50,10 +55,6 @@ if test_helper "grc" "grc"; then
   if test -f /etc/profile.d/grc.sh; then
     source /etc/profile.d/grc.sh
   fi
-fi
-
-if test_helper "cola"; then
-  source <(cola completion bash | sed 's/cdt/cola/g')
 fi
 
 if test_helper "direnv" "direnv"; then

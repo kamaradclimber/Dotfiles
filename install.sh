@@ -1,17 +1,24 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
-if ! which stow > /dev/null 2>&1; then
-  echo You must install GNU stow
-  exit 1
-fi
+# This is the script used by dd workspace command
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-cd $DIR
+set -euo pipefail
 
-find . -maxdepth 1 -mindepth 1 -type d -regex "\./[^.].*" |
-  grep -v -e misc$ |
-  while read prog; do
-  prog=$(echo $prog | cut -f2 -d/)
+echo "Preparing my workspace"
+
+export IS_DATADOG_WORKSPACE=true
+
+cd $HOME
+
+sudo apt update
+sudo apt install stow
+
+ln -sf dotfiles .dotfiles
+
+rm -f ~/.bashrc
+
+cd .dotfiles
+for prog in ai-agents nix bash git neovim; do
   echo "Will use stow on $prog"
   stow --dotfiles $prog --verbose 2 --ignore=setup
   if test -f $prog/setup; then
@@ -22,7 +29,3 @@ find . -maxdepth 1 -mindepth 1 -type d -regex "\./[^.].*" |
   fi
 done
 
-# also deal with general interest packages
-
-# a nice pacman hook to make sure I've read the latest news. Nothing to configure
-sudo pacman -S informant

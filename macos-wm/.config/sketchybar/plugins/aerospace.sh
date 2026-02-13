@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 
-# make sure it's executable with:
-# chmod +x ~/.config/sketchybar/plugins/aerospace.sh
-
-if [[ "$(aerospace list-windows --workspace $1)" == "" ]]; then
-  sketchybar --set $NAME drawing=off
-else
-  sketchybar --set $NAME drawing=on
-fi
+# Optimized version - only queries the focused workspace
+# This reduces 10 aerospace list-windows calls to just 1 per workspace change
 
 if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-    sketchybar --set $NAME drawing=on
+    # Only check windows for the focused workspace
+    windows=$(aerospace list-windows --workspace "$1" --json | jq -r '.[] | select(."window-title"!="") | ."app-name"')
+
+    if [[ "$windows" == "" ]]; then
+        sketchybar --set $NAME drawing=off
+    else
+        sketchybar --set $NAME drawing=on
+    fi
+
     sketchybar --set $NAME background.drawing=on
 else
-    sketchybar --set $NAME background.drawing=off
+    # For non-focused workspaces, keep them visible without checking
+    sketchybar --set $NAME drawing=on background.drawing=off
 fi

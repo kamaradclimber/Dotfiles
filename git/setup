@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+# this script tries to be compatible with all types of systems I work on:
+# - my macos work laptop
+# - dd workspaces
+# - my personal linux desktop
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+cd $HOME
+
+touch .gitconfig
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  echo "work laptop"
+  cat <<EOF >> .gitconfig
+[include]
+  path = $SCRIPT_DIR/dot-gitconfig-work
+EOF
+elif grep -q "@datadoghq.com" .gitconfig; then
+  echo "setup for a DD workspace"
+  cat <<EOF >> .gitconfig
+[include]
+  path = $SCRIPT_DIR/dot-gitconfig-work
+EOF
+else
+  echo "linux"
+  cat <<EOF >> .gitconfig
+[include]
+  path = $SCRIPT_DIR/dot-gitconfig-personal
+EOF
+fi
+
+# install github cli on dd workspaces
+if [[ "$IS_DATADOG_WORKSPACE" == "true" ]]; then
+  echo "Installing GitHub CLI on Datadog workspace"
+  # in theory the command auth already works thanks to GITHUB_TOKEN env variable
+  gh_bin_path=$(nix-shell -p gh --run "which gh")
+  gh_path=$(dirname "$gh_bin_path")
+  cat << EOF > $SCRIPT_DIR/../bash/bash-part0-gh-path.sh
+export PATH="\$PATH:$gh_path"
+EOF
+
+  chmod +x $SCRIPT_DIR/../bash/bash-part0-gh-path.sh
+fi

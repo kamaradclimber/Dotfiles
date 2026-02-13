@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+# on debian only
+if [ -f /etc/debian_version ]; then
+  nvim_bin_path=$(nix-shell -p neovim --run "which nvim")
+  nvim_path=$(dirname "$nvim_bin_path")
+  cat << EOF > $SCRIPT_DIR/../bash/bash-part0-nvim-path.sh
+export PATH="\$PATH:$nvim_path"
+EOF
+
+  chmod +x $SCRIPT_DIR/../bash/bash-part0-nvim-path.sh
+fi
+
+git clone --depth=1 https://github.com/savq/paq-nvim.git \
+    "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim

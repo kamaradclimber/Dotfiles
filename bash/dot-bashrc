@@ -13,6 +13,7 @@ if [ $(tty) = /dev/tty2 ]; then
   return
 fi
 
+
 if [[ "$PROFILING_BASHRC" == "yes" ]]; then
   PS4='+ $(date)\011 '
   PS4='+ $EPOCHREALTIME\011 '
@@ -25,9 +26,8 @@ if [ -f "$HOME/.bash_criteo" ] ; then
   . $HOME/.bash_criteo
 fi
 
-
 # uncomment next line to start profiling:
-# export SIMPLE_PROFILING_BASHRC=1
+export SIMPLE_PROFILING_BASHRC=1
 
 # loading in various parts, which ease profiling
 for i in ~/.dotfiles/bash/bash-part*.sh; do
