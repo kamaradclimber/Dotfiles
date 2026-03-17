@@ -17,6 +17,11 @@ yes Y | yay -S autorandr
 systemctl enable --user autorandr
 systemctl start --user autorandr
 
+yes Y | yay -S x-on-resize
+
+systemctl enable --user x-on-resize
+systemctl start --user x-on-resize
+
 yes Y | yay -S bluetooth-autoconnect
 sudo systemctl enable bluetooth-autoconnect
 sudo systemctl start bluetooth-autoconnect

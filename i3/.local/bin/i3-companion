@@ -1,4 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = [
+#   "i3ipc",
+#   "systemd-python",
+#   "dbussy",
+#   "xcffib",
+# ]
+# requires-python = ">=3.8"
+# ///
 
 """Personal i3 companion."""
 
