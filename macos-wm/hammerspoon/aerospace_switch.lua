@@ -8,11 +8,11 @@ local M = {}
 
 local current_workspace_windows = {}
 local focused_monitor_name = "NONE"
+local dirty = true  -- assume stale until first refresh completes
 
 local interesting_window_events = {
    hs.window.filter.windowCreated,
    hs.window.filter.windowDestroyed,
-   hs.window.filter.windowFocused,
    hs.window.filter.windowMoved,
    hs.window.filter.windowHidden,
    hs.window.filter.windowUnhidden,
@@ -119,13 +119,79 @@ local function mods_pressed()
   return mods>0 and mods ~= 65536 -- caps lock
 end
 
+local loading_frames = {'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
+local loading_color_orange = {red=1.0, green=0.55, blue=0.0, alpha=1}
+local loading_color_red    = {red=0.9, green=0.2,  blue=0.1, alpha=1}
+
+local function hide_loading_indicator(self)
+   for _, t in ipairs(self.loading_timers or {}) do t:stop() end
+   self.loading_timers = nil
+   if self.drawings.loading_bg then
+      self.drawings.loading_bg:hide()
+      self.drawings.loading_text:hide()
+   end
+end
+
+local function show_loading_indicator(self)
+   local screen = hsscreen.find(focused_monitor_name)
+   if screen == nil then screen = hsscreen.mainScreen() end
+   local sf = screen:frame()
+   local padding = self.ui.item_height * 0.1
+   local size = self.ui.item_height * 1.5
+
+   if not self.drawings.loading_bg then
+      self.drawings.loading_style = {
+         font = self.ui.font_name,
+         size = self.ui.font_size,
+         color = self.ui.text_color,
+         alignment = 'center',
+      }
+      self.drawings.loading_bg = hsdrawing.rectangle(hsgeom(0,0,1,1))
+         :setFillColor(self.ui.background_color)
+         :setStroke(false)
+         :setRoundedRectRadii(padding, padding)
+      self.drawings.loading_text = hsdrawing.text(hsgeom(0,0,1,1), loading_frames[1])
+         :setTextStyle(self.drawings.loading_style)
+   end
+
+   -- Reset color to white at the start of each loading session
+   self.drawings.loading_style.color = self.ui.text_color
+   self.drawings.loading_text:setTextStyle(self.drawings.loading_style)
+
+   local frame = hsgeom(0, 0, size, size):setcenter(sf.center)
+   self.drawings.loading_bg:setFrame(frame):show()
+   self.drawings.loading_text:setFrame(frame):show()
+
+   local frame_idx = 1
+   local function set_color(c)
+      self.drawings.loading_style.color = c
+      self.drawings.loading_text:setTextStyle(self.drawings.loading_style)
+   end
+
+   self.loading_timers = {
+      hstimer.doEvery(0.08, function()
+         frame_idx = (frame_idx % #loading_frames) + 1
+         self.drawings.loading_text:setText(loading_frames[frame_idx])
+      end),
+      hstimer.doAfter(0.3, function() set_color(loading_color_orange) end),
+      hstimer.doAfter(1.0, function() set_color(loading_color_red) end),
+   }
+end
+
 local function exit(self)
+   self.loading = false
+   self.pending_direction = nil
+   hide_loading_indicator(self)
+   self.modsTimer = nil
+
    local selected = self.selected
    local windows = self.windows
-   local drawings = self.drawings
    self.windows = nil
    self.selected = nil
-   self.modsTimer = nil
+
+   if not windows or not selected then return end
+
+   local drawings = self.drawings
    drawings.background:hide()
    drawings.highlight_rect:hide()
    for i = 1,#windows do
@@ -141,9 +207,48 @@ local function show(self, direction)
    local drawings = self.drawings
 
    if not windows then
+      if self.loading then
+         self.pending_direction = direction
+         return
+      end
+
+      if dirty then
+         self.loading = true
+         self.pending_direction = direction
+         show_loading_indicator(self)
+         self.modsTimer = hstimer.waitWhile(
+            mods_pressed,
+            function() exit(self) end,
+            MODS_INTERVAL
+         )
+         hs.task.new(
+            "/opt/homebrew/bin/aerospace",
+            function(exitCode, stdOut, _)
+               if not self.loading then return end  -- cancelled by exit()
+               self.loading = false
+               hide_loading_indicator(self)
+               dirty = false
+               if exitCode == 0 and stdOut and stdOut ~= "" then
+                  current_workspace_windows = {}
+                  for line in stdOut:gmatch("[^\r\n]+") do
+                     if line ~= "" then
+                        table.insert(current_workspace_windows, tonumber(line))
+                     end
+                  end
+               end
+               local dir = self.pending_direction or direction
+               self.pending_direction = nil
+               show(self, dir)
+            end,
+            {"list-windows", "--workspace", "focused", "--format", "%{window-id}"}
+         ):start()
+         return
+      end
+
       windows = self.window_filter:getWindows(hs.window.filter.sortByFocusedLast)
       self.windows = windows
    end
+
    local nwindows = #windows or 0
    if nwindows == 0 then return end
 
@@ -170,11 +275,13 @@ local function show(self, direction)
       set_frames(nwindows, drawings, self.ui)
       draw(windows, drawings)
       selected = 1
-      self.modsTimer = hstimer.waitWhile(
-	 mods_pressed,
-	 function() exit(self) end,
-	 MODS_INTERVAL
-      )
+      if not self.modsTimer then
+         self.modsTimer = hstimer.waitWhile(
+            mods_pressed,
+            function() exit(self) end,
+            MODS_INTERVAL
+         )
+      end
    end
 
    selected = selected + direction
@@ -216,7 +323,7 @@ local function workspace_window_filter(hwin)
    return false
 end
 
-local function refresh_current_workspace_windows()
+function M.refresh()
    hs.task.new(
       "/opt/homebrew/bin/aerospace",
       function(exitCode, stdOut, _)
@@ -250,20 +357,39 @@ local function refresh_current_workspace_windows()
    ):start()
 end
 
+function M.markDirty()
+   dirty = true
+end
+
+function M.setState(windows_csv, monitor)
+   dirty = false
+   print("[aerospace] setState monitor=" .. (monitor or "?") .. " windows=" .. (windows_csv or ""))
+   current_workspace_windows = {}
+   if windows_csv then
+      for id in windows_csv:gmatch("[^,]+") do
+         local n = tonumber(id)
+         if n then table.insert(current_workspace_windows, n) end
+      end
+   end
+   if monitor and monitor ~= "" then
+      focused_monitor_name = monitor
+   end
+end
+
 function M.new(ui)
    if not ui then ui = {} end
    local self = setmetatable(
       {drawings={}},
       {__index=M,__gc=gc}
    )
-   self.window_activity_filter = hs.window.filter.new():subscribe(interesting_window_events, refresh_current_workspace_windows)
+   self.window_activity_filter = hs.window.filter.new():subscribe(interesting_window_events, M.refresh)
    self.window_filter = hs.window.filter.new(workspace_window_filter):setSortOrder(hs.window.filter.sortByFocusedLast)
    self.drawings.screen_frame = nil
    self.screen_watcher = hs.screen.watcher.newWithActiveScreen(
       function() self.drawings.screen_frame = nil end
    ):start()
    self.ui = setmetatable(ui, {__index=ui_defaults})
-   refresh_current_workspace_windows()
+   M.refresh()
    return self
 end
 

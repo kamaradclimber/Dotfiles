@@ -78,8 +78,18 @@ function logCamera(camera)
 end
 
 
+require("hs.ipc")
+
 aerospace_switcher = require("aerospace_switch")
 switcher = aerospace_switcher.new({title_width = 1000, item_height = 32,})
+
+function aerospaceSetState(windows_csv, monitor)
+   aerospace_switcher.setState(windows_csv, monitor)
+end
+
+function aerospaceMarkDirty()
+   aerospace_switcher.markDirty()
+end
 local function mapCmdTab(event)
    local flags = event:getFlags()
    local chars = event:getCharacters()
