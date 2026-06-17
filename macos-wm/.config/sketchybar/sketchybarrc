@@ -132,8 +132,6 @@ sketchybar --add item clock right                              \
                          icon=                                \
                          script="$PLUGIN_DIR/clock.sh"         \
                                                                \
-           --add alias "Control Centre,WiFi" right             \
-                                                               \
            --add item volume right                             \
            --set volume  script="$PLUGIN_DIR/volume.sh"        \
            --subscribe volume volume_change                    \
