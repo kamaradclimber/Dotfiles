@@ -1,12 +1,14 @@
 [include]
 	path = ~/.dotfiles/git/dot-gitconfig-main
 	path = ~/.git-maintenance-config
+	path = /Users/gregoire.seux/.config/datadog/git/config
 	path = /Users/gregoire.seux/.config/gitsign/gitconfig
 
 [alias]
   # interactive creation of a branch matching common naming pattern <name>/<stack>[/<topic>]
   ddco = "!git-ddco.sh"
   readable-reflog = "!git log -g $(git branch --show-current)"
+	review = "!f() { if [ $# -eq 0 ]; then echo \"git review expects one argument (a branch name)\"; exit 1; else if git show-ref --verify --quiet \"refs/heads/$1\"; then git fetch origin \"$1\" && git checkout \"$1\" && git merge --ff-only \"origin/$1\"; else git fetch origin \"$1:$1\" && git checkout \"$1\"; fi; fi; }; f"
 
 
 [diff]
@@ -42,3 +44,21 @@
 	forceDescriptionFromCommitMessage = true
 [merge]
 	conflictstyle = diff3
+[maintenance]
+	repo = /private/var/folders/yz/zq7c0r991bl3jmk9chj48ff00000gn/T/trufflehog-1594-2906255904
+[push]
+	autoSetupRemote = true
+[dd-gitsign]
+	username = kamaradclimber
+[gpg "ssh"]
+	program = dd-gitsign
+[user]
+	email = gregoire.seux@datadoghq.com
+[commit]
+	gpgsign = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential

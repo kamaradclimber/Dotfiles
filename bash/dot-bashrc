@@ -53,3 +53,15 @@ fi
 
 true # finish with a correct exit code
 
+
+# Added by Yarn Switch
+source "/Users/gregoire.seux/.yarn/switch/env"
+
+# peon-ping quick controls
+alias peon="bash ~/.claude/hooks/peon-ping/peon.sh"
+[ -f ~/.claude/hooks/peon-ping/completions.bash ] && source ~/.claude/hooks/peon-ping/completions.bash
+# BEGIN go-shim managed block
+export PATH="$HOME/.shims:$PATH"
+# END go-shim managed block
+
+. "$HOME/.config/dogbrew/env"

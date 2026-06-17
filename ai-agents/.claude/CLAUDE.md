@@ -2,7 +2,7 @@ When writing a commit message, follow these guidelines:
 - It is important to write clear explaination of why we are making this change. If you don't know, add "This commit is necessary because XXXXXXX" and I'll fill it later
 - Then describe what the change is doing if the change is not trivial. Be brief.
 - It can be relevant to include how the code that is being changed works at a high level. For instance, when adding a new parameter that to control the behavior of a deep-down function, explain the chain of calls that lead to that function.
-- If the branch follows the pattern gregoire.seux/<ticket id>/<short name>, add a commit trailer at the end of the commit message: `JIRA: <ticket id>`
+- If the branch follows the pattern gregoire.seux/[A-Z]+-\d+/<short name>, add a commit trailer at the end of the commit message: `JIRA: <ticket id>` where ticket_id is the middle part of the branch name. For instance: EPTOP-124 or EPTA-7635. Don't add this trailer if the pattern is not respected.
 - always add a trailer with `Co-Authored-By: Claude <noreply@anthropic.com>` to the commit message since you wrote a part of it
 
 

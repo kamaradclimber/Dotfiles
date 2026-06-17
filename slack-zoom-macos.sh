@@ -9,6 +9,7 @@ set -e
 DOTFILES="$HOME/.dotfiles"
 STATE_DIR="$HOME/.cache/zoom-detector"
 STATE_FILE="$STATE_DIR/in_meeting"
+OFFICE_SSID="wi-fido"
 
 mkdir -p "$STATE_DIR"
 
@@ -18,6 +19,19 @@ if pgrep -x "zoom.us" > /dev/null && pgrep -f "CptHost" > /dev/null; then
     in_meeting="true"
 else
     in_meeting="false"
+fi
+
+# Check if connected to office WiFi
+current_ssid=$(networksetup -getairportnetwork en0 2>/dev/null | sed 's/Current Wi-Fi Network: //')
+if [[ "$current_ssid" == "$OFFICE_SSID" ]]; then
+    in_office="true"
+else
+    in_office="false"
+fi
+
+# Mute sound when in office and not in a meeting
+if [[ "$in_office" == "true" ]] && [[ "$in_meeting" == "false" ]]; then
+    osascript -e 'set volume output muted true' > /dev/null 2>&1 || true
 fi
 
 # Read previous state

@@ -4,3 +4,4 @@ if [ -f "$HOME/.bash_work" ] ; then
 fi
 
 [ -f ~/.config/gitsign/include.sh ] && source ~/.config/gitsign/include.sh
+export PATH="/opt/dogbrew/bin:$PATH"
