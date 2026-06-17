@@ -79,7 +79,6 @@ for display in $(aerospace list-monitors | awk '{print $1}'); do
           display=$sketchy_display \
           click_script="aerospace workspace $sid" \
           script="$CONFIG_DIR/plugins/aerospace.sh $sid"
-      echo "added space $sid to $sketchy_display" >> /tmp/sketchybar.log
   done
 done
 

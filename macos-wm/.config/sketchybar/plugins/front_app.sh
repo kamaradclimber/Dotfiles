@@ -5,11 +5,12 @@
 # focused application in the $INFO variable:
 # https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
 
-if [ "$SENDER" = "front_app_switched" ]; then
-  # default behavior (without aerospace):
-  # sketchybar --set $NAME label="$INFO"
-  #
-  # we prefer to list all apps instead:
-  list=$(aerospace list-windows --workspace focused --json | jq '.[] | select(."window-title"!="") | ."app-name"' -r | grep -v "$INFO"| tr '\n' '|')
-  sketchybar --set $NAME label="$list *$INFO"
+if [ "$SENDER" = "front_app_switched" ] || [ "$SENDER" = "forced_update" ]; then
+  if [ "$SENDER" = "front_app_switched" ]; then
+    focused="$INFO"
+  else
+    focused=$(aerospace list-windows --workspace focused --json | jq -r '.[] | select(."window-title"!="") | ."app-name"' | head -1)
+  fi
+  list=$(aerospace list-windows --workspace focused --json | jq -r '.[] | select(."window-title"!="") | ."app-name"' | grep -v "$focused" | tr '\n' '|')
+  sketchybar --set $NAME label="$list *$focused"
 fi
