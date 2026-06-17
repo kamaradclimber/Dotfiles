@@ -92,10 +92,17 @@ sketchybar --add item space_separator left                         \
                                  padding_right=10                  \
                                  label.drawing=off                 \
                                                                    \
-           --add item front_app left                               \
-           --set front_app       script="$PLUGIN_DIR/front_app.sh" \
-                                 icon.drawing=off                  \
-           --subscribe front_app front_app_switched
+           --add item front_app_others left                               \
+           --set front_app_others script="$PLUGIN_DIR/front_app.sh" \
+                                  icon.drawing=off                   \
+                                  label.color=0x88ffffff             \
+           --subscribe front_app_others front_app_switched           \
+                                                                     \
+           --add item front_app_focused left                         \
+           --set front_app_focused script="$PLUGIN_DIR/front_app.sh" \
+                                   icon.drawing=off                  \
+                                   label.color=0xffffffff            \
+           --subscribe front_app_focused front_app_switched
 
 ##### Adding Right Items #####
 # In the same way as the left items we can add items to the right side.
