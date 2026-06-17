@@ -1,20 +1,27 @@
 #!/usr/bin/env bash
 
-# Optimized version - only queries the focused workspace
-# This reduces 10 aerospace list-windows calls to just 1 per workspace change
+# Only the focused workspace handler does work — all others skip.
+# This means one aerospace call per workspace_change event regardless of space count.
+[ "$1" != "$FOCUSED_WORKSPACE" ] && exit 0
 
-if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-    # Only check windows for the focused workspace
-    windows=$(aerospace list-windows --workspace "$1" --json | jq -r '.[] | select(."window-title"!="") | ."app-name"')
+non_empty=$(aerospace list-windows --all --format '%{workspace}' | sort -u)
 
-    if [[ "$windows" == "" ]]; then
-        sketchybar --set $NAME drawing=off
-    else
-        sketchybar --set $NAME drawing=on
-    fi
+spaces_file="/tmp/sketchybar_spaces"
+[ ! -f "$spaces_file" ] && exit 0
 
-    sketchybar --set $NAME background.drawing=on
-else
-    # For non-focused workspaces, keep them visible without checking
-    sketchybar --set $NAME drawing=on background.drawing=off
-fi
+args=()
+while IFS= read -r sid; do
+  [ -z "$sid" ] && continue
+  if echo "$non_empty" | grep -qx "$sid"; then
+    args+=(--set "space.$sid" drawing=on)
+  else
+    args+=(--set "space.$sid" drawing=off)
+  fi
+  if [ "$sid" = "$FOCUSED_WORKSPACE" ]; then
+    args+=(background.drawing=on)
+  else
+    args+=(background.drawing=off)
+  fi
+done < "$spaces_file"
+
+sketchybar "${args[@]}"

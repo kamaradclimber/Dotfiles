@@ -64,6 +64,9 @@ sketchybar --default icon.font="Hack Nerd Font:Bold:17.0"  \
 
 sketchybar --add event aerospace_workspace_change
 
+spaces_file="/tmp/sketchybar_spaces"
+rm -f "$spaces_file"
+
 display_count=$(aerospace list-monitors | wc -l)
 for display in $(aerospace list-monitors | awk '{print $1}'); do
   sketchy_display=$(($display_count-$display+1))
@@ -79,8 +82,17 @@ for display in $(aerospace list-monitors | awk '{print $1}'); do
           display=$sketchy_display \
           click_script="aerospace workspace $sid" \
           script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+      echo "$sid" >> "$spaces_file"
   done
 done
+
+# Initialize visibility: hide workspaces with no windows (single aerospace call)
+non_empty=$(aerospace list-windows --all --format '%{workspace}' | sort -u)
+while IFS= read -r sid; do
+  if ! echo "$non_empty" | grep -qx "$sid"; then
+    sketchybar --set space.$sid drawing=off
+  fi
+done < "$spaces_file"
 
 ##### Adding Left Items #####
 # We add some regular items to the left side of the bar
